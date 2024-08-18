@@ -3,7 +3,7 @@
 Telegram client API reference.
 
 ```js
-const Telegram = require('telegraf/telegram')
+const Telegram = require('regraf/telegram')
 ```
 
 ## Constructor

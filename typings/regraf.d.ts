@@ -7,11 +7,11 @@ import { TlsOptions } from 'tls'
 
 import * as tt from './telegram-types.d'
 
-import { TelegrafContext } from './context'
+import { RegrafContext } from './context'
 import { Composer } from './composer'
 import { Telegram, TelegramOptions } from './telegram'
 
-export interface TelegrafOptions extends TOptions {
+export interface RegrafOptions extends TOptions {
   /**
    * Parse mode
    */
@@ -25,7 +25,7 @@ export interface TelegrafOptions extends TOptions {
   /**
    * Custom context
    */
-  contextType?: TelegrafContext
+  contextType?: RegrafContext
 
   /**
    * Autoset after launch by botInfo method
@@ -87,8 +87,8 @@ export interface LaunchWebhookOptions {
   cb?: (req: IncomingMessage, res: ServerResponse) => void
 }
 
-export declare class Telegraf<
-  TContext extends TelegrafContext
+export declare class Regraf<
+  TContext extends RegrafContext
 > extends Composer<TContext> {
   /**
    * Use this property to get/set bot token
@@ -111,18 +111,18 @@ export declare class Telegraf<
   context: TContext
 
   /**
-   * Telegraf options
+   * Regraf options
    */
   options: TOptions
 
   /**
-   * Initialize new Telegraf app.
+   * Initialize new Regraf app.
    * @param token Bot token
    * @param options options
    * @example
-   * new Telegraf(token, options)
+   * new Regraf(token, options)
    */
-  constructor(token: string, options?: TelegrafOptions)
+  constructor(token: string, options?: RegrafOptions)
 
   /**
    * Launch bot in long-polling or webhook mode.
@@ -146,11 +146,11 @@ export declare class Telegraf<
     limit?: number,
     allowedUpdates?: tt.UpdateType[] | tt.UpdateType | null,
     stopCallback?: () => void | null
-  ): Telegraf<TContext>
+  ): Regraf<TContext>
 
   /**
    * Start listening @ https://host:port/hookPath for Telegram calls.
-   * @param hookPath Webhook url path (see Telegraf.setWebhook)
+   * @param hookPath Webhook url path (see Regraf.setWebhook)
    * @param tlsOptions TLS server options. Pass null to use http
    * @param port Port number
    * @param host Hostname
@@ -162,7 +162,7 @@ export declare class Telegraf<
     port?: number,
     host?: string,
     cb?: (req: IncomingMessage, res: ServerResponse) => void
-  ): Telegraf<TContext>
+  ): Regraf<TContext>
 
   /**
    * Stop Webhook and polling
@@ -171,8 +171,8 @@ export declare class Telegraf<
 
   /**
    * Return a callback function suitable for the http[s].createServer() method to handle a request.
-   * You may also use this callback function to mount your telegraf app in a Koa/Connect/Express app.
-   * @param hookPath Webhook url path (see Telegraf.setWebhook)
+   * You may also use this callback function to mount your regraf app in a Koa/Connect/Express app.
+   * @param hookPath Webhook url path (see Regraf.setWebhook)
    */
   webhookCallback(
     hookPath: string

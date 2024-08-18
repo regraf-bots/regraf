@@ -1,7 +1,7 @@
-const Telegraf = require('telegraf')
+const Regraf = require('regraf')
 const express = require('express')
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 // Set the bot response
 bot.on('text', ({ replyWithHTML }) => replyWithHTML('<b>Hello</b>'))
 

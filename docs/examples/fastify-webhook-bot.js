@@ -1,7 +1,7 @@
-const Telegraf = require('telegraf')
+const Regraf = require('regraf')
 const fastifyApp = require('fastify')()
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 bot.on('text', ({ reply }) => reply('Hello'))
 

@@ -1,9 +1,9 @@
-const Telegraf = require('telegraf')
-const Composer = require('telegraf/composer')
-const session = require('telegraf/session')
-const Stage = require('telegraf/stage')
-const Markup = require('telegraf/markup')
-const WizardScene = require('telegraf/scenes/wizard')
+const Regraf = require('regraf')
+const Composer = require('regraf/composer')
+const session = require('regraf/session')
+const Stage = require('regraf/stage')
+const Markup = require('regraf/markup')
+const WizardScene = require('regraf/scenes/wizard')
 
 const stepHandler = new Composer()
 stepHandler.action('next', (ctx) => {
@@ -39,7 +39,7 @@ const superWizard = new WizardScene('super-wizard',
   }
 )
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 const stage = new Stage([superWizard], { default: 'super-wizard' })
 bot.use(session())
 bot.use(stage.middleware())

@@ -1,6 +1,6 @@
 // Modules documentation: https://telegraf.js.org/#/?id=telegraf-modules
-// $> telegraf -t `BOT TOKEN` echo-bot-module.js
-const { Composer, Extra, Markup } = require('telegraf')
+// $> regraf -t `BOT TOKEN` echo-bot-module.js
+const { Composer, Extra, Markup } = require('regraf')
 
 const keyboard = Markup.inlineKeyboard([
   Markup.urlButton('❤️', 'http://telegraf.js.org'),

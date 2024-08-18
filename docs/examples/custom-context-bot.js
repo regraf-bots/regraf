@@ -1,6 +1,6 @@
-const Telegraf = require('telegraf')
+const Regraf = require('regraf')
 
-class CustomContext extends Telegraf.Context {
+class CustomContext extends Regraf.Context {
   constructor (update, telegram, options) {
     console.log('Creating contexy for %j', update)
     super(update, telegram, options)
@@ -12,7 +12,7 @@ class CustomContext extends Telegraf.Context {
   }
 }
 
-const bot = new Telegraf(process.env.BOT_TOKEN, { contextType: CustomContext })
+const bot = new Regraf(process.env.BOT_TOKEN, { contextType: CustomContext })
 bot.start((ctx) => ctx.reply('Hello'))
 bot.help((ctx) => ctx.reply('Help message'))
 bot.launch()

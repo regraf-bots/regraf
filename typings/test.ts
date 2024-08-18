@@ -1,17 +1,17 @@
 // This is a test file for the TypeScript typings.
 // It is not intended to be used by external users.
-import Telegraf, { Markup, Middleware, Context } from './index';
+import Regraf, { Markup, Middleware, Context } from './index';
 import * as tt from './telegram-types';
 
 const randomPhoto = 'https://picsum.photos/200/300/?random'
 const sayYoMiddleware: Middleware<Context> = ({ reply }, next) => reply('yo').then(() => next && next())
 
-const {reply} =  Telegraf;
+const {reply} =  Regraf;
 
-const bot = new Telegraf(process.env.BOT_TOKEN || '')
+const bot = new Regraf(process.env.BOT_TOKEN || '')
 
 // Logs each request
-bot.use(Telegraf.log())
+bot.use(Regraf.log())
 
 bot.start((ctx) => ctx.reply('Bot started!'));
 
@@ -42,7 +42,7 @@ bot.launch({
   webhook: {
     domain: 'https://---.localtunnel.me',
     port: 3000,
-    hookPath: '/telegraf/mybot',
+    hookPath: '/regraf/mybot',
     tlsOptions: null,
     host: '127.0.0.1',
     cb: (): void => {}

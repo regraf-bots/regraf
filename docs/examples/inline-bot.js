@@ -1,8 +1,8 @@
-const Telegraf = require('telegraf')
-const Markup = require('telegraf/markup')
+const Regraf = require('regraf')
+const Markup = require('regraf/markup')
 const fetch = require('node-fetch')
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 bot.on('inline_query', async ({ inlineQuery, answerInlineQuery }) => {
   const apiUrl = `http://recipepuppy.com/api/?q=${inlineQuery.query}`

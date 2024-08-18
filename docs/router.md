@@ -5,7 +5,7 @@ Router is used to direct the flow of update. It accepts as arguments a routing f
 Basic usage:
 
 ```js
-const Router = require('telegraf/router')
+const Router = require('regraf/router')
 
 // can be any function that returns { route: String }
 function routeFn(ctx) {

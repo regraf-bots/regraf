@@ -8,7 +8,7 @@ BotFather will give you a *token*, something like `123456789:AbCdfGhIJKlmNoQQRsT
 
 ## Bot
 
-A Telegraf bot is an object containing an array of middlewares which are composed and executed in a stack-like manner upon request. Is similar to many other middleware systems that you may have encountered such as Koa, Ruby's Rack, Connect.
+A Regraf bot is an object containing an array of middlewares which are composed and executed in a stack-like manner upon request. Is similar to many other middleware systems that you may have encountered such as Koa, Ruby's Rack, Connect.
 
 ## Middleware
 
@@ -20,7 +20,7 @@ You can imagine a middleware as a chain of logic connection your bot to the Tele
 Middleware normally takes two parameters (ctx, next), `ctx` is the context for one Telegram update, `next` is a function that is invoked to execute the downstream middleware. It returns a Promise with a then function for running code after completion.
 
 ```js
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 bot.use(async (ctx, next) => {
   const start = new Date()
@@ -49,12 +49,12 @@ bot.launch()
 
 ## Error handling
 
-By default, Telegraf will print all errors to `stderr` and rethrow error.
+By default, Regraf will print all errors to `stderr` and rethrow error.
 
 To perform custom error-handling logic use following snippet:
 
 ```js
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 bot.catch((err, ctx) => {
   console.log(`Ooops, encountered an error for ${ctx.updateType}`, err)
 })
@@ -66,7 +66,7 @@ bot.launch()
 
 ## Context
 
-A Telegraf Context encapsulates telegram update.
+A Regraf Context encapsulates telegram update.
 Context is created per request and contains following props:
 
 | Property | Description |
@@ -101,7 +101,7 @@ bot.use((ctx) => {
 The recommended way to extend bot context:
 
 ```js
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 bot.context.db = {
   getScores: () => { return 42 }
@@ -242,7 +242,7 @@ Context shortcuts for **pre_checkout_query** update:
 #### Shortcuts usage example
 
 ```js
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 bot.command('quit', (ctx) => {
   // Explicit usage
@@ -285,7 +285,7 @@ bot.launch()
 The recommended namespace to share information between middlewares.
 
 ```js
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 // Naive authorization middleware
 bot.use((ctx, next) => {
@@ -303,9 +303,9 @@ bot.launch()
 ## Session
 
 ```js
-const session = require('telegraf/session')
+const session = require('regraf/session')
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 bot.use(session())
 bot.on('text', (ctx) => {
   ctx.session.counter = ctx.session.counter || 0
@@ -400,7 +400,7 @@ bot.on(['sticker', 'photo'], (ctx) => {
 ```js
 require('dotenv')
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 // TLS options
 const tlsOptions = {
@@ -426,7 +426,7 @@ bot.startWebhook('/secret-path', tlsOptions, 8443)
 bot.startWebhook('/secret-path', null, 5000)
 ```
 
-Use webhookCallback() if you want to attach telegraf to existing http server
+Use webhookCallback() if you want to attach regraf to existing http server
 
 ```js
 require('http')
@@ -441,11 +441,11 @@ require('https')
 Express.js example integration
 
 ```js
-const { Telegraf } = require('telegraf')
+const { Regraf } = require('regraf')
 const express = require('express')
 const expressApp = express()
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 expressApp.use(bot.webhookCallback('/secret-path'))
 bot.telegram.setWebhook('https://server.tld:8443/secret-path')
 
@@ -461,10 +461,10 @@ expressApp.listen(3000, () => {
 Fastify example integration
 
 ```js
-const { Telegraf } = require('telegraf')
+const { Regraf } = require('regraf')
 const fastifyApp = require('fastify')()
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 bot.on('text', ({ reply }) => reply('Hello'))
 fastifyApp.use(bot.webhookCallback('/secret-path'))
@@ -480,11 +480,11 @@ fastifyApp.listen(3000, () => {
 Koa.js example integration
 
 ```js
-const { Telegraf } = require('telegraf')
+const { Regraf } = require('regraf')
 const Koa = require('koa')
 const koaBody = require('koa-body')
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 bot.telegram.setWebhook('https://server.tld:8443/secret-path')
 
 const app = new Koa()
@@ -549,10 +549,10 @@ bot.on('message', (ctx) => {
 To enable Telegram Passport support you can use [`telegram-passport`](https://www.npmjs.com/package/telegram-passport) package:
 
 ```js
-const { Telegraf } = require('telegraf')
+const { Regraf } = require('regraf')
 const TelegramPassport = require('telegram-passport')
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 const passport = new TelegramPassport("PRIVATE_KEY_IN_PEM_FORMAT")
 
 bot.on('passport_data', (ctx) => {
@@ -564,18 +564,18 @@ bot.on('passport_data', (ctx) => {
 })
 ```
 
-## Telegraf Modules
+## Regraf Modules
 
-Telegraf Modules is higher level abstraction for writing modular Telegram bots.
+Regraf Modules is higher level abstraction for writing modular Telegram bots and fully compatible with Telegraf.
 
-Module is simple js file with exported Telegraf middleware:
+Module is simple js file with exported Regraf middleware:
 
 ```js
-module.exports = (ctx) => ctx.reply('Hello from Telegraf Module!')
+module.exports = (ctx) => ctx.reply('Hello from Regraf Module!')
 ```
 
 ```js
-const Composer = require('telegraf/composer')
+const Composer = require('Regraf/composer')
 
 module.exports = Composer.mount(
   'sticker', 
@@ -583,16 +583,16 @@ module.exports = Composer.mount(
 )
 ```
 
-To run modules you can use `telegraf` module runner, it allows you to start Telegraf module easily from the command line.
+To run modules you can use `regraf` module runner, it allows you to start Regraf module easily from the command line.
 
 ```bash
-npm install telegraf -g
+npm install regraf -g
 ```
 
-## Telegraf CLI usage
+## Regraf CLI usage
 
 ```bash
-telegraf [opts] <bot-file>
+regraf [opts] <bot-file>
   -t  Bot token [$BOT_TOKEN]
   -d  Webhook domain
   -H  Webhook host [0.0.0.0]
@@ -602,12 +602,12 @@ telegraf [opts] <bot-file>
   -h  Show this help message
 ```
 
-### Telegraf Module example
+### Regraf Module example
 
 Create a module with name `bot.js` and following content:
 
 ```js
-const Composer = require('telegraf/composer')
+const Composer = require('regraf/composer')
 const PhotoURL = 'https://picsum.photos/200/300/?random'
 
 const bot = new Composer()
@@ -621,5 +621,5 @@ module.exports = bot
 then run it:
 
 ```bash
-telegraf -t "bot token" bot.js
+regraf -t "bot token" bot.js
 ```

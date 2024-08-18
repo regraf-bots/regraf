@@ -1,6 +1,6 @@
-const Telegraf = require('telegraf')
-const Extra = require('telegraf/extra')
-const Markup = require('telegraf/markup')
+const Regraf = require('regraf')
+const Extra = require('regraf/extra')
+const Markup = require('regraf/markup')
 
 const keyboard = Markup.inlineKeyboard([
   Markup.loginButton('Login', 'http://domain.tld/hash', {
@@ -11,7 +11,7 @@ const keyboard = Markup.inlineKeyboard([
   Markup.callbackButton('Delete', 'delete')
 ])
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 bot.start((ctx) => ctx.reply('Hello', Extra.markup(keyboard)))
 bot.action('delete', ({ deleteMessage }) => deleteMessage())
 bot.launch()

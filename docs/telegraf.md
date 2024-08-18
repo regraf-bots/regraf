@@ -1,23 +1,23 @@
-# Telegraf
+# Regraf
 
-Telegraf API reference
+Regraf API reference
 
 ```js
-const { Telegraf } = require('telegraf')
+const { Regraf } = require('regraf')
 ```
 
 ## Constructor
 
-Initialize new Telegraf bot.
+Initialize new Regraf bot.
 
-`const telegraf = new Telegraf(token, [options])`
+`const regraf = new Regraf(token, [options])`
 
-| Param | Type | Description |
-| --- | --- | --- |
+| Param | Type | Description                                                         |
+| --- | --- |---------------------------------------------------------------------|
 | token | `string` | [Bot Token](https://core.telegram.org/bots#3-how-do-i-create-a-bot) |
-| [options] | `object` | Telegraf options |
+| [options] | `object` | Regraf options                                                      |
 
-Telegraf options:
+Regraf options:
 
 ```js
 {
@@ -35,19 +35,19 @@ Telegraf options:
 
 Use this property to get/set bot token.
 
-`telegraf.token = [string]`
+`regraf.token = [string]`
 
 ## webhookReply
 
 Use this property to control `reply via webhook` feature.
 
-`telegraf.webhookReply = [bool]`
+`regraf.webhookReply = [bool]`
 
 ## use
 
 Registers a middleware.
 
-`telegraf.use(...middleware)`
+`regraf.use(...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -57,7 +57,7 @@ Registers a middleware.
 
 Registers middleware for provided update type.
 
-`telegraf.on(updateTypes, ...middleware)`
+`regraf.on(updateTypes, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -68,7 +68,7 @@ Registers middleware for provided update type.
 
 Registers middleware for handling `text` messages.
 
-`telegraf.hears(triggers, ...middleware)`
+`regraf.hears(triggers, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -79,7 +79,7 @@ Registers middleware for handling `text` messages.
 
 Command handling.
 
-`telegraf.command(commands, ...middleware)`
+`regraf.command(commands, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -90,7 +90,7 @@ Command handling.
 
 Handler for /start command.
 
-`telegraf.start(...middleware)`
+`regraf.start(...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -100,7 +100,7 @@ Handler for /start command.
 
 Handler for /help command.
 
-`telegraf.help(...middleware)`
+`regraf.help(...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -110,7 +110,7 @@ Handler for /help command.
 
 Handler for /settings command.
 
-`telegraf.settings(...middleware)`
+`regraf.settings(...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -120,7 +120,7 @@ Handler for /settings command.
 
 Entity handling.
 
-`telegraf.entity(entity, ...middleware)`
+`regraf.entity(entity, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -131,7 +131,7 @@ Entity handling.
 
 Mention handling.
 
-`telegraf.mention(username, ...middleware)`
+`regraf.mention(username, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -142,7 +142,7 @@ Mention handling.
 
 Phone number handling.
 
-`telegraf.phone(number, ...middleware)`
+`regraf.phone(number, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -153,7 +153,7 @@ Phone number handling.
 
 Hashtag handling.
 
-`telegraf.hashtag(hashtag, ...middleware)`
+`regraf.hashtag(hashtag, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -164,7 +164,7 @@ Hashtag handling.
 
 Cashtag handling.
 
-`telegraf.cashtag(cashtag, ...middleware)`
+`regraf.cashtag(cashtag, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -175,7 +175,7 @@ Cashtag handling.
 
 Registers middleware for handling `callback_data` actions with regular expressions.
 
-`telegraf.action(triggers, ...middleware)`
+`regraf.action(triggers, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -186,7 +186,7 @@ Registers middleware for handling `callback_data` actions with regular expressio
 
 Registers middleware for handling `inline_query` actions with regular expressions.
 
-`telegraf.inlineQuery(triggers, ...middleware)`
+`regraf.inlineQuery(triggers, ...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -197,7 +197,7 @@ Registers middleware for handling `inline_query` actions with regular expression
 
 Registers middleware for handling `callback_data` actions with game query.
 
-`telegraf.gameQuery(...middleware)`
+`regraf.gameQuery(...middleware)`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -207,7 +207,7 @@ Registers middleware for handling `callback_data` actions with game query.
 
 Launch bot in long-polling or webhook mode.
 
-`telegraf.launch(options) => Promise`
+`regraf.launch(options) => Promise`
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -231,7 +231,7 @@ Launch options:
 
 Start poll updates.
 
-`telegraf.startPolling([timeout], [limit], [allowedUpdates], [stopCallback])`
+`regraf.startPolling([timeout], [limit], [allowedUpdates], [stopCallback])`
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -244,11 +244,11 @@ Start poll updates.
 
 Start listening @ `https://host:port/webhookPath` for Telegram calls.
 
-`telegraf.startWebhook(hookPath, [tlsOptions], port, [host])`
+`regraf.startWebhook(hookPath, [tlsOptions], port, [host])`
 
 | Param | Type | Description |
 | ---  | --- | --- |
-| hookPath | `string` | Webhook url path (see Telegraf.setWebhook) |
+| hookPath | `string` | Webhook url path (see Regraf.setWebhook) |
 | [tlsOptions] | `object` | [TLS server options](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener). Pass null to use http |
 | port | `number` | Port number |
 | [host] | `string` | Hostname |
@@ -257,7 +257,7 @@ Start listening @ `https://host:port/webhookPath` for Telegram calls.
 
 Stop Webhook and polling
 
-`telegraf.stop([callback]) => Promise`
+`regraf.stop([callback]) => Promise`
 
 | Param | Type |
 | ---  | --- |
@@ -265,19 +265,19 @@ Stop Webhook and polling
 
 ## webhookCallback
 
-Return a callback function suitable for the http[s].createServer() method to handle a request. You may also use this callback function to mount your telegraf app in a Connect/Express app.
+Return a callback function suitable for the http[s].createServer() method to handle a request. You may also use this callback function to mount your regraf app in a Connect/Express app.
 
-`telegraf.webhookCallback(webhookPath) => Function`
+`regraf.webhookCallback(webhookPath) => Function`
 
 | Param | Type | Description |
 | ---  | --- | --- |
-| webhookPath | `string` | Webhook url path (see Telegraf.setWebhook) |
+| webhookPath | `string` | Webhook url path (see Regraf.setWebhook) |
 
 ## handleUpdate
 
 Handle raw Telegram update. In case you use centralized webhook server, queue, etc.  
 
-`telegraf.handleUpdate(rawUpdate, [webhookResponse])`
+`regraf.handleUpdate(rawUpdate, [webhookResponse])`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -288,7 +288,7 @@ Handle raw Telegram update. In case you use centralized webhook server, queue, e
 
 Compose `middlewares` returning a fully valid middleware comprised of all those which are passed.
 
-`Telegraf.compose(middlewares) => function`
+`Regraf.compose(middlewares) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -298,7 +298,7 @@ Compose `middlewares` returning a fully valid middleware comprised of all those 
 
 Generates a middleware for handling provided update types.
 
-`Telegraf.mount(updateTypes, ...middleware) => function`
+`Regraf.mount(updateTypes, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -309,7 +309,7 @@ Generates a middleware for handling provided update types.
 
 Generates a middleware for handling `text` messages with regular expressions.
 
-`Telegraf.hears(triggers, ...middleware) => function`
+`Regraf.hears(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -320,7 +320,7 @@ Generates a middleware for handling `text` messages with regular expressions.
 
 Generates a middleware for handling `callbackQuery` data with regular expressions.
 
-`Telegraf.action(triggers, ...middleware) => function`
+`Regraf.action(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -331,7 +331,7 @@ Generates a middleware for handling `callbackQuery` data with regular expression
 
 Generates a middleware for handling `inlineQuery` data with regular expressions.
 
-`Telegraf.inlineQuery(triggers, ...middleware) => function`
+`Regraf.inlineQuery(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -342,19 +342,19 @@ Generates a middleware for handling `inlineQuery` data with regular expressions.
 
 Generates pass thru middleware.
 
-`Telegraf.passThru() => function`
+`Regraf.passThru() => function`
 
 ## safePassThru
 
 Generates a safe version of pass thru middleware.
 
-`Telegraf.safePassThru() => function`
+`Regraf.safePassThru() => function`
 
 ## optional
 
 Generates an optional middleware.
 
-`Telegraf.optional(test, ...middleware) => function`
+`Regraf.optional(test, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -365,7 +365,7 @@ Generates an optional middleware.
 
 Generates a middleware for provided users only.
 
-`Telegraf.acl(userId, ...middleware) => function`
+`Regraf.acl(userId, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -376,7 +376,7 @@ Generates a middleware for provided users only.
 
 Generates drop middleware.
 
-`Telegraf.drop(test) => function`
+`Regraf.drop(test) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -386,7 +386,7 @@ Generates drop middleware.
 
 Generates filter middleware.
 
-`Telegraf.filter(test) => function`
+`Regraf.filter(test) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -396,7 +396,7 @@ Generates filter middleware.
 
 Generates branch middleware.
 
-`Telegraf.branch(test, trueMiddleware, falseMiddleware) => function`
+`Regraf.branch(test, trueMiddleware, falseMiddleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -408,7 +408,7 @@ Generates branch middleware.
 
 Generates a middleware for handling messages with `email` entity.
 
-`Telegraf.email(triggers, ...middleware) => function`
+`Regraf.email(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -419,7 +419,7 @@ Generates a middleware for handling messages with `email` entity.
 
 Generates a middleware for handling messages with `hashtag` entity.
 
-`Telegraf.hashtag(triggers, ...middleware) => function`
+`Regraf.hashtag(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -430,7 +430,7 @@ Generates a middleware for handling messages with `hashtag` entity.
 
 Generates a middleware for handling messages with `cashtag` entity.
 
-`Telegraf.cashtag(triggers, ...middleware) => function`
+`Regraf.cashtag(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -441,7 +441,7 @@ Generates a middleware for handling messages with `cashtag` entity.
 
 Generates a middleware for handling messages with `url` entity.
 
-`Telegraf.url(triggers, ...middleware) => function`
+`Regraf.url(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -452,7 +452,7 @@ Generates a middleware for handling messages with `url` entity.
 
 Generates a middleware for handling messages with `phone` entity.
 
-`Telegraf.phone(triggers, ...middleware) => function`
+`Regraf.phone(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -463,7 +463,7 @@ Generates a middleware for handling messages with `phone` entity.
 
 Generates a middleware for handling messages with `text_link` entity.
 
-`Telegraf.textLink(triggers, ...middleware) => function`
+`Regraf.textLink(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -474,7 +474,7 @@ Generates a middleware for handling messages with `text_link` entity.
 
 Generates a middleware for handling messages with `text_mention` entity.
 
-`Telegraf.textMention(triggers, ...middleware) => function`
+`Regraf.textMention(triggers, ...middleware) => function`
 
 | Param | Type | Description |
 | --- | --- | --- |

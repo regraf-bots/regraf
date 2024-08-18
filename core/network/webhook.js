@@ -1,4 +1,4 @@
-const debug = require('debug')('telegraf:webhook')
+const debug = require('debug')('regraf:webhook')
 
 module.exports = function (hookPath, updateHandler, errorHandler) {
   return (req, res, next) => {

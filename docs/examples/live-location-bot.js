@@ -1,4 +1,4 @@
-const Telegraf = require('telegraf')
+const Regraf = require('regraf')
 
 function sendLiveLocation (ctx) {
   let lat = 42.0
@@ -12,6 +12,6 @@ function sendLiveLocation (ctx) {
   })
 }
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 bot.start(sendLiveLocation)
 bot.launch()

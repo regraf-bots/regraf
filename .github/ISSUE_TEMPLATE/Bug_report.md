@@ -8,7 +8,7 @@ about: Create a report to help us improve
 
 Please provide any relevant information about your setup. This is important in case the issue is not reproducible except for under certain conditions.
 
-* Telegraf.js Version:
+* Regraf.js Version:
 * Node.js Version:
 * Operating System:
 

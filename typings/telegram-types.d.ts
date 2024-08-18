@@ -194,10 +194,12 @@ export interface InputFileByPath {
 
 export interface InputFileByReadableStream {
   source: NodeJS.ReadableStream
+  filename: string
 }
 
 export interface InputFileByBuffer {
   source: Buffer
+  filename: string
 }
 
 export interface InputFileByURL {
@@ -381,7 +383,7 @@ export interface ExtraReplyMessage {
 
 export interface ExtraProtectContent {
   /**
-   * Protects the contents of the sent message from forwarding and saving 
+   * Protects the contents of the sent message from forwarding and saving
    */
   protect_content?: boolean
 }
@@ -681,15 +683,15 @@ export type Extra = ExtraSendMessage
   | ExtraCopyMessage
 
 export interface ExtraUnban {
-  /** 
-   * Do nothing if the user is not banned 
+  /**
+   * Do nothing if the user is not banned
    */
   only_if_banned?: Boolean
 }
 
 export interface ExtraBan {
   /**
-   * Date when the user will be unbanned, unix time. 
+   * Date when the user will be unbanned, unix time.
    * If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever.
    * Applied for supergroups and channels only.
    */
@@ -709,16 +711,16 @@ interface ExtraChatIviteLink {
    */
   name?: string
 
-  /** 
-   * Point in time (Unix timestamp) when the link will expire 
+  /**
+   * Point in time (Unix timestamp) when the link will expire
    */
   expire_date?: number,
 
-  /** 
+  /**
    * Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
    */
   member_limit?: number
-  
+
   /**
    * True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
    */
@@ -1023,7 +1025,7 @@ export interface BotCommandScopeChatMember {
 /**
  * This object represents the scope to which bot commands are applied.
  */
-export type BotCommandScope = 
+export type BotCommandScope =
   BotCommandScopeDefault
   | BotCommandScopeAllPrivateChats
   | BotCommandScopeAllGroupChats

@@ -3,10 +3,10 @@
 Simple scene-based control flow middleware.
 
 ```js
-const { Telegraf } = require('telegraf')
-const session = require('telegraf/session')
-const Stage = require('telegraf/stage')
-const Scene = require('telegraf/scenes/base')
+const { Regraf } = require('regraf')
+const session = require('regraf/session')
+const Stage = require('regraf/stage')
+const Scene = require('regraf/scenes/base')
 const { leave } = Stage
 
 // Greeter scene
@@ -23,7 +23,7 @@ stage.command('cancel', leave())
 // Scene registration
 stage.register(greeter)
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 bot.use(session())
 bot.use(stage.middleware())
 bot.command('greeter', (ctx) => ctx.scene.enter('greeter'))

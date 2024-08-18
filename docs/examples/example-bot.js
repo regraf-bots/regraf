@@ -1,13 +1,13 @@
-const Telegraf = require('telegraf')
-const Extra = require('telegraf/extra')
-const session = require('telegraf/session')
-const { reply, fork } = Telegraf
+const Regraf = require('regraf')
+const Extra = require('regraf/extra')
+const session = require('regraf/session')
+const { reply, fork } = Regraf
 
 const randomPhoto = 'https://picsum.photos/200/300/?random'
 
 const sayYoMiddleware = fork((ctx) => ctx.reply('yo'))
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 
 // // Register session middleware
 bot.use(session())

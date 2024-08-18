@@ -1,18 +1,18 @@
 {
-  "name": "telegraf",
-  "version": "3.40.0",
-  "description": "Modern Telegram Bot Framework",
+  "name": "regraf",
+  "version": "1.0.0",
+  "description": "Continuation of best modern Telegram Bot Framework",
   "license": "MIT",
-  "author": "Vitaly Domnikov <oss@vitaly.codes>",
-  "homepage": "https://github.com/telegraf/telegraf#readme",
+  "author": "Ilya Petrov <me@redguy.ru>",
+  "homepage": "https://github.com/RedGuys/regraf#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/telegraf/telegraf.git"
+    "url": "git+ssh://git@github.com/RedGuys/regraf.git"
   },
   "bugs": {
-    "url": "https://github.com/telegraf/telegraf/issues"
+    "url": "https://github.com/RedGuys/regraf/issues"
   },
-  "main": "telegraf.js",
+  "main": "regraf.js",
   "files": [
     "bin/*",
     "core/**/*.js",
@@ -21,7 +21,7 @@
     "*.js"
   ],
   "bin": {
-    "telegraf": "bin/telegraf"
+    "regraf": "bin/regraf"
   },
   "scripts": {
     "lint": "eslint .",
@@ -58,6 +58,7 @@
   },
   "keywords": [
     "telegraf",
+    "regraf",
     "telegram",
     "telegram bot api",
     "bot",

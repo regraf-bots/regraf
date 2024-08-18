@@ -4,12 +4,12 @@ const debug = require('debug')
 const path = require('path')
 const parse = require('minimist')
 const { addAlias } = require('module-alias')
-const Telegraf = require('../')
+const Regraf = require('../')
 
-const log = debug('telegraf:cli')
+const log = debug('regraf:cli')
 
 const help = () => {
-  console.log(`Usage: telegraf [opts] <bot-file>
+  console.log(`Usage: regraf [opts] <bot-file>
   -t  Bot token [$BOT_TOKEN]
   -d  Webhook domain
   -H  Webhook host [0.0.0.0]
@@ -75,9 +75,9 @@ let tlsOptions
 
 try {
   if (args.logs) {
-    debug.enable('telegraf:*')
+    debug.enable('regraf:*')
   }
-  addAlias('telegraf', path.join(__dirname, '../'))
+  addAlias('regraf', path.join(__dirname, '../'))
   const mod = require(file)
   botHandler = mod.botHandler || mod
   httpHandler = mod.httpHandler
@@ -98,7 +98,7 @@ if (domain) {
   }
 }
 
-const bot = new Telegraf(token)
+const bot = new Regraf(token)
 if (!args.stop) {
   bot.catch(log)
 }

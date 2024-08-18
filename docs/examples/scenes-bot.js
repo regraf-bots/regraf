@@ -1,7 +1,7 @@
-const Telegraf = require('telegraf')
-const session = require('telegraf/session')
-const Stage = require('telegraf/stage')
-const Scene = require('telegraf/scenes/base')
+const Regraf = require('regraf')
+const session = require('regraf/session')
+const Stage = require('regraf/stage')
+const Scene = require('regraf/scenes/base')
 
 // Handler factoriess
 const { enter, leave } = Stage
@@ -21,7 +21,7 @@ echoScene.command('back', leave())
 echoScene.on('text', (ctx) => ctx.reply(ctx.message.text))
 echoScene.on('message', (ctx) => ctx.reply('Only text messages please'))
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 const stage = new Stage([greeterScene, echoScene], { ttl: 10 })
 bot.use(session())
 bot.use(stage.middleware())

@@ -1,4 +1,4 @@
-const Telegraf = require('telegraf')
+const Regraf = require('regraf')
 const HttpsProxyAgent = require('https-proxy-agent')
 
 const { BOT_TOKEN, HTTPS_PROXY_HOST, HTTPS_PROXY_PORT } = process.env
@@ -8,7 +8,7 @@ const agent = new HttpsProxyAgent({
   port: HTTPS_PROXY_PORT
 })
 
-const bot = new Telegraf(BOT_TOKEN, { telegram: { agent } })
+const bot = new Regraf(BOT_TOKEN, { telegram: { agent } })
 bot.start((ctx) => ctx.reply('Hello'))
 bot.help((ctx) => ctx.reply('Help message'))
 bot.command('photo', (ctx) => ctx.replyWithPhoto({ url: 'https://picsum.photos/200/300/?random' }))

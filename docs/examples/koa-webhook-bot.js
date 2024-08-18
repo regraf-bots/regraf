@@ -1,8 +1,8 @@
-const Telegraf = require('telegraf')
+const Regraf = require('regraf')
 const Koa = require('koa')
 const koaBody = require('koa-body')
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 // First reply will be served via webhook response,
 // but messages order not guaranteed due to `koa` pipeline design.
 // Details: https://github.com/telegraf/telegraf/issues/294

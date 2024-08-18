@@ -1,5 +1,5 @@
-const Telegraf = require('telegraf')
-const Markup = require('telegraf/markup')
+const Regraf = require('regraf')
+const Markup = require('regraf/markup')
 
 const invoice = {
   provider_token: process.env.PROVIDER_TOKEN,
@@ -36,7 +36,7 @@ const replyOptions = Markup.inlineKeyboard([
   Markup.urlButton('❤️', 'http://telegraf.js.org')
 ]).extra()
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Regraf(process.env.BOT_TOKEN)
 bot.start(({ replyWithInvoice }) => replyWithInvoice(invoice))
 bot.command('buy', ({ replyWithInvoice }) => replyWithInvoice(invoice, replyOptions))
 bot.on('shipping_query', ({ answerShippingQuery }) => answerShippingQuery(true, shippingOptions))
