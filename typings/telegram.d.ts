@@ -449,7 +449,7 @@ export declare class Telegram extends ApiClient {
    * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
    * @returns a Chat object on success.
    */
-  getChat(chatId: number | string): Promise<tt.Chat>
+  getChat(chatId: number | string): Promise<tt.ChatFullInfo>
 
   /**
    * Use this method to get a list of administrators in a chat.
@@ -1025,7 +1025,7 @@ export declare class Telegram extends ApiClient {
   /**
    * Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-   * @param name Invite link name; 0-32 characters 
+   * @param name Invite link name; 0-32 characters
    * @param extra Extra parameters for createChatInviteLink
    * @returns the new invite link as ChatInviteLink object
    */
