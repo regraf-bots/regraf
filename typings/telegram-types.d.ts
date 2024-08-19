@@ -1,6 +1,6 @@
-import * as TT from 'typegram'
+import * as TT from '@grammyjs/types'
 
-export * from 'typegram'
+export * from '@grammyjs/types'
 
 export type ParseMode = 'Markdown' | 'MarkdownV2' | 'HTML'
 
@@ -183,7 +183,7 @@ export interface StickerData {
   png_sticker: string | Buffer
   emojis: string
   mask_position: TT.MaskPosition
-  webm_sticker?: TT.InputFile
+  webm_sticker?: InputFile
 }
 
 type FileId = string
@@ -790,19 +790,7 @@ type CommonMessageBundle = TT.Message.AnimationMessage
 
 export type Message = ServiceMessageBundle & CommonMessageBundle
 
-export type Update = TT.Update.CallbackQueryUpdate
-  & TT.Update.ChannelPostUpdate
-  & TT.Update.ChosenInlineResultUpdate
-  & TT.Update.EditedChannelPostUpdate
-  & TT.Update.EditedMessageUpdate
-  & TT.Update.InlineQueryUpdate
-  & TT.Update.MessageUpdate
-  & TT.Update.PreCheckoutQueryUpdate
-  & TT.Update.PollAnswerUpdate
-  & TT.Update.PollUpdate
-  & TT.Update.ShippingQueryUpdate
-  & TT.Update.MyChatMemberUpdate
-  & TT.Update.ChatMemberUpdate
+export type Update = TT.Update;
 
 export type CallbackQuery = TT.CallbackQuery
 

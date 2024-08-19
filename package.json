@@ -1,6 +1,6 @@
 {
   "name": "regraf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Continuation of best modern Telegram Bot Framework",
   "license": "MIT",
   "author": "Ilya Petrov <me@redguy.ru>",
@@ -35,12 +35,12 @@
   },
   "types": "./typings/index.d.ts",
   "dependencies": {
+    "@grammyjs/types": "^3.13.0",
     "debug": "^4.0.1",
     "minimist": "^1.2.0",
     "module-alias": "^2.2.2",
     "node-fetch": "^2.2.0",
-    "sandwich-stream": "^2.0.1",
-    "typegram": "^3.10.0"
+    "sandwich-stream": "^2.0.1"
   },
   "devDependencies": {
     "@types/node": "^13.1.0",
