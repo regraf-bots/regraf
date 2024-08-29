@@ -58,17 +58,19 @@ export declare class RegrafContext {
 
   /**
    * Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set
-   * @param ownerId User identifier of created sticker set owner
    * @param name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
    * @param title Sticker set title, 1-64 characters
    * @param stickerData Sticker object
-   * @returns Returns True on success.
+   * @param sticker_type Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created.
+   * @param needs_repainting Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
+   * @returns True on success.
    */
   createNewStickerSet(
-    ownerId: number,
     name: string,
     title: string,
-    stickerData: tt.StickerData
+    stickerData: tt.StickerData[],
+    sticker_type?: "regular" | "mask" | "custom_emoji",
+    needs_repainting?: boolean
   ): Promise<boolean>
 
   /**
@@ -132,6 +134,12 @@ export declare class RegrafContext {
    * @returns On success, a StickerSet object is returned.
    */
   getStickerSet(setName: string): Promise<tt.StickerSet>
+
+  /**
+   * Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker objects.
+   * @param customEmojiIds A JSON-serialized list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
+   */
+  getCustomEmojiStickers(customEmojiIds: string[]): Promise<tt.Sticker[]>
 
   /**
    * Use this method to set a new group sticker set for a supergroup.

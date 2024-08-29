@@ -562,6 +562,10 @@ class RegrafContext {
     return this.telegram.getStickerSet(setName)
   }
 
+  getCustomEmojiStickers (customEmojiIds) {
+    return this.telegram.getCustomEmojiStickers(customEmojiIds)
+  }
+
   setChatStickerSet (setName) {
     this.assert(this.chat, 'setChatStickerSet')
     return this.telegram.setChatStickerSet(this.chat.id, setName)

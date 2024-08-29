@@ -379,6 +379,10 @@ class Telegram extends ApiClient {
     return this.callApi('getStickerSet', { name })
   }
 
+  getCustomEmojiStickers (customEmojiIds) {
+    return this.callApi('getCustomEmojiStickers', { custom_emoji_ids: customEmojiIds })
+  }
+
   uploadStickerFile (ownerId, stickerFile) {
     return this.callApi('uploadStickerFile', {
       user_id: ownerId,
@@ -386,12 +390,14 @@ class Telegram extends ApiClient {
     })
   }
 
-  createNewStickerSet (ownerId, name, title, stickerData) {
+  createNewStickerSet (ownerId, name, title, stickerData, stickerType = 'regular', needsRepainting = false) {
     return this.callApi('createNewStickerSet', {
       name,
       title,
       user_id: ownerId,
-      ...stickerData
+      stickers: stickerData,
+      sticker_type: stickerType,
+      needs_repainting: needsRepainting
     })
   }
 
