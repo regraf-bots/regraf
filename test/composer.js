@@ -13,7 +13,8 @@ const topLevelUpdates = [
   { type: 'channel_post', update: { channel_post: {} } },
   { type: 'edited_channel_post', update: { edited_channel_post: {} } },
   { type: 'chosen_inline_result', update: { chosen_inline_result: {} } },
-  { type: 'poll', update: { poll: {} } }
+  { type: 'poll', update: { poll: {} } },
+  { type: 'chat_join_request', update: { chat_join_request: {} } }
 ]
 
 topLevelUpdates.forEach((update) => {

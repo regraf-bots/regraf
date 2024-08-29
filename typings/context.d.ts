@@ -30,6 +30,7 @@ export declare class RegrafContext {
   passportData?: tt.PassportData
   state: object
   webhookReply: boolean
+  chatJoinRequest?: tt.ChatJoinRequest
 
   constructor(
     update: tt.Update,

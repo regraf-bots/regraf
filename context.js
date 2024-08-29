@@ -11,7 +11,8 @@ const UpdateTypes = [
   'poll',
   'poll_answer',
   'my_chat_member',
-  'chat_member'
+  'chat_member',
+  'chat_join_request'
 ]
 
 const MessageSubTypes = [
@@ -158,6 +159,10 @@ class RegrafContext {
       (this.chosenInlineResult && this.chosenInlineResult.from) ||
       (this.myChatMember && this.myChatMember.from) ||
       (this.chatMember && this.chatMember.from)
+  }
+
+  get chatJoinRequest () {
+    return this.update.chat_join_request;
   }
 
   get inlineMessageId () {

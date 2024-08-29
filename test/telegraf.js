@@ -16,7 +16,8 @@ const UpdateTypes = [
   { type: 'channel_post', prop: 'channelPost', update: { channel_post: BaseTextMessage } },
   { type: 'pre_checkout_query', prop: 'preCheckoutQuery', update: { pre_checkout_query: {} } },
   { type: 'edited_channel_post', prop: 'editedChannelPost', update: { edited_channel_post: {} } },
-  { type: 'chosen_inline_result', prop: 'chosenInlineResult', update: { chosen_inline_result: {} } }
+  { type: 'chosen_inline_result', prop: 'chosenInlineResult', update: { chosen_inline_result: {} } },
+  { type: 'chat_join_request', prop: 'chatJoinRequest', update: { chat_join_request: {} } }
 ]
 
 UpdateTypes.forEach((update) => {
@@ -311,7 +312,9 @@ const resStub = {
 
 test.cb('should respect webhookReply option', (t) => {
   const bot = new Regraf(null, { telegram: { webhookReply: false } })
-  bot.catch((err) => { throw err }) // Disable log
+  bot.catch((err) => {
+    throw err
+  }) // Disable log
   bot.on('message', ({ reply }) => reply(':)'))
   t.throwsAsync(bot.handleUpdate({ message: BaseTextMessage }, resStub)).then(() => t.end())
 })
@@ -319,7 +322,9 @@ test.cb('should respect webhookReply option', (t) => {
 test.cb('should respect webhookReply runtime change', (t) => {
   const bot = new Regraf()
   bot.webhookReply = false
-  bot.catch((err) => { throw err }) // Disable log
+  bot.catch((err) => {
+    throw err
+  }) // Disable log
   bot.on('message', (ctx) => ctx.reply(':)'))
 
   // Throws cause Bot Token is required for http call'
@@ -328,7 +333,9 @@ test.cb('should respect webhookReply runtime change', (t) => {
 
 test.cb('should respect webhookReply runtime change (per request)', (t) => {
   const bot = new Regraf()
-  bot.catch((err) => { throw err }) // Disable log
+  bot.catch((err) => {
+    throw err
+  }) // Disable log
   bot.on('message', async (ctx) => {
     ctx.webhookReply = false
     return ctx.reply(':)')
