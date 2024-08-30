@@ -159,7 +159,7 @@ export declare class Telegram extends ApiClient {
     chatId: number | string,
     fromChatId: number | string,
     messageId: string | number,
-    extra?: { disable_notification?: boolean }
+    extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
   ): Promise<tt.Message>
 
   /**
@@ -175,11 +175,13 @@ export declare class Telegram extends ApiClient {
    * - record_video_note or upload_video_note for video notes.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param action Type of action to broadcast.
+   * @param messageThreadId Unique identifier for the target message thread; for supergroups only
    * @returns True on success
    */
   sendChatAction(
     chatId: number | string,
-    action: tt.ChatAction
+    action: tt.ChatAction,
+    messageThreadId?: number
   ): Promise<boolean>
 
   /**

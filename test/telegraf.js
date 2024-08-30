@@ -46,6 +46,7 @@ test.cb('should provide update payload for text', (t) => {
     t.true('chat' in ctx)
     t.true('from' in ctx)
     t.true('state' in ctx)
+    t.true('senderChat' in ctx)
     t.is(ctx.updateType, 'message')
     t.end()
   })

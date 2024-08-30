@@ -161,8 +161,12 @@ class RegrafContext {
       (this.chatMember && this.chatMember.from)
   }
 
+  get senderChat () {
+    return this.message?.sender_chat
+  }
+
   get chatJoinRequest () {
-    return this.update.chat_join_request;
+    return this.update.chat_join_request
   }
 
   get inlineMessageId () {
@@ -340,6 +344,9 @@ class RegrafContext {
     const extra = this.options.parseMode
       ? { parse_mode: this.options.parseMode }
       : { ...args }
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
     return this.telegram.sendMessage(this.chat.id, text, extra)
   }
 
@@ -463,74 +470,116 @@ class RegrafContext {
     return this.telegram.setPassportDataErrors(this.from.id, errors)
   }
 
-  replyWithPhoto (...args) {
+  replyWithPhoto (photo, extra = {}) {
     this.assert(this.chat, 'replyWithPhoto')
-    return this.telegram.sendPhoto(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendPhoto(this.chat.id, photo, extra)
   }
 
-  replyWithMediaGroup (...args) {
+  replyWithMediaGroup (media, extra = {}) {
     this.assert(this.chat, 'replyWithMediaGroup')
-    return this.telegram.sendMediaGroup(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendMediaGroup(this.chat.id, media, extra)
   }
 
-  replyWithAudio (...args) {
+  replyWithAudio (audio, extra = {}) {
     this.assert(this.chat, 'replyWithAudio')
-    return this.telegram.sendAudio(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendAudio(this.chat.id, audio, extra)
   }
 
-  replyWithDice (...args) {
+  replyWithDice (extra = {}) {
     this.assert(this.chat, 'replyWithDice')
-    return this.telegram.sendDice(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendDice(this.chat.id, extra)
   }
 
-  replyWithDocument (...args) {
+  replyWithDocument (document, extra = {}) {
     this.assert(this.chat, 'replyWithDocument')
-    return this.telegram.sendDocument(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendDocument(this.chat.id, document, extra)
   }
 
-  replyWithSticker (...args) {
+  replyWithSticker (sticker, extra = {}) {
     this.assert(this.chat, 'replyWithSticker')
-    return this.telegram.sendSticker(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendSticker(this.chat.id, sticker, extra)
   }
 
-  replyWithVideo (...args) {
+  replyWithVideo (video, extra = {}) {
     this.assert(this.chat, 'replyWithVideo')
-    return this.telegram.sendVideo(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendVideo(this.chat.id, video, extra)
   }
 
-  replyWithAnimation (...args) {
+  replyWithAnimation (animation, extra = {}) {
     this.assert(this.chat, 'replyWithAnimation')
-    return this.telegram.sendAnimation(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendAnimation(this.chat.id, animation, extra)
   }
 
-  replyWithVideoNote (...args) {
+  replyWithVideoNote (videoNote, extra = {}) {
     this.assert(this.chat, 'replyWithVideoNote')
-    return this.telegram.sendVideoNote(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendVideoNote(this.chat.id, videoNote, extra)
   }
 
-  replyWithInvoice (...args) {
+  replyWithInvoice (invoice, extra = {}) {
     this.assert(this.chat, 'replyWithInvoice')
-    return this.telegram.sendInvoice(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendInvoice(this.chat.id, invoice, extra)
   }
 
-  replyWithGame (...args) {
+  replyWithGame (gameShortName, extra = {}) {
     this.assert(this.chat, 'replyWithGame')
-    return this.telegram.sendGame(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendGame(this.chat.id, gameShortName, extra)
   }
 
-  replyWithVoice (...args) {
+  replyWithVoice (voice, extra = {}) {
     this.assert(this.chat, 'replyWithVoice')
-    return this.telegram.sendVoice(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendVoice(this.chat.id, voice, extra)
   }
 
-  replyWithPoll (...args) {
+  replyWithPoll (question, options, extra = {}) {
     this.assert(this.chat, 'replyWithPoll')
-    return this.telegram.sendPoll(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendPoll(this.chat.id, question, options, extra)
   }
 
-  replyWithQuiz (...args) {
+  replyWithQuiz (question, options, extra = {}) {
     this.assert(this.chat, 'replyWithQuiz')
-    return this.telegram.sendQuiz(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendQuiz(this.chat.id, question, options, extra)
   }
 
   stopPoll (...args) {
@@ -538,24 +587,33 @@ class RegrafContext {
     return this.telegram.stopPoll(this.chat.id, ...args)
   }
 
-  replyWithChatAction (...args) {
+  replyWithChatAction (action) {
     this.assert(this.chat, 'replyWithChatAction')
-    return this.telegram.sendChatAction(this.chat.id, ...args)
+    return this.telegram.sendChatAction(this.chat.id, action, this.message?.message_thread_id)
   }
 
-  replyWithLocation (...args) {
+  replyWithLocation (latitude, longitude, extra = {}) {
     this.assert(this.chat, 'replyWithLocation')
-    return this.telegram.sendLocation(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendLocation(this.chat.id, latitude, longitude, extra)
   }
 
-  replyWithVenue (...args) {
+  replyWithVenue (latitude, longitude, title, address, extra = {}) {
     this.assert(this.chat, 'replyWithVenue')
-    return this.telegram.sendVenue(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendVenue(this.chat.id, latitude, longitude, title, address, extra)
   }
 
-  replyWithContact (...args) {
+  replyWithContact (phoneNumber, firstName, extra = {}) {
     this.assert(this.from, 'replyWithContact')
-    return this.telegram.sendContact(this.chat.id, ...args)
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendContact(this.chat.id, phoneNumber, firstName, extra)
   }
 
   getStickerSet (setName) {

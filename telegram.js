@@ -75,8 +75,8 @@ class Telegram extends ApiClient {
     })
   }
 
-  sendChatAction (chatId, action) {
-    return this.callApi('sendChatAction', { chat_id: chatId, action })
+  sendChatAction (chatId, action, messageThreadId = undefined) {
+    return this.callApi('sendChatAction', { chat_id: chatId, action, message_thread_id: messageThreadId })
   }
 
   getUserProfilePhotos (userId, offset, limit) {

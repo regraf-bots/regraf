@@ -31,6 +31,7 @@ export declare class RegrafContext {
   state: object
   webhookReply: boolean
   chatJoinRequest?: tt.ChatJoinRequest
+  senderChat?: tt.Chat
 
   constructor(
     update: tt.Update,
@@ -698,7 +699,7 @@ export declare class RegrafContext {
    */
   forwardMessage(
     chatId: number | string,
-    extra?: { disable_notification?: boolean }
+    extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
   ): Promise<tt.Message>
 
   /**
