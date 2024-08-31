@@ -78,7 +78,9 @@ export type MessageSubTypes =
   'voice_chat_scheduled' |
   'forum_topic_created' |
   'forum_topic_closed' |
-  'forum_topic_reopened'
+  'forum_topic_reopened' |
+  'users_shared' |
+  'chat_shared'
 
 export type InputMediaTypes =
   'photo'
@@ -230,6 +232,21 @@ export interface ChatPermissions {
   /** True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages */
   can_send_media_messages?: boolean
 
+  /** True, if the user is allowed to send audios */
+  can_send_audios?: boolean
+
+  /** True, if the user is allowed to send photos */
+  can_send_photos?: boolean
+
+  /** True, if the user is allowed to send videos */
+  can_send_videos?: boolean
+
+  /** True, if the user is allowed to send video notes */
+  can_send_video_notes?: boolean
+
+  /** True, if the user is allowed to send voice notes */
+  can_send_voice_notes?: boolean
+
   /** True, if the user is allowed to send polls, implies can_send_messages */
   can_send_polls?: boolean
 
@@ -247,6 +264,9 @@ export interface ChatPermissions {
 
   /** True, if the user is allowed to pin messages. Ignored in public supergroups */
   can_pin_messages?: boolean
+
+  /** True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages */
+  can_manage_topics?: boolean
 }
 
 export interface ExtraSetWebhook {
@@ -277,6 +297,9 @@ export interface ExtraDeleteWebhook {
 export interface ExtraRestrictChatMember {
   /** New user permissions */
   permissions: ChatPermissions
+
+  /** Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission. */
+  use_independent_chat_permissions?: boolean
 
   /** Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever */
   until_date?: number

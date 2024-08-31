@@ -55,7 +55,9 @@ const MessageSubTypes = [
   'web_app_data',
   'forum_topic_created',
   'forum_topic_closed',
-  'forum_topic_reopened'
+  'forum_topic_reopened',
+  'users_shared',
+  'chat_shared'
 ]
 
 const MessageSubTypesMapping = {
@@ -178,6 +180,14 @@ class RegrafContext {
 
   get passportData () {
     return this.message && this.message.passport_data
+  }
+
+  get usersShared () {
+    return this.message.users_shared
+  }
+
+  get chatShared () {
+    return this.message.chat_shared
   }
 
   get state () {
