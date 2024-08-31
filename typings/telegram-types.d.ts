@@ -142,12 +142,12 @@ export type MessageMedia =
   InputMediaAudio |
   InputMediaDocument
 
-export interface InputMediaPhoto extends ExtraCaption {
+export interface InputMediaPhoto extends ExtraCaption, ExtraSpoiler {
   type: InputMediaTypes
   media: InputFile
 }
 
-export interface InputMediaVideo extends ExtraCaption {
+export interface InputMediaVideo extends ExtraCaption, ExtraSpoiler {
   type: InputMediaTypes
   media: InputFile
   thumb?: string | InputFile
@@ -157,7 +157,7 @@ export interface InputMediaVideo extends ExtraCaption {
   supports_streaming?: boolean
 }
 
-export interface InputMediaAnimation extends ExtraCaption {
+export interface InputMediaAnimation extends ExtraCaption, ExtraSpoiler {
   type: InputMediaTypes
   media: InputFile
   thumb?: string | InputFile
@@ -562,19 +562,26 @@ export interface ExtraContact extends ExtraDisableNotifications, ExtraReplyMessa
   vcard?: string
 }
 
-export interface ExtraPhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+export interface ExtraSpoiler {
+  /**
+   * Pass True if the photo needs to be covered with a spoiler animation
+   */
+  has_spoiler?: boolean
+}
+
+export interface ExtraPhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler {
 }
 
 export interface ExtraMediaGroup extends ExtraDisableNotifications, ExtraReplyMessage, ExtraProtectContent, ExtraMessageThread {
 }
 
-export interface ExtraAnimation extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+export interface ExtraAnimation extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler {
 }
 
 export interface ExtraSticker extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
 }
 
-export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler {
   /**
    * Duration of sent video in seconds
    */
