@@ -873,6 +873,106 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
+   * Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters.
+   * @returns Returns an Array of Sticker objects.
+   */
+  getForumTopicIconStickers(): Promise<tt.Sticker[]>;
+
+  /**
+   * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param name Topic name, 1-128 characters
+   * @param extra Extra params
+   * @returns Returns information about the created topic as a ForumTopic object.
+   */
+  createForumTopic(chatId: number | string, name: string, extra?: tt.ExtraCreateForumTopic): Promise<tt.ForumTopic>;
+
+  /**
+   * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param messageThreadId Unique identifier for the target message thread of the forum topic
+   * @param name New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
+   * @param iconCustomEmojiId New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept
+   * @returns Returns True on success.
+   */
+  editForumTopic(chatId: number | string, messageThreadId: number, name?: string, iconCustomEmojiId?: string): Promise<boolean>;
+
+  /**
+   * Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param messageThreadId Unique identifier for the target message thread of the forum topic
+   * @returns Returns True on success.
+   */
+  closeForumTopic(chatId: number | string, messageThreadId: number): Promise<boolean>;
+
+  /**
+   * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param messageThreadId Unique identifier for the target message thread of the forum topic
+   * @returns Returns True on success.
+   */
+  reopenForumTopic(chatId: number | string, messageThreadId: number): Promise<boolean>;
+
+  /**
+   * Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param messageThreadId Unique identifier for the target message thread of the forum topic
+   * @returns Returns True on success.
+   */
+  deleteForumTopic(chatId: number | string, messageThreadId: number): Promise<boolean>;
+
+  /**
+   * Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param messageThreadId Unique identifier for the target message thread of the forum topic
+   * @returns Returns True on success.
+   */
+  unpinAllForumTopicMessages(chatId: number | string, messageThreadId: number): Promise<boolean>;
+
+  /**
+   * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @param name New topic name, 1-128 characters
+   * @returns Returns True on success.
+   */
+  editGeneralForumTopic(chatId: number | string, name: string): Promise<boolean>;
+
+  /**
+   * Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @returns Returns True on success.
+   */
+  closeGeneralForumTopic(chatId: number | string): Promise<boolean>;
+
+  /**
+   * Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically unhidden if it was hidden.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @returns Returns True on success.
+   */
+  reopenGeneralForumTopic(chatId: number | string): Promise<boolean>;
+
+  /**
+   * Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @returns Returns True on success.
+   */
+  hideGeneralForumTopic(chatId: number | string): Promise<boolean>;
+
+  /**
+   * Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @returns Returns True on success.
+   */
+  unhideGeneralForumTopic(chatId: number | string): Promise<boolean>;
+
+  /**
+   * Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+   * @returns Returns True on success.
+   */
+  unpinAllGeneralForumTopicMessages(chatId: number | string): Promise<boolean>;
+
+  /**
    * Use this method to get a sticker set
    * @param name Name of the sticker set
    * @returns On success, a StickerSet object is returned.

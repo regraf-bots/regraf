@@ -375,6 +375,58 @@ class Telegram extends ApiClient {
     return this.callApi('deleteChatStickerSet', { chat_id: chatId })
   }
 
+  getForumTopicIconStickers () {
+    return this.callApi('getForumTopicIconStickers')
+  }
+
+  createForumTopic (chatId, name, extra) {
+    return this.callApi('createForumTopic', { chat_id: chatId, name, ...extra })
+  }
+
+  editForumTopic (chatId, messageThreadId, name, iconCustomEmojiId) {
+    return this.callApi('editForumTopic', { chat_id: chatId, message_thread_id: messageThreadId, name, icon_custom_emoji_id: iconCustomEmojiId })
+  }
+
+  closeForumTopic (chatId, messageThreadId) {
+    return this.callApi('closeForumTopic', { chat_id: chatId, message_thread_id: messageThreadId })
+  }
+
+  reopenForumTopic (chatId, messageThreadId) {
+    return this.callApi('reopenForumTopic', { chat_id: chatId, message_thread_id: messageThreadId })
+  }
+
+  deleteForumTopic (chatId, messageThreadId) {
+    return this.callApi('deleteForumTopic', { chat_id: chatId, message_thread_id: messageThreadId })
+  }
+
+  unpinAllForumTopicMessages (chatId, messageThreadId) {
+    return this.callApi('unpinAllForumTopicMessages', { chat_id: chatId, message_thread_id: messageThreadId })
+  }
+
+  editGeneralForumTopic (chatId, name) {
+    return this.callApi('editGeneralForumTopic', { chat_id: chatId, name })
+  }
+
+  closeGeneralForumTopic (chatId) {
+    return this.callApi('closeGeneralForumTopic', { chat_id: chatId })
+  }
+
+  reopenGeneralForumTopic (chatId) {
+    return this.callApi('reopenGeneralForumTopic', { chat_id: chatId })
+  }
+
+  hideGeneralForumTopic (chatId) {
+    return this.callApi('hideGeneralForumTopic', { chat_id: chatId })
+  }
+
+  unhideGeneralForumTopic (chatId) {
+    return this.callApi('unhideGeneralForumTopic', { chat_id: chatId })
+  }
+
+  unpinAllGeneralForumTopicMessages (chatId) {
+    return this.callApi('unpinAllGeneralForumTopicMessages', { chat_id: chatId })
+  }
+
   getStickerSet (name) {
     return this.callApi('getStickerSet', { name })
   }

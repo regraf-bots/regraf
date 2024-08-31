@@ -162,6 +162,89 @@ export declare class RegrafContext {
   deleteChatStickerSet(): Promise<boolean>
 
   /**
+   * Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters.
+   * @returns Returns an Array of Sticker objects.
+   */
+  getForumTopicIconStickers(): Promise<tt.Sticker[]>;
+
+  /**
+   * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
+   * @param name Topic name, 1-128 characters
+   * @param extra Extra params
+   * @returns Returns information about the created topic as a ForumTopic object.
+   */
+  createForumTopic(name: string, extra?: tt.ExtraCreateForumTopic): Promise<tt.ForumTopic>;
+
+  /**
+   * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
+   * @param name New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
+   * @param iconCustomEmojiId New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept
+   * @returns Returns True on success.
+   */
+  editForumTopic(name?: string, iconCustomEmojiId?: string): Promise<boolean>;
+
+  /**
+   * Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
+   * @returns Returns True on success.
+   */
+  closeForumTopic(): Promise<boolean>;
+
+  /**
+   * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
+   * @returns Returns True on success.
+   */
+  reopenForumTopic(): Promise<boolean>;
+
+  /**
+   * Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights.
+   * @returns Returns True on success.
+   */
+  deleteForumTopic(): Promise<boolean>;
+
+  /**
+   * Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup.
+   * @returns Returns True on success.
+   */
+  unpinAllForumTopicMessages(): Promise<boolean>;
+
+  /**
+   * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
+   * @param name New topic name, 1-128 characters
+   * @returns Returns True on success.
+   */
+  editGeneralForumTopic(name: string): Promise<boolean>;
+
+  /**
+   * Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
+   * @returns Returns True on success.
+   */
+  closeGeneralForumTopic(): Promise<boolean>;
+
+  /**
+   * Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically unhidden if it was hidden.
+   * @returns Returns True on success.
+   */
+  reopenGeneralForumTopic(): Promise<boolean>;
+
+  /**
+   * Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open.
+   * @returns Returns True on success.
+   */
+  hideGeneralForumTopic(): Promise<boolean>;
+
+  /**
+   * Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
+   * @returns Returns True on success.
+   */
+  unhideGeneralForumTopic(): Promise<boolean>;
+
+  /**
+   * Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup.
+   * @returns Returns True on success.
+   */
+  unpinAllGeneralForumTopicMessages(): Promise<boolean>;
+
+  /**
    * Use this method for your bot to leave a group, supergroup or channel
    * @returns True on success
    */

@@ -75,7 +75,10 @@ export type MessageSubTypes =
   'voice_chat_started' |
   'voice_chat_ended' |
   'voice_chat_participants_invited' |
-  'voice_chat_scheduled'
+  'voice_chat_scheduled' |
+  'forum_topic_created' |
+  'forum_topic_closed' |
+  'forum_topic_reopened'
 
 export type InputMediaTypes =
   'photo'
@@ -399,11 +402,14 @@ export interface ExtraMessageThread {
   message_thread_id?: number
 }
 
-export interface ExtraSendMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {}
+export interface ExtraSendMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+}
 
-export interface ExtraEditMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraReplyMarkupInlineKeyboard {}
+export interface ExtraEditMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraReplyMarkupInlineKeyboard {
+}
 
-export interface ExtraEditMessageMedia extends ExtraReplyMarkupInlineKeyboard {}
+export interface ExtraEditMessageMedia extends ExtraReplyMarkupInlineKeyboard {
+}
 
 export interface ExtraUnpinMessage {
   /**
@@ -412,7 +418,7 @@ export interface ExtraUnpinMessage {
   message_id?: number
 }
 
-export interface ExtraAudio extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraAudio extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
 
   /**
    * Duration of the audio in seconds
@@ -438,7 +444,7 @@ export interface ExtraAudio extends ExtraCaption, ExtraDisableNotifications, Ext
   thumb?: InputFile
 }
 
-export interface ExtraDocument extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraDocument extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /**
    * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
    * The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 320.
@@ -453,11 +459,13 @@ export interface ExtraDocument extends ExtraCaption, ExtraDisableNotifications, 
   disable_content_type_detection?: Boolean
 }
 
-export interface ExtraGame extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkupInlineKeyboard, ExtraProtectContent {}
+export interface ExtraGame extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkupInlineKeyboard, ExtraProtectContent, ExtraMessageThread {
+}
 
-export interface ExtraInvoice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkupInlineKeyboard, ExtraProtectContent {}
+export interface ExtraInvoice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkupInlineKeyboard, ExtraProtectContent, ExtraMessageThread {
+}
 
-export interface ExtraLocation extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraLocation extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /**
    * The radius of uncertainty for the location, measured in meters; 0-1500
    */
@@ -501,9 +509,26 @@ export interface ExtraEditLocation extends ExtraReplyMarkupInlineKeyboard {
   proximity_alert_radius?: number
 }
 
-export interface ExtraStopLiveLocation extends ExtraReplyMarkupInlineKeyboard {}
+export interface ExtraStopLiveLocation extends ExtraReplyMarkupInlineKeyboard {
+}
 
-export interface ExtraVenue extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraCreateForumTopic extends ExtraIcon {
+
+}
+
+export interface ExtraIcon {
+  /**
+   * Color of the topic icon in RGB format. Currently, must be one of 7322096 (0x6FB9F0), 16766590 (0xFFD67E), 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)
+   */
+  icon_color?: number
+
+  /**
+   * Unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers.
+   */
+  icon_custom_emoji_id?: string
+}
+
+export interface ExtraVenue extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /**
    * Foursquare identifier of the venue
    */
@@ -525,7 +550,7 @@ export interface ExtraVenue extends ExtraDisableNotifications, ExtraReplyMessage
   google_place_type?: string
 }
 
-export interface ExtraContact extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraContact extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /**
    * Contact's last name
    */
@@ -537,15 +562,19 @@ export interface ExtraContact extends ExtraDisableNotifications, ExtraReplyMessa
   vcard?: string
 }
 
-export interface ExtraPhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {}
+export interface ExtraPhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+}
 
-export interface ExtraMediaGroup extends ExtraDisableNotifications, ExtraReplyMessage, ExtraProtectContent {}
+export interface ExtraMediaGroup extends ExtraDisableNotifications, ExtraReplyMessage, ExtraProtectContent, ExtraMessageThread {
+}
 
-export interface ExtraAnimation extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {}
+export interface ExtraAnimation extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+}
 
-export interface ExtraSticker extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {}
+export interface ExtraSticker extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+}
 
-export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /**
    * Duration of sent video in seconds
    */
@@ -575,7 +604,7 @@ export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, Ext
   supports_streaming?: boolean
 }
 
-export interface ExtraVideoNote extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraVideoNote extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /**
    * Duration of sent video in seconds
    */
@@ -595,14 +624,14 @@ export interface ExtraVideoNote extends ExtraDisableNotifications, ExtraReplyMes
   thumb?: InputFile
 }
 
-export interface ExtraVoice extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraVoice extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /**
    * Duration of the voice message in seconds
    */
   duration?: number
 }
 
-export interface ExtraDice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraDice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /**
    * Emoji on which the dice throw animation is based.
    * Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, or “🎰”.
@@ -612,7 +641,7 @@ export interface ExtraDice extends ExtraDisableNotifications, ExtraReplyMessage,
   emoji?: string
 }
 
-export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent {
+export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
   /** True, if the poll needs to be anonymous, defaults to True */
   is_anonymous?: boolean
 
@@ -629,7 +658,7 @@ export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage,
   close_date?: number
 }
 
-export interface ExtraQuiz extends ExtraPoll {
+export interface ExtraQuiz extends ExtraPoll, ExtraMessageThread {
   /** 0-based identifier of the correct answer option, required for polls in quiz mode */
   correct_option_id: number
 
@@ -643,9 +672,11 @@ export interface ExtraQuiz extends ExtraPoll {
   explanation_parse_mode?: ParseMode
 }
 
-export interface ExtraStopPoll extends ExtraReplyMarkupInlineKeyboard {}
+export interface ExtraStopPoll extends ExtraReplyMarkupInlineKeyboard {
+}
 
-export interface ExtraEditCaption extends ExtraCaptionFormatting, ExtraReplyMarkupInlineKeyboard {}
+export interface ExtraEditCaption extends ExtraCaptionFormatting, ExtraReplyMarkupInlineKeyboard {
+}
 
 export interface ExtraAnswerCallbackQuery {
   /**
@@ -663,7 +694,8 @@ export interface ExtraAnswerCallbackQuery {
   cache_time?: number
 }
 
-export interface ExtraCopyMessage extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {}
+export interface ExtraCopyMessage extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+}
 
 export type Extra = ExtraSendMessage
   | ExtraEditMessage
@@ -706,14 +738,14 @@ export interface ExtraBan {
    * If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever.
    * Applied for supergroups and channels only.
    */
-   until_date?: number,
+  until_date?: number,
 
-   /**
-    * Pass True to delete all messages from the chat for the user that is being removed.
-    * If False, the user will be able to see messages in the group that were sent before the user was removed.
-    * Always True for supergroups and channels.
-    */
-    revoke_messages: boolean
+  /**
+   * Pass True to delete all messages from the chat for the user that is being removed.
+   * If False, the user will be able to see messages in the group that were sent before the user was removed.
+   * Always True for supergroups and channels.
+   */
+  revoke_messages: boolean
 }
 
 interface ExtraChatIviteLink {
@@ -739,9 +771,11 @@ interface ExtraChatIviteLink {
 }
 
 
-export interface ExtraCreateChatIviteLink extends ExtraChatIviteLink {}
+export interface ExtraCreateChatIviteLink extends ExtraChatIviteLink {
+}
 
-export interface ExtraEditChatIviteLink extends ExtraChatIviteLink {}
+export interface ExtraEditChatIviteLink extends ExtraChatIviteLink {
+}
 
 export type MessageAudio = TT.Message.AudioMessage
 export type MessageContact = TT.Message.ContactMessage
@@ -778,10 +812,12 @@ type ServiceMessageBundle = TT.Message.ChannelChatCreatedMessage
   & TT.Message.MessageAutoDeleteTimerChangedMessage
   & TT.Message.VideoChatStartedMessage
   & TT.Message.VideoChatEndedMessage
-  & TT.Message.VideoChatEndedMessage
   & TT.Message.VideoChatScheduledMessage
   & TT.Message.VideoChatParticipantsInvitedMessage
   & TT.Message.WebAppDataMessage
+  & TT.Message.ForumTopicCreatedMessage
+  & TT.Message.ForumTopicClosedMessage
+  & TT.Message.ForumTopicReopenedMessage
 
 type CommonMessageBundle = TT.Message.AnimationMessage
   & TT.Message.AudioMessage
@@ -1015,9 +1051,9 @@ export interface BotCommandScopeChatMember {
    */
   chat_id: number | string
 
-   /**
-    * Unique identifier of the target user
-    */
+  /**
+   * Unique identifier of the target user
+   */
   user_id: number
 }
 
@@ -1046,7 +1082,7 @@ export interface ExtraSetMyCommands extends ExtraScope {
    * A two-letter ISO 639-1 language code.
    * If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
    */
-   language_code?: string
+  language_code?: string
 }
 
 export interface ExtraDeleteMyCommands extends ExtraScope {
@@ -1054,14 +1090,14 @@ export interface ExtraDeleteMyCommands extends ExtraScope {
    * A two-letter ISO 639-1 language code.
    * If empty, commands will be applied to all users from the given scope, for whose language there are no dedicated commands
    */
-   language_code?: string
+  language_code?: string
 }
 
 export interface ExtraGetMyCommands extends ExtraScope {
   /**
    * A two-letter ISO 639-1 language code or an empty string
    */
-   language_code?: string
+  language_code?: string
 }
 
 /**

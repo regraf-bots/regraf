@@ -67,7 +67,10 @@ const updateTypes = [
   'contact',
   'channel_chat_created',
   'audio',
-  'poll'
+  'poll',
+  'forum_topic_created',
+  'forum_topic_closed',
+  'forum_topic_reopened'
 ]
 
 updateTypes.forEach((update) => {

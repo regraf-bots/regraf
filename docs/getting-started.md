@@ -379,6 +379,9 @@ Available update sub-types:
 - `connected_website`
 - `passport_data`
 - `poll`
+- `forum_topic_created`
+- `forum_topic_closed`
+- `forum_topic_reopened`
 
 ```js
 // Handle message update

@@ -52,7 +52,10 @@ const MessageSubTypes = [
   'video_chat_ended',
   'video_chat_participants_invited',
   'video_chat_scheduled',
-  'web_app_data'
+  'web_app_data',
+  'forum_topic_created',
+  'forum_topic_closed',
+  'forum_topic_reopened'
 ]
 
 const MessageSubTypesMapping = {
@@ -632,6 +635,75 @@ class RegrafContext {
   deleteChatStickerSet () {
     this.assert(this.chat, 'deleteChatStickerSet')
     return this.telegram.deleteChatStickerSet(this.chat.id)
+  }
+
+  getForumTopicIconStickers () {
+    return this.telegram.getForumTopicIconStickers()
+  }
+
+  createForumTopic (name, extra) {
+    this.assert(this.chat, 'createForumTopic')
+    return this.telegram.createForumTopic(this.chat.id, name, extra)
+  }
+
+  editForumTopic (name = undefined, iconCustomEmojiId = undefined) {
+    this.assert(this.chat, 'editForumTopic')
+    this.assert(this.message.message_thread_id, 'editForumTopic')
+    return this.telegram.editForumTopic(this.chat.id, this.message.message_thread_id, name, iconCustomEmojiId)
+  }
+
+  closeForumTopic () {
+    this.assert(this.chat, 'closeForumTopic')
+    this.assert(this.message.message_thread_id, 'closeForumTopic')
+    return this.telegram.closeForumTopic(this.chat.id, this.message.message_thread_id)
+  }
+
+  reopenForumTopic () {
+    this.assert(this.chat, 'reopenForumTopic')
+    this.assert(this.message.message_thread_id, 'reopenForumTopic')
+    return this.telegram.reopenForumTopic(this.chat.id, this.message.message_thread_id)
+  }
+
+  deleteForumTopic () {
+    this.assert(this.chat, 'deleteForumTopic')
+    this.assert(this.message.message_thread_id, 'deleteForumTopic')
+    return this.telegram.deleteForumTopic(this.chat.id, this.message.message_thread_id)
+  }
+
+  unpinAllForumTopicMessages () {
+    this.assert(this.chat, 'unpinAllForumTopicMessages')
+    this.assert(this.message.message_thread_id, 'unpinAllForumTopicMessages')
+    return this.telegram.unpinAllForumTopicMessages(this.chat.id, this.message.message_thread_id)
+  }
+
+  editGeneralForumTopic (name) {
+    this.assert(this.chat, 'editGeneralForumTopic')
+    return this.telegram.editGeneralForumTopic(this.chat.id, name)
+  }
+
+  closeGeneralForumTopic () {
+    this.assert(this.chat, 'closeGeneralForumTopic')
+    return this.telegram.closeGeneralForumTopic(this.chat.id)
+  }
+
+  reopenGeneralForumTopic () {
+    this.assert(this.chat, 'reopenGeneralForumTopic')
+    return this.telegram.reopenGeneralForumTopic(this.chat.id)
+  }
+
+  hideGeneralForumTopic () {
+    this.assert(this.chat, 'hideGeneralForumTopic')
+    return this.telegram.hideGeneralForumTopic(this.chat.id)
+  }
+
+  unhideGeneralForumTopic () {
+    this.assert(this.chat, 'unhideGeneralForumTopic')
+    return this.telegram.unhideGeneralForumTopic(this.chat.id)
+  }
+
+  unpinAllGeneralForumTopicMessages () {
+    this.assert(this.chat, 'unpinAllGeneralForumTopicMessages')
+    return this.telegram.unpinAllGeneralForumTopicMessages(this.chat.id)
   }
 
   setStickerPositionInSet (sticker, position) {
