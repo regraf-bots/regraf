@@ -12,7 +12,7 @@ Regraf is a continuation of the Telegraf@3.
 
 ### Features
 
-- Full [Telegram Bot API 6.6](https://core.telegram.org/bots/api) support
+- Full [Telegram Bot API 6.7](https://core.telegram.org/bots/api) support
 - [Telegram Payment Platform](https://telegram.org/blog/payments)
 - [HTML5 Games](https://core.telegram.org/bots/api#games)
 - [Inline mode](https://core.telegram.org/bots/api#inline-mode)

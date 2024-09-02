@@ -874,6 +874,7 @@ type ServiceMessageBundle = TT.Message.ChannelChatCreatedMessage
   & TT.Message.ForumTopicCreatedMessage
   & TT.Message.ForumTopicClosedMessage
   & TT.Message.ForumTopicReopenedMessage
+  & TT.Message.WriteAccessAllowedMessage
 
 type CommonMessageBundle = TT.Message.AnimationMessage
   & TT.Message.AudioMessage
@@ -1012,14 +1013,9 @@ export interface ExtraAnswerInlineQuery {
   next_offset?: string
 
   /**
-   * If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switch_pm_parameter
+   * A JSON-serialized object describing a button to be shown above inline query results
    */
-  switch_pm_text?: string
-
-  /**
-   * Deep-linking parameter for the /start message sent to the bot when user presses the switch button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
-   */
-  switch_pm_parameter?: string
+  button: TT.InlineQueryResultsButton
 }
 
 /**
