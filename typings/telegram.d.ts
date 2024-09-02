@@ -4,6 +4,7 @@ import * as tt from './telegram-types.d'
 
 import * as https from 'https'
 import * as http from 'http'
+import { BotDescription, BotName, BotShortDescription } from '@grammyjs/types'
 
 export interface TelegramOptions {
   /**
@@ -993,12 +994,14 @@ export declare class Telegram extends ApiClient {
    * Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times)
    * https://core.telegram.org/bots/api#sending-files
    * @param ownerId User identifier of sticker file owner
-   * @param stickerFile Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px.
+   * @param sticker A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
+   * @param stickerFormat Format of the sticker, must be one of “static”, “animated”, “video”
    * @returns Returns the uploaded File on success
    */
   uploadStickerFile(
     ownerId: number,
-    stickerFile: tt.InputFile
+    sticker: tt.InputFile,
+    stickerFormat: string
   ): Promise<tt.File>
 
   /**
@@ -1006,33 +1009,31 @@ export declare class Telegram extends ApiClient {
    * @param ownerId User identifier of created sticker set owner
    * @param name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
    * @param title Sticker set title, 1-64 characters
-   * @param stickerData Sticker object
-   * @param sticker_type Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created.
-   * @param needs_repainting Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
+   * @param stickers Sticker object array
+   * @param stickerType Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created.
+   * @param needsRepainting Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
    * @returns True on success.
    */
   createNewStickerSet(
     ownerId: number,
     name: string,
     title: string,
-    stickerData: tt.StickerData[],
-    sticker_type?: "regular" | "mask" | "custom_emoji",
-    needs_repainting?: boolean
+    stickers: tt.InputSticker[],
+    stickerType?: tt.StickerFormat,
+    needsRepainting?: boolean
   ): Promise<boolean>
 
   /**
    * Use this method to add a new sticker to a set created by the bot
    * @param ownerId User identifier of sticker set owner
    * @param name Sticker set name
-   * @param stickerData Sticker object
-   * @param isMasks https://github.com/telegraf/telegraf/blob/87882c42f6c2496576fdb57ca622690205c3e35e/lib/telegram.js#L304
+   * @param sticker Sticker object
    * @returns True on success.
    */
   addStickerToSet(
     ownerId: number,
     name: string,
-    stickerData: tt.StickerData,
-    isMasks: boolean
+    sticker: tt.InputSticker,
   ): Promise<boolean>
 
   /**
@@ -1044,25 +1045,85 @@ export declare class Telegram extends ApiClient {
   setStickerPositionInSet(sticker: string, position: number): Promise<boolean>
 
   /**
-   * Use this method to set the thumbnail of a sticker set.
-   * Animated thumbnails can be set for animated sticker sets only
-   * @param name Sticker set name
-   * @param userId User identifier of the sticker set owner
-   * @param thumb New thumbnail. See [documentation](https://core.telegram.org/bots/api#setstickersetthumb)
-   * @returns True on success.
-   */
-  setStickerSetThumb(
-    name: string,
-    userId: number,
-    thumb: tt.InputFile,
-  ): Promise<boolean>
-
-  /**
    * Use this method to delete a sticker from a set created by the bot.
    * @param sticker File identifier of the sticker
    * @returns Returns True on success
    */
   deleteStickerFromSet(sticker: string): Promise<boolean>
+
+  /**
+   * Use this method to replace an existing sticker in a sticker set with a new one.
+   *  The method is equivalent to calling deleteStickerFromSet, then addStickerToSet, then setStickerPositionInSet.
+   * @param userId User identifier of the sticker set owner
+   * @param name Sticker set name
+   * @param oldSticker File identifier of the replaced sticker
+   * @param sticker A JSON-serialized object with information about the added sticker.
+   *  If exactly the same sticker had already been added to the set, then the set remains unchanged.
+   * @returns True on success.
+   */
+  replaceStickerInSet(userId: number, name: string, oldSticker: string, sticker: tt.InputSticker): Promise<boolean>
+
+  /**
+   * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot.
+   * @param sticker File identifier of the sticker
+   * @param emojiList A JSON-serialized list of 1-20 emoji associated with the sticker
+   * @returns True on success.
+   */
+  setStickerEmojiList(sticker: string, emojiList: string[]): Promise<boolean>
+
+  /**
+   * Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot.
+   * @param sticker File identifier of the sticker
+   * @param keywords A JSON-serialized list of 0-20 search keywords for the sticker with total length of up to 64 characters
+   * @returns True on success.
+   */
+  setStickerKeywords(sticker: string, keywords: string[]): Promise<boolean>
+
+  /**
+   * Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was created by the bot.
+   * @param sticker File identifier of the sticker
+   * @param maskPosition A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.
+   * @returns True on success.
+   */
+  setStickerMaskPosition(sticker: string, maskPosition: tt.MaskPosition): Promise<boolean>
+
+  /**
+   * Use this method to set the title of a created sticker set.
+   * @param name Sticker set name
+   * @param title New sticker set title, 1-64 characters
+   * @returns True on success.
+   */
+  setStickerSetTitle(name: string, title: string): Promise<boolean>
+
+  /**
+   * Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set.
+   * @param name Sticker set name
+   * @param userId User identifier of the sticker set owner
+   * @param format A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px,
+   *  or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animation-requirements for animated sticker technical requirements),
+   *  or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-requirements for video sticker technical requirements.
+   *  Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet,
+   *  or upload a new one using multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails can't be uploaded via HTTP URL.
+   *  If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
+   * @param thumbnail Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a WEBM video
+   * @returns True on success.
+   */
+  setStickerSetThumbnail(name: string, userId: number, format: tt.StickerFormat, thumbnail?: tt.InputFile): Promise<boolean>
+
+  /**
+   * Use this method to set the thumbnail of a custom emoji sticker set.
+   * @param name Sticker set name
+   * @param customEmojiId Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail.
+   * @returns True on success.
+   */
+  setCustomEmojiStickerSetThumbnail(name: string, customEmojiId: string): Promise<boolean>
+
+  /**
+   * Use this method to delete a sticker set that was created by the bot.
+   * @param name Sticker set name
+   * @returns True on success.
+   */
+  deleteStickerSet(name: string): Promise<boolean>
 
   /**
    * Use this method to get the current list of the bot's commands for the given scope and user language.
@@ -1072,6 +1133,51 @@ export declare class Telegram extends ApiClient {
   getMyCommands(
     extra?: tt.ExtraGetMyCommands
   ): Promise<tt.BotCommand[]>
+
+  /**
+   * Use this method to change the bot's name.
+   * @param name New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
+   * @param languageCode A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language there is no dedicated name.
+   * @returns Returns True on success.
+   */
+  setMyName(name?: string, languageCode?: string): Promise<boolean>
+
+  /**
+   * Use this method to get the current bot name for the given user language.
+   * @param languageCode A two-letter ISO 639-1 language code or an empty string
+   * @returns Returns BotName on success.
+   */
+  getMyName(languageCode?: string): Promise<BotName>
+
+  /**
+   * Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty.
+   * @param description New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for the given language.
+   * @param languageCode A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description.
+   * @returns Returns True on success.
+   */
+  setMyDescription(description?: string, languageCode?: string): Promise<boolean>
+
+  /**
+   * Use this method to get the current bot description for the given user language.
+   * @param languageCode A two-letter ISO 639-1 language code or an empty string
+   * @returns Returns BotDescription on success.
+   */
+  getMyDescription(languageCode?: string): Promise<BotDescription>;
+
+  /**
+   * Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot.
+   * @param shortDescription New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for the given language.
+   * @param languageCode A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description.
+   * @returns Returns True on success.
+   */
+  setMyShortDescription(shortDescription?: string, languageCode?: string): Promise<boolean>
+
+  /**
+   * Use this method to get the current bot short description for the given user language.
+   * @param languageCode A two-letter ISO 639-1 language code or an empty string
+   * @returns Returns BotShortDescription on success.
+   */
+  getMyShortDescription(languageCode?: string): Promise<BotShortDescription>;
 
   /**
    * Use this method to change the list of the bot's commands.

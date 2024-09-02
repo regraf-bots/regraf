@@ -15,7 +15,7 @@ bot.on('inline_query', async ({ inlineQuery, answerInlineQuery }) => {
       id: thumbnail,
       title: title,
       description: title,
-      thumb_url: thumbnail,
+      thumbnail_url: thumbnail,
       input_message_content: {
         message_text: title
       },

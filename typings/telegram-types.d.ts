@@ -152,7 +152,7 @@ export interface InputMediaPhoto extends ExtraCaption, ExtraSpoiler {
 export interface InputMediaVideo extends ExtraCaption, ExtraSpoiler {
   type: InputMediaTypes
   media: InputFile
-  thumb?: string | InputFile
+  thumbnail?: string | InputFile
   width?: number
   height?: number
   duration?: number
@@ -162,7 +162,7 @@ export interface InputMediaVideo extends ExtraCaption, ExtraSpoiler {
 export interface InputMediaAnimation extends ExtraCaption, ExtraSpoiler {
   type: InputMediaTypes
   media: InputFile
-  thumb?: string | InputFile
+  thumbnail?: string | InputFile
   width?: number
   height?: number
   duration?: number
@@ -172,7 +172,7 @@ export interface InputMediaAnimation extends ExtraCaption, ExtraSpoiler {
 export interface InputMediaAudio extends ExtraCaption {
   type: InputMediaTypes
   media: InputFile
-  thumb?: string | InputFile
+  thumbnail?: string | InputFile
   performer?: string
   title?: string
   duration?: number
@@ -182,14 +182,34 @@ export interface InputMediaAudio extends ExtraCaption {
 export interface InputMediaDocument extends ExtraCaption {
   type: InputMediaTypes
   media: InputFile
-  thumb?: string | InputFile
+  thumbnail?: string | InputFile
 }
 
-export interface StickerData {
-  png_sticker: string | Buffer
-  emojis: string
-  mask_position: TT.MaskPosition
-  webm_sticker?: InputFile
+export interface InputSticker {
+  /**
+   * The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, upload a new one using multipart/form-data, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. Animated and video stickers can't be uploaded via HTTP URL.
+   */
+  sticker: InputFile
+
+  /**
+   * Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, “video” for a WEBM video
+   */
+  format: 'static' | 'animated' | 'video'
+
+  /**
+   * List of 1-20 emoji associated with the sticker
+   */
+  emoji_list: string[]
+
+  /**
+   * Position where the mask should be placed on faces. For “mask” stickers only.
+   */
+  mask_position?: TT.MaskPosition
+
+  /**
+   * List of 0-20 search keywords for the sticker with total length of up to 64 characters. For “regular” and “custom_emoji” stickers only.
+   */
+  keywords?: string[]
 }
 
 type FileId = string
@@ -224,6 +244,8 @@ export type InputFile =
  * Sending video notes by a URL is currently unsupported
  */
 export type InputFileVideoNote = Exclude<InputFile, InputFileByURL>
+
+export type StickerFormat = "regular" | "mask" | "custom_emoji";
 
 export interface ChatPermissions {
   /** True, if the user is allowed to send text messages, contacts, locations and venues */
@@ -464,7 +486,7 @@ export interface ExtraAudio extends ExtraCaption, ExtraDisableNotifications, Ext
    * Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file,
    * so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
    */
-  thumb?: InputFile
+  thumbnail?: InputFile
 }
 
 export interface ExtraDocument extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
@@ -474,7 +496,7 @@ export interface ExtraDocument extends ExtraCaption, ExtraDisableNotifications, 
    * Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file,
    * so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
    */
-  thumb?: InputFile
+  thumbnail?: InputFile
 
   /**
    * Disables automatic server-side content type detection for files uploaded using multipart/form-data
@@ -602,6 +624,10 @@ export interface ExtraAnimation extends ExtraCaption, ExtraDisableNotifications,
 }
 
 export interface ExtraSticker extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {
+  /**
+   * Emoji associated with the sticker; only for just uploaded stickers
+   */
+  emoji?: string
 }
 
 export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler {
@@ -626,7 +652,7 @@ export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, Ext
    * Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file,
    * so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
    */
-  thumb?: InputFile
+  thumbnail?: InputFile
 
   /**
    * Pass True, if the uploaded video is suitable for streaming
@@ -651,7 +677,7 @@ export interface ExtraVideoNote extends ExtraDisableNotifications, ExtraReplyMes
    * Ignored if the file is not uploaded using multipart/form-data. Thumbnails can’t be reused and can be only uploaded as a new file,
    * so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>.
    */
-  thumb?: InputFile
+  thumbnail?: InputFile
 }
 
 export interface ExtraVoice extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread {

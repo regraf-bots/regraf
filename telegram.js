@@ -435,30 +435,30 @@ class Telegram extends ApiClient {
     return this.callApi('getCustomEmojiStickers', { custom_emoji_ids: customEmojiIds })
   }
 
-  uploadStickerFile (ownerId, stickerFile) {
+  uploadStickerFile (ownerId, sticker, stickerFormat) {
     return this.callApi('uploadStickerFile', {
       user_id: ownerId,
-      png_sticker: stickerFile
+      sticker,
+      sticker_format: stickerFormat
     })
   }
 
-  createNewStickerSet (ownerId, name, title, stickerData, stickerType = 'regular', needsRepainting = false) {
+  createNewStickerSet (ownerId, name, title, stickers, stickerType = 'regular', needsRepainting = false) {
     return this.callApi('createNewStickerSet', {
       name,
       title,
       user_id: ownerId,
-      stickers: stickerData,
+      stickers: stickers,
       sticker_type: stickerType,
       needs_repainting: needsRepainting
     })
   }
 
-  addStickerToSet (ownerId, name, stickerData, isMasks) {
+  addStickerToSet (ownerId, name, sticker) {
     return this.callApi('addStickerToSet', {
       name,
       user_id: ownerId,
-      is_masks: isMasks,
-      ...stickerData
+      sticker
     })
   }
 
@@ -469,16 +469,68 @@ class Telegram extends ApiClient {
     })
   }
 
-  setStickerSetThumb (name, userId, thumb) {
-    return this.callApi('setStickerSetThumb', { name, user_id: userId, thumb })
-  }
-
   deleteStickerFromSet (sticker) {
     return this.callApi('deleteStickerFromSet', { sticker })
   }
 
+  replaceStickerInSet (userId, name, oldSticker, sticker) {
+    return this.callApi('replaceStickerInSet', { user_id: userId, name, old_sticker: oldSticker, new_sticker: sticker })
+  }
+
+  setStickerEmojiList (sticker, emojiList) {
+    return this.callApi('setStickerEmojiList', { sticker, emoji_list: emojiList })
+  }
+
+  setStickerKeywords (sticker, keywords) {
+    return this.callApi('setStickerKeywords', { sticker, keywords })
+  }
+
+  setStickerMaskPosition (sticker, maskPosition) {
+    return this.callApi('setStickerMaskPosition', { sticker, mask_position: maskPosition })
+  }
+
+  setStickerSetTitle (name, title) {
+    return this.callApi('setStickerSetTitle', { name, title })
+  }
+
+  setStickerSetThumbnail (name, userId, format, thumbnail) {
+    return this.callApi('setStickerSetThumbnail', { name, user_id: userId, format, thumbnail })
+  }
+
+  setCustomEmojiStickerSetThumbnail (name, customEmojiId) {
+    return this.callApi('setCustomEmojiStickerSetThumbnail', { name, custom_emoji_id: customEmojiId })
+  }
+
+  deleteStickerSet (name) {
+    return this.callApi('deleteStickerSet', { name })
+  }
+
   getMyCommands (extra) {
     return this.callApi('getMyCommands', extra)
+  }
+
+  setMyName (name, languageCode) {
+    return this.callApi('setMyCommands', { name, language_code: languageCode })
+  }
+
+  getMyName (languageCode) {
+    return this.callApi('getMyCommands', { language_code: languageCode })
+  }
+
+  setMyDescription (description, languageCode) {
+    return this.callApi('setMyCommands', { description, language_code: languageCode })
+  }
+
+  getMyDescription (languageCode) {
+    return this.callApi('getMyCommands', { language_code: languageCode })
+  }
+
+  setMyShortDescription (shortDescription, languageCode) {
+    return this.callApi('setMyCommands', { short_description: shortDescription, language_code: languageCode })
+  }
+
+  getMyShortDescription (languageCode) {
+    return this.callApi('getMyCommands', { language_code: languageCode })
   }
 
   setMyCommands (commands, extra) {

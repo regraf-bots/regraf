@@ -183,11 +183,11 @@ class RegrafContext {
   }
 
   get usersShared () {
-    return this.message.users_shared
+    return this.message && this.message.users_shared
   }
 
   get chatShared () {
-    return this.message.chat_shared
+    return this.message && this.message.chat_shared
   }
 
   get state () {
@@ -720,12 +720,42 @@ class RegrafContext {
     return this.telegram.setStickerPositionInSet(sticker, position)
   }
 
-  setStickerSetThumb (...args) {
-    return this.telegram.setStickerSetThumb(...args)
-  }
-
   deleteStickerFromSet (sticker) {
     return this.telegram.deleteStickerFromSet(sticker)
+  }
+
+  replaceStickerInSet (name, oldSticker, sticker) {
+    this.assert(this.from, 'replaceStickerInSet')
+    return this.telegram.replaceStickerInSet(this.from.id, name, oldSticker, sticker)
+  }
+
+  setStickerEmojiList (sticker, emojiList) {
+    return this.telegram.setStickerEmojiList(sticker, emojiList)
+  }
+
+  setStickerKeywords (sticker, keywords) {
+    return this.telegram.setStickerKeywords(sticker, keywords)
+  }
+
+  setStickerMaskPosition (sticker, maskPosition) {
+    return this.telegram.setStickerMaskPosition(sticker, maskPosition)
+  }
+
+  setStickerSetTitle (name, title) {
+    return this.telegram.setStickerSetTitle(name, title)
+  }
+
+  setStickerSetThumbnail (name, format, thumbnail) {
+    this.assert(this.from, 'setStickerSetThumbnail')
+    return this.telegram.setStickerSetThumbnail(name, this.from.id, format, thumbnail)
+  }
+
+  setCustomEmojiStickerSetThumbnail (name, customEmojiId) {
+    return this.telegram.setCustomEmojiStickerSetThumbnail(name, customEmojiId)
+  }
+
+  deleteStickerSet (name) {
+    return this.telegram.deleteStickerSet(name)
   }
 
   uploadStickerFile (...args) {
@@ -745,6 +775,30 @@ class RegrafContext {
 
   getMyCommands (...args) {
     return this.telegram.getMyCommands(...args)
+  }
+
+  setMyName (...args) {
+    return this.telegram.setMyName(...args)
+  }
+
+  getMyName (...args) {
+    return this.telegram.getMyName(...args)
+  }
+
+  setMyDescription (...args) {
+    return this.telegram.setMyDescription(...args)
+  }
+
+  getMyDescription (...args) {
+    return this.telegram.getMyDescription(...args)
+  }
+
+  setMyShortDescription (...args) {
+    return this.telegram.setMyShortDescription(...args)
+  }
+
+  getMyShortDescription (...args) {
+    return this.telegram.getMyShortDescription(...args)
   }
 
   setMyCommands (...args) {
