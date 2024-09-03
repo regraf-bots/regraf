@@ -891,6 +891,7 @@ type CommonMessageBundle = TT.Message.AnimationMessage
   & TT.Message.VideoMessage
   & TT.Message.VideoNoteMessage
   & TT.Message.VoiceMessage
+  & TT.Message.StoryMessage
 
 export type Message = ServiceMessageBundle & CommonMessageBundle
 

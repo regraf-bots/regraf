@@ -190,6 +190,10 @@ class RegrafContext {
     return this.message && this.message.chat_shared
   }
 
+  get story () {
+    return this.message && this.message.story
+  }
+
   get state () {
     if (!this.contextState) {
       this.contextState = {}
