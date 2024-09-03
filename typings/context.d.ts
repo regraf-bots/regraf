@@ -36,6 +36,8 @@ export declare class RegrafContext {
   usersShared?: tt.UsersShared
   chatShared?: tt.ChatShared
   story?: tt.Story
+  chatMember?: tt.ChatMemberUpdated
+  myChatMember?: tt.ChatMemberUpdated
 
   constructor(
     update: tt.Update,
