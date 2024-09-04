@@ -354,6 +354,15 @@ export interface ExtraPromoteChatMember {
 
   /** Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him) */
   can_promote_members?: boolean
+
+  /** True, if the administrator can post stories to the chat */
+  can_post_stories?: boolean
+
+  /** True, if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive */
+  can_edit_stories?: boolean
+
+  /** True, if the administrator can delete stories posted by other users */
+  can_delete_stories?: boolean
 }
 
 export type ReplyMarkupBundle = TT.ReplyKeyboardMarkup | TT.ReplyKeyboardRemove | TT.ForceReply
