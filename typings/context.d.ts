@@ -38,6 +38,14 @@ export declare class RegrafContext {
   story?: tt.Story
   chatMember?: tt.ChatMemberUpdated
   myChatMember?: tt.ChatMemberUpdated
+  messageReaction?: tt.MessageReactionUpdated
+  messageReactionCount?: tt.MessageReactionCountUpdated
+  chatBoost?: tt.ChatBoostUpdated
+  chatBoostRemoved?: tt.ChatBoostRemoved
+  giveaway?: tt.Giveaway
+  giveawayCreated?: tt.GiveawayCreated
+  giveawayWinners?: tt.GiveawayWinners
+  giveawayCompleted?: tt.GiveawayCompleted
 
   constructor(
     update: tt.Update,
@@ -401,6 +409,19 @@ export declare class RegrafContext {
   replyWithChatAction(action: tt.ChatAction): Promise<boolean>
 
   /**
+   * Use this method to change the chosen reactions on a message. Service messages can't be reacted to.
+   * Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel.
+   * Bots can't use paid reactions.
+   * @param reaction A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message.
+   * A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators. Paid reactions can't be used by bots.
+   * @param isBig Pass True to set the reaction with a big animation
+   */
+  setMessageReaction(
+    reaction?: tt.ReactionType,
+    isBig?: boolean
+  ): Promise<boolean>
+
+  /**
    * Use this method to send general files. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
    * @param document File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data
    * @param extra Additional params for send document
@@ -637,6 +658,21 @@ export declare class RegrafContext {
     extra?: tt.ExtraCopyMessage
   ): Promise<tt.MessageId>
 
+  /**
+   * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped.
+   * Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied.
+   * A quiz poll can be copied only if the value of the field correct_option_id is known to the bot.
+   * The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param messageIds A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
+   * @param extra Extra params for copyMessages
+   * @returns On success, an array of MessageId of the sent messages is returned.
+   */
+  copyMessages(
+    chatId: number | string,
+    messageIds: number[],
+    extra?: tt.ExtraCopyMessage
+  ): Promise<tt.MessageId[]>
   // ------------------------------------------------------------------------------------------ //
   // ------------------------------------------------------------------------------------------ //
   // ------------------------------------------------------------------------------------------ //
@@ -658,6 +694,12 @@ export declare class RegrafContext {
     showAlert?: boolean,
     extra?: object
   ): Promise<boolean>
+
+  /**
+   * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat.
+   * @returns Returns a UserChatBoosts object.
+   */
+  getUserChatBoosts(): Promise<tt.UserChatBoosts>;
 
   /**
    * Use this method to send answers to game query.
@@ -854,6 +896,13 @@ export declare class RegrafContext {
   deleteMessage(messageId?: number): Promise<boolean>
 
   /**
+   * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped.
+   * @param messageIds A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
+   * @returns Returns True on success.
+   */
+  deleteMessages(messageIds?: number[]): Promise<boolean>
+
+  /**
    * Use this method to forward exists message.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param extra Pass `{ disable_notification: true }`, if it is not necessary to send a notification for forwarded message
@@ -863,6 +912,20 @@ export declare class RegrafContext {
     chatId: number | string,
     extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
   ): Promise<tt.Message>
+
+  /**
+   * Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped.
+   * Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param messageIds A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
+   * @param extra Additional params for forward messages
+   * @returns On success, an array of MessageId of the sent messages is returned.
+   */
+  forwardMessages(
+    chatId: number | string,
+    messageIds?: (string | number)[],
+    extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
+  ): Promise<tt.MessageId[]>
 
   /**
    * Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times)

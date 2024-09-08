@@ -37,7 +37,11 @@ export type UpdateType =
   'poll_answer' |
   'my_chat_member' |
   'chat_member' |
-  'chat_join_request'
+  'chat_join_request' |
+  'message_reaction' |
+  'message_reaction_count' |
+  'chat_boost' |
+  'removed_chat_boost'
 
 export type MessageSubTypes =
   'voice' |
@@ -80,7 +84,11 @@ export type MessageSubTypes =
   'forum_topic_closed' |
   'forum_topic_reopened' |
   'users_shared' |
-  'chat_shared'
+  'chat_shared' |
+  'giveaway' |
+  'giveaway_created' |
+  'giveaway_winners' |
+  'giveaway_completed'
 
 export type InputMediaTypes =
   'photo'
@@ -418,9 +426,9 @@ export interface ExtraCaption extends ExtraCaptionFormatting {
 
 export interface ExtraDisableWebPagePreview {
   /**
-   * Disables link previews for links in this message
+   * Link preview generation options for the message
    */
-  disable_web_page_preview?: boolean
+  link_preview_options?: TT.LinkPreviewOptions
 }
 
 export interface ExtraDisableNotifications {
@@ -430,16 +438,52 @@ export interface ExtraDisableNotifications {
   disable_notification?: boolean
 }
 
-export interface ExtraReplyMessage {
+export interface ReplyParameters {
   /**
-   * If the message is a reply, ID of the original message
+   * Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
    */
-  reply_to_message_id?: number
+  message_id: number
 
   /**
-   * Pass True, if the message should be sent even if the specified replied-to message is not found
+   * If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername).
+   * Not supported for messages sent on behalf of a business account.
+   */
+  chat_id?: number | string
+
+  /**
+   * Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic.
+   * Always True for messages sent on behalf of a business account.
    */
   allow_sending_without_reply?: boolean
+
+  /**
+   * Quoted part of the message to be replied to; 0-1024 characters after entities parsing.
+   * The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, and custom_emoji entities.
+   * The message will fail to send if the quote isn't found in the original message.
+   */
+  quote?: string
+
+  /**
+   * Mode for parsing entities in the quote. See formatting options for more details.
+   */
+  quote_parse_mode?: ParseMode
+
+  /**
+   * A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
+   */
+  quote_entities?: TT.MessageEntity[]
+
+  /**
+   * Position of the quote in the original message in UTF-16 code units
+   */
+  quote_position?: number
+}
+
+export interface ExtraReplyMessage {
+  /**
+   * Description of the message to reply to
+   */
+  reply_parameters?: ReplyParameters
 }
 
 export interface ExtraProtectContent {

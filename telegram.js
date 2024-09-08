@@ -75,8 +75,21 @@ class Telegram extends ApiClient {
     })
   }
 
+  forwardMessages (chatId, fromChatId, messageIds, extra) {
+    return this.callApi('forwardMessages', {
+      chat_id: chatId,
+      from_chat_id: fromChatId,
+      message_ids: messageIds,
+      ...extra
+    })
+  }
+
   sendChatAction (chatId, action, messageThreadId = undefined) {
     return this.callApi('sendChatAction', { chat_id: chatId, action, message_thread_id: messageThreadId })
+  }
+
+  setMessageReaction (chatId, messageId, reaction, isBig) {
+    return this.callApi('setMessageReaction', { chat_id: chatId, message_id: messageId, reaction, is_big: isBig })
   }
 
   getUserProfilePhotos (userId, offset, limit) {
@@ -267,6 +280,10 @@ class Telegram extends ApiClient {
     })
   }
 
+  getUserChatBoosts (chatId, userId) {
+    return this.callApi('getUserChatBoosts', { chat_id: chatId, user_id: userId })
+  }
+
   answerGameQuery (callbackQueryId, url) {
     return this.callApi('answerCallbackQuery', {
       url,
@@ -361,6 +378,13 @@ class Telegram extends ApiClient {
     return this.callApi('deleteMessage', {
       chat_id: chatId,
       message_id: messageId
+    })
+  }
+
+  deleteMessages (chatId, messageIds) {
+    return this.callApi('deleteMessages', {
+      chat_id: chatId,
+      message_ids: messageIds
     })
   }
 
@@ -572,6 +596,15 @@ class Telegram extends ApiClient {
       chat_id: chatId,
       from_chat_id: fromChatId,
       message_id: messageId,
+      ...extra
+    })
+  }
+
+  copyMessages (chatId, fromChatId, messageIds, extra) {
+    return this.callApi('copyMessages', {
+      chat_id: chatId,
+      from_chat_id: fromChatId,
+      message_ids: messageIds,
       ...extra
     })
   }

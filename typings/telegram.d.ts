@@ -153,7 +153,7 @@ export declare class Telegram extends ApiClient {
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param fromChatId Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
    * @param messageId Message identifier in the chat specified in from_chat_id
-   * @param extra Pass `{ disable_notification: true }`, if it is not necessary to send a notification for forwarded message
+   * @param extra Extra params for forward message
    * @returns On success, the sent Message is returned.
    */
   forwardMessage(
@@ -162,6 +162,22 @@ export declare class Telegram extends ApiClient {
     messageId: string | number,
     extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
   ): Promise<tt.Message>
+
+  /**
+   * Use this method to forward multiple messages of any kind. If some of the specified messages can't be found or forwarded, they are skipped.
+   * Service messages and messages with protected content can't be forwarded. Album grouping is kept for forwarded messages.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param fromChatId Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
+   * @param messageIds A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
+   * @param extra Additional params for forward messages
+   * @returns On success, an array of MessageId of the sent messages is returned.
+   */
+  forwardMessages(
+    chatId: number | string,
+    fromChatId: number | string,
+    messageIds: (string | number)[],
+    extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
+  ): Promise<tt.MessageId[]>
 
   /**
    * Use this method when you need to tell the user that something is happening on the bot's side.
@@ -183,6 +199,23 @@ export declare class Telegram extends ApiClient {
     chatId: number | string,
     action: tt.ChatAction,
     messageThreadId?: number
+  ): Promise<boolean>
+
+  /**
+   * Use this method to change the chosen reactions on a message. Service messages can't be reacted to.
+   * Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel.
+   * Bots can't use paid reactions.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param messageId Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.
+   * @param reaction A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message.
+   * A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators. Paid reactions can't be used by bots.
+   * @param isBig Pass True to set the reaction with a big animation
+   */
+  setMessageReaction(
+    chatId: number | string,
+    messageId: number,
+    reaction?: tt.ReactionType[],
+    isBig?: boolean
   ): Promise<boolean>
 
   /**
@@ -701,6 +734,14 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
+   * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat.
+   * @param chatId Unique identifier for the chat or username of the channel (in the format @channelusername)
+   * @param userId Unique identifier of the target user
+   * @returns Returns a UserChatBoosts object.
+   */
+  getUserChatBoosts(chatId: number | string, userId: number): Promise<tt.UserChatBoosts>;
+
+  /**
    * Use this method to send answers to game query.
    * @param callbackQueryId Query id
    * @param url Notification text
@@ -852,6 +893,14 @@ export declare class Telegram extends ApiClient {
    * @returns Returns True on success.
    */
   deleteMessage(chatId: number | string, messageId: number): Promise<boolean>
+
+  /**
+   * Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param messageIds A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
+   * @returns Returns True on success.
+   */
+  deleteMessages(chatId: number | string, messageIds: number[]): Promise<boolean>
 
   /**
    * Use this method to set a new group sticker set for a supergroup.
@@ -1243,6 +1292,24 @@ export declare class Telegram extends ApiClient {
     messageId: number,
     extra?: tt.ExtraCopyMessage
   ): Promise<tt.MessageId>
+
+  /**
+   * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped.
+   * Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied.
+   * A quiz poll can be copied only if the value of the field correct_option_id is known to the bot.
+   * The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param fromChatId Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
+   * @param messageIds A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
+   * @param extra Extra params for copyMessages
+   * @returns On success, an array of MessageId of the sent messages is returned.
+   */
+  copyMessages(
+    chatId: number | string,
+    fromChatId: number | string,
+    messageIds: number[],
+    extra?: tt.ExtraCopyMessage
+  ): Promise<tt.MessageId[]>
 
   /**
    * Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.

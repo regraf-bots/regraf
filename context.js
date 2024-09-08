@@ -142,6 +142,14 @@ class RegrafContext {
     return this.update.chat_member
   }
 
+  get messageReaction () {
+    return this.update.message_reaction
+  }
+
+  get messageReactionCount () {
+    return this.update.message_reaction_count
+  }
+
   get chat () {
     return (this.message && this.message.chat) ||
       (this.editedMessage && this.editedMessage.chat) ||
@@ -194,6 +202,30 @@ class RegrafContext {
     return this.message && this.message.story
   }
 
+  get chatBoost () {
+    return this.update.chat_boost
+  }
+
+  get chatBoostRemoved () {
+    return this.update.removed_chat_boost
+  }
+
+  get giveaway () {
+    return this.message && this.message.giveaway
+  }
+
+  get giveawayCreated () {
+    return this.message && this.message.giveaway_created
+  }
+
+  get giveawayWinners () {
+    return this.message && this.message.giveaway_winners
+  }
+
+  get giveawayCompleted () {
+    return this.message && this.message.giveaway_completed
+  }
+
   get state () {
     if (!this.contextState) {
       this.contextState = {}
@@ -227,6 +259,12 @@ class RegrafContext {
   answerCbQuery (...args) {
     this.assert(this.callbackQuery, 'answerCbQuery')
     return this.telegram.answerCbQuery(this.callbackQuery.id, ...args)
+  }
+
+  getUserChatBoosts () {
+    this.assert(this.chat, 'getUserChatBoosts')
+    this.assert(this.from, 'getUserChatBoosts')
+    return this.telegram.getUserChatBoosts(this.chat.id, this.from.id)
   }
 
   answerGameQuery (...args) {
@@ -609,6 +647,12 @@ class RegrafContext {
     return this.telegram.sendChatAction(this.chat.id, action, this.message?.message_thread_id)
   }
 
+  setMessageReaction (reaction, isBig) {
+    this.assert(this.chat, 'setMessageReaction')
+    this.assert(this.message, 'setMessageReaction')
+    return this.telegram.setMessageReaction(this.chat.id, this.message.message_id, reaction, isBig)
+  }
+
   replyWithLocation (latitude, longitude, extra = {}) {
     this.assert(this.chat, 'replyWithLocation')
     if (this.message?.message_thread_id) {
@@ -839,6 +883,20 @@ class RegrafContext {
     return this.telegram.deleteMessage(this.chat.id, message.message_id)
   }
 
+  deleteMessages (messageIds) {
+    this.assert(this.chat, 'deleteMessage')
+    if (typeof messageIds !== 'undefined') {
+      return this.telegram.deleteMessages(this.chat.id, messageIds)
+    }
+    const message = this.message ||
+      this.editedMessage ||
+      this.channelPost ||
+      this.editedChannelPost ||
+      (this.callbackQuery && this.callbackQuery.message)
+    this.assert(message, 'deleteMessage')
+    return this.telegram.deleteMessages(this.chat.id, [message.message_id])
+  }
+
   forwardMessage (chatId, extra) {
     this.assert(this.chat, 'forwardMessage')
     const message = this.message ||
@@ -850,6 +908,20 @@ class RegrafContext {
     return this.telegram.forwardMessage(chatId, this.chat.id, message.message_id, extra)
   }
 
+  forwardMessages (chatId, messageIds, extra) {
+    this.assert(this.chat, 'forwardMessage')
+    if (typeof messageIds !== 'undefined') {
+      return this.telegram.forwardMessages(chatId, this.chat.id, messageIds, extra)
+    }
+    const message = this.message ||
+      this.editedMessage ||
+      this.channelPost ||
+      this.editedChannelPost ||
+      (this.callbackQuery && this.callbackQuery.message)
+    this.assert(message, 'forwardMessage')
+    return this.telegram.forwardMessages(chatId, this.chat.id, [message.message_id], extra)
+  }
+
   copyMessage (chatId, extra) {
     const message = this.message ||
       this.editedMessage ||
@@ -858,6 +930,20 @@ class RegrafContext {
       (this.callbackQuery && this.callbackQuery.message)
     this.assert(message, 'copyMessage')
     return this.telegram.copyMessage(chatId, message.chat.id, message.message_id, extra)
+  }
+
+  copyMessages (chatId, messageIds, extra) {
+    this.assert(this.chat, 'copyMessages')
+    if (typeof messageIds !== 'undefined') {
+      return this.telegram.copyMessages(chatId, this.chat.id, messageIds, extra)
+    }
+    const message = this.message ||
+      this.editedMessage ||
+      this.channelPost ||
+      this.editedChannelPost ||
+      (this.callbackQuery && this.callbackQuery.message)
+    this.assert(message, 'copyMessages')
+    return this.telegram.copyMessages(chatId, this.chat.id, [message.message_id], extra)
   }
 
   createChatInviteLink (...args) {
