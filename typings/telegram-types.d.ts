@@ -89,7 +89,8 @@ export type MessageSubTypes =
   'giveaway_created' |
   'giveaway_winners' |
   'giveaway_completed' |
-  'story'
+  'story' |
+  'boost_added'
 
 export type InputMediaTypes =
   'photo'

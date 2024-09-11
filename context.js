@@ -226,6 +226,10 @@ class RegrafContext {
     return this.message && this.message.giveaway_completed
   }
 
+  get boostAdded () {
+    return this.message && this.message.boost_added
+  }
+
   get state () {
     if (!this.contextState) {
       this.contextState = {}

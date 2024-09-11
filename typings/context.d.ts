@@ -46,6 +46,7 @@ export declare class RegrafContext {
   giveawayCreated?: tt.GiveawayCreated
   giveawayWinners?: tt.GiveawayWinners
   giveawayCompleted?: tt.GiveawayCompleted
+  boostAdded?: tt.ChatBoostAdded
 
   constructor(
     update: tt.Update,
