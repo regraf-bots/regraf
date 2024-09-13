@@ -64,8 +64,17 @@ const MessageSubTypesMapping = {
   forward_date: 'forward'
 }
 
-class RegrafContext {
+let TelegrafContext
+
+try {
+  TelegrafContext = require('telegraf').Context
+} catch (e) {
+  TelegrafContext = class {}
+}
+
+class RegrafContext extends TelegrafContext {
   constructor (update, telegram, options) {
+    super(update, telegram, options)
     this.tg = telegram
     this.update = update
     this.options = options
@@ -157,6 +166,10 @@ class RegrafContext {
       (this.channelPost && this.channelPost.chat) ||
       (this.editedChannelPost && this.editedChannelPost.chat) ||
       (this.myChatMember && this.myChatMember.chat) ||
+      (this.chatMember && this.chatMember.chat) ||
+      (this.messageReaction && this.messageReaction.chat) ||
+      (this.messageReactionCount && this.messageReactionCount.chat) ||
+      (this.chatJoinRequest && this.chatJoinRequest.chat) ||
       (this.chatMember && this.chatMember.chat)
   }
 
@@ -171,7 +184,8 @@ class RegrafContext {
       (this.preCheckoutQuery && this.preCheckoutQuery.from) ||
       (this.chosenInlineResult && this.chosenInlineResult.from) ||
       (this.myChatMember && this.myChatMember.from) ||
-      (this.chatMember && this.chatMember.from)
+      (this.chatMember && this.chatMember.from) ||
+      (this.messageReaction && this.messageReaction.user)
   }
 
   get senderChat () {
