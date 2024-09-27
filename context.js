@@ -12,7 +12,9 @@ const UpdateTypes = [
   'poll_answer',
   'my_chat_member',
   'chat_member',
-  'chat_join_request'
+  'chat_join_request',
+  'message_reaction_count',
+  'message_reaction'
 ]
 
 const MessageSubTypes = [
@@ -417,7 +419,7 @@ class RegrafContext extends TelegrafContext {
     const extra = this.options.parseMode
       ? { parse_mode: this.options.parseMode }
       : { ...args }
-    if (this.message?.message_thread_id) {
+    if (this.message?.message_thread_id && !extra.reply_to_message_id) {
       extra.reply_to_message_id = this.message.message_thread_id
     }
     return this.telegram.sendMessage(this.chat.id, text, extra)
