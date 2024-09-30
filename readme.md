@@ -1,4 +1,4 @@
-[![Bot API Version](https://img.shields.io/badge/Bot%20API-v6.0-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
+[![Bot API Version](https://img.shields.io/badge/Bot%20API-v7.1-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
 [![NPM Version](https://img.shields.io/npm/v/regraf.svg?style=flat-square)](https://www.npmjs.com/package/regraf)
 [![node](https://img.shields.io/node/v/regraf.svg?style=flat-square)](https://www.npmjs.com/package/regraf)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
