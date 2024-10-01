@@ -63,7 +63,7 @@ class Telegram extends ApiClient {
   }
 
   sendMessage (chatId, text, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendMessage', { chat_id: chatId, text, ...extra })
@@ -100,14 +100,14 @@ class Telegram extends ApiClient {
   }
 
   sendLocation (chatId, latitude, longitude, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendLocation', { chat_id: chatId, latitude, longitude, ...extra })
   }
 
   sendVenue (chatId, latitude, longitude, title, address, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendVenue', {
@@ -121,105 +121,105 @@ class Telegram extends ApiClient {
   }
 
   sendInvoice (chatId, invoice, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendInvoice', { chat_id: chatId, ...invoice, ...extra })
   }
 
   sendContact (chatId, phoneNumber, firstName, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendContact', { chat_id: chatId, phone_number: phoneNumber, first_name: firstName, ...extra })
   }
 
   sendPhoto (chatId, photo, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendPhoto', { chat_id: chatId, photo, ...extra })
   }
 
   sendDice (chatId, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendDice', { chat_id: chatId, ...extra })
   }
 
   sendDocument (chatId, document, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendDocument', { chat_id: chatId, document, ...extra })
   }
 
   sendAudio (chatId, audio, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendAudio', { chat_id: chatId, audio, ...extra })
   }
 
   sendSticker (chatId, sticker, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendSticker', { chat_id: chatId, sticker, ...extra })
   }
 
   sendVideo (chatId, video, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendVideo', { chat_id: chatId, video, ...extra })
   }
 
   sendAnimation (chatId, animation, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendAnimation', { chat_id: chatId, animation, ...extra })
   }
 
   sendVideoNote (chatId, videoNote, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendVideoNote', { chat_id: chatId, video_note: videoNote, ...extra })
   }
 
   sendVoice (chatId, voice, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendVoice', { chat_id: chatId, voice, ...extra })
   }
 
   sendGame (chatId, gameName, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendGame', { chat_id: chatId, game_short_name: gameName, ...extra })
   }
 
   sendMediaGroup (chatId, media, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendMediaGroup', { chat_id: chatId, media, ...extra })
   }
 
   sendPoll (chatId, question, options, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendPoll', { chat_id: chatId, type: 'regular', question, options, ...extra })
   }
 
   sendQuiz (chatId, question, options, extra) {
-    if (extra?.reply_parameters?.message_id == null) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
     }
     return this.callApi('sendPoll', { chat_id: chatId, type: 'quiz', question, options, ...extra })
