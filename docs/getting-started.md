@@ -33,11 +33,14 @@ bot.on('text', (ctx) => ctx.reply('Hello World'))
 bot.launch()
 ```
 
+### Fully ported to Regraf
+
+- [Local powered session (via lowdb)](https://github.com/regraf-bots/session-local)
+
 ### Known middleware
 
 - [Internationalization](https://github.com/telegraf/telegraf-i18n)
 - [Redis powered session](https://github.com/telegraf/telegraf-session-redis)
-- [Local powered session (via lowdb)](https://github.com/RealSpeaker/telegraf-session-local)
 - [Rate-limiting](https://github.com/telegraf/telegraf-ratelimit)
 - [Menus via inline keyboards](https://github.com/EdJoPaTo/telegraf-inline-menu)
 - [Natural language processing via wit.ai](https://github.com/telegraf/telegraf-wit)
