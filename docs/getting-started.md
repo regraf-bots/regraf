@@ -33,9 +33,10 @@ bot.on('text', (ctx) => ctx.reply('Hello World'))
 bot.launch()
 ```
 
-### Fully ported to Regraf
+### Fully supported by Regraf
 
 - [Local powered session (via lowdb)](https://github.com/regraf-bots/session-local)
+- [Pagination](https://github.com/mcpeblocker/telegraf-pagination)
 
 ### Known middleware
 
