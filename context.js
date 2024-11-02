@@ -187,7 +187,8 @@ class RegrafContext extends TelegrafContext {
       (this.chosenInlineResult && this.chosenInlineResult.from) ||
       (this.myChatMember && this.myChatMember.from) ||
       (this.chatMember && this.chatMember.from) ||
-      (this.messageReaction && this.messageReaction.user)
+      (this.messageReaction && this.messageReaction.user) ||
+      (this.chatJoinRequest && this.chatJoinRequest.from)
   }
 
   get senderChat () {
@@ -981,14 +982,16 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.revokeChatInviteLink(this.chat.id, ...args)
   }
 
-  approveChatJoinRequest (...args) {
+  approveChatJoinRequest () {
     this.assert(this.chat, 'approveChatJoinRequest')
-    return this.telegram.approveChatJoinRequest(this.chat.id, ...args)
+    this.assert(this.from, 'approveChatJoinRequest')
+    return this.telegram.approveChatJoinRequest(this.chat.id, this.from.id)
   }
 
-  declineChatJoinRequest (...args) {
+  declineChatJoinRequest () {
     this.assert(this.chat, 'declineChatJoinRequest')
-    return this.telegram.declineChatJoinRequest(this.chat.id, ...args)
+    this.assert(this.from, 'declineChatJoinRequest')
+    return this.telegram.declineChatJoinRequest(this.chat.id, this.from.id)
   }
 
   setChatMenuButton (...args) {
