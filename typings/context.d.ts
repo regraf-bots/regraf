@@ -418,7 +418,7 @@ export declare class RegrafContext {
    * @param isBig Pass True to set the reaction with a big animation
    */
   setMessageReaction(
-    reaction?: tt.ReactionType,
+    reaction?: tt.ReactionType[],
     isBig?: boolean
   ): Promise<boolean>
 
