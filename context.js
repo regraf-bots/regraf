@@ -75,6 +75,14 @@ try {
 }
 
 class RegrafContext extends TelegrafContext {
+  static get UpdateTypes () {
+    return UpdateTypes
+  }
+
+  static get MessageSubTypes () {
+    return MessageSubTypes
+  }
+
   constructor (update, telegram, options) {
     super(update, telegram, options)
     this.tg = telegram

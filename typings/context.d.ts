@@ -6,6 +6,9 @@ import { Telegram } from './telegram'
 import { BotDescription, BotName, BotShortDescription } from '@grammyjs/types'
 
 export declare class RegrafContext {
+  static get UpdateTypes (): tt.UpdateType[];
+  static get MessageSubTypes (): tt.MessageSubTypes[];
+
   tg: Telegram
   update: tt.Update
   updateType: tt.UpdateType
