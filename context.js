@@ -56,6 +56,7 @@ const MessageSubTypes = [
   'video_chat_scheduled',
   'web_app_data',
   'forum_topic_created',
+  'forum_topic_edited',
   'forum_topic_closed',
   'forum_topic_reopened',
   'users_shared',

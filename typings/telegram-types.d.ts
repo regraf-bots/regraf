@@ -81,6 +81,7 @@ export type MessageSubTypes =
   'voice_chat_participants_invited' |
   'voice_chat_scheduled' |
   'forum_topic_created' |
+  'forum_topic_edited' |
   'forum_topic_closed' |
   'forum_topic_reopened' |
   'users_shared' |
@@ -927,6 +928,7 @@ type ServiceMessageBundle = TT.Message.ChannelChatCreatedMessage
   & TT.Message.VideoChatParticipantsInvitedMessage
   & TT.Message.WebAppDataMessage
   & TT.Message.ForumTopicCreatedMessage
+  & TT.Message.ForumTopicEditedMessage
   & TT.Message.ForumTopicClosedMessage
   & TT.Message.ForumTopicReopenedMessage
   & TT.Message.WriteAccessAllowedMessage
