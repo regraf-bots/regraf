@@ -59,7 +59,13 @@ const MessageSubTypes = [
   'forum_topic_closed',
   'forum_topic_reopened',
   'users_shared',
-  'chat_shared'
+  'chat_shared',
+  'giveaway',
+  'giveaway_created',
+  'giveaway_winners',
+  'giveaway_completed',
+  'story',
+  'boost_added'
 ]
 
 const MessageSubTypesMapping = {
