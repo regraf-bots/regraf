@@ -9,28 +9,33 @@ export interface SceneContextOptions {
   ttl?: number
 }
 
-export interface SceneContext<TContext extends SceneContextMessageUpdate> {
+export interface SceneSession<State = object> {
+  state?: State
+  current?: string
+  expires?: number
+}
+
+export interface SceneContext<
+  TContext extends SceneContextMessageUpdate<any>,
+  State = object
+> {
   ctx: TContext
 
-  scenes: Map<string, Scene<TContext>>
+  scenes: Map<string, Scene<TContext, State>>
 
   options: SceneContextOptions
 
-  readonly session: {
-    state?: object
-    current?: string
-    expires?: number
-  }
+  readonly session: SceneSession<State>
 
-  state: object
+  state: State
 
-  readonly current: BaseScene<TContext> | null
+  readonly current: BaseScene<TContext, State> | null
 
   reset: () => void
 
   enter: (
     sceneId: string,
-    initialState?: object,
+    initialState?: Partial<State>,
     silent?: boolean
   ) => Promise<any>
 
@@ -39,10 +44,16 @@ export interface SceneContext<TContext extends SceneContextMessageUpdate> {
   leave: () => Promise<any>
 }
 
-export interface SceneContextMessageUpdate extends RegrafContext {
-  scene: SceneContext<this>
+export interface SceneContextMessageUpdate<
+  State = object
+> extends RegrafContext {
+  scene: SceneContext<this, State>
 }
-export interface BaseSceneOptions<TContext extends SceneContextMessageUpdate> {
+
+export interface BaseSceneOptions<
+  TContext extends SceneContextMessageUpdate<any>,
+  State = object
+> {
   handlers: Middleware<TContext>[]
   enterHandlers: Middleware<TContext>[]
   leaveHandlers: Middleware<TContext>[]
@@ -50,13 +61,14 @@ export interface BaseSceneOptions<TContext extends SceneContextMessageUpdate> {
 }
 
 export class BaseScene<
-  TContext extends SceneContextMessageUpdate
+  TContext extends SceneContextMessageUpdate<any>,
+  State = object
 > extends Composer<TContext> {
-  constructor(id: string, options?: Partial<BaseSceneOptions<TContext>>)
+  constructor(id: string, options?: Partial<BaseSceneOptions<TContext, State>>)
 
   id: string
 
-  options: BaseSceneOptions<TContext>
+  options: BaseSceneOptions<TContext, State>
 
   enterHandler: Middleware<TContext>
 
@@ -73,28 +85,30 @@ export class BaseScene<
   leaveMiddleware: () => Middleware<TContext>
 }
 
-export type Scene<TContext extends SceneContextMessageUpdate> = BaseScene<
-  TContext
->
+export type Scene<
+  TContext extends SceneContextMessageUpdate<any>,
+  State = object
+> = BaseScene<TContext, State>
 
 export type StageOptions = SceneContextOptions
 
-export class Stage<TContext extends SceneContextMessageUpdate> extends Composer<
-  TContext
-> {
-  constructor(scenes: Scene<TContext>[], options?: Partial<StageOptions>)
+export class Stage<
+  TContext extends SceneContextMessageUpdate<any>,
+  State = object
+> extends Composer<TContext> {
+  constructor(scenes: Scene<TContext, State>[], options?: Partial<StageOptions>)
 
-  register: (...scenes: Scene<TContext>[]) => this
+  register: (...scenes: Scene<TContext, State>[]) => this
 
   middleware: () => MiddlewareFn<TContext>
 
-  static enter: (
+  static enter: <S = object>(
     sceneId: string,
-    initialState?: object,
+    initialState?: Partial<S>,
     silent?: boolean
-  ) => Middleware<SceneContextMessageUpdate>
+  ) => Middleware<SceneContextMessageUpdate<S>>
 
-  static reenter: () => Middleware<SceneContextMessageUpdate>
+  static reenter: <S = object>() => Middleware<SceneContextMessageUpdate<S>>
 
-  static leave: () => Middleware<SceneContextMessageUpdate>
+  static leave: <S = object>() => Middleware<SceneContextMessageUpdate<S>>
 }
