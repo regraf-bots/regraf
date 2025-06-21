@@ -33,9 +33,9 @@ export interface SceneContext<
 
   reset: () => void
 
-  enter: (
+  enter: <TNewState = object>(
     sceneId: string,
-    initialState?: Partial<State>,
+    initialState?: TNewState,
     silent?: boolean
   ) => Promise<any>
 
