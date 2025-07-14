@@ -943,7 +943,7 @@ type CommonMessageBundle = TT.Message.AnimationMessage
   & TT.Message.PhotoMessage
   & TT.Message.PollMessage
   & TT.Message.StickerMessage
-  & TT.Message.TextMessage
+  & (TT.Message.TextMessage & { entities?: TT.MessageEntity[]} )
   & TT.Message.VenueMessage
   & TT.Message.VideoMessage
   & TT.Message.VideoNoteMessage
