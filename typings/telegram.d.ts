@@ -5,6 +5,7 @@ import * as tt from './telegram-types.d'
 import * as https from 'https'
 import * as http from 'http'
 import { BotDescription, BotName, BotShortDescription } from '@grammyjs/types'
+import { ExtraSendChatAction } from './telegram-types.d'
 
 export interface TelegramOptions {
   /**
@@ -121,19 +122,14 @@ export declare class Telegram extends ApiClient {
    * @param extra Additional params to set webhook
    * @returns True on success
    */
-  setWebhook(
-    url: string,
-    extra?: tt.ExtraSetWebhook
-  ): Promise<boolean>
+  setWebhook(url: string, extra?: tt.ExtraSetWebhook): Promise<boolean>
 
   /**
    * Use this method to delete webhook
    * @param extra Additional params to delete webhook
    * @returns True on success
    */
-  deleteWebhook(
-    extra?: tt.ExtraDeleteWebhook
-  ): Promise<boolean>
+  deleteWebhook(extra?: tt.ExtraDeleteWebhook): Promise<boolean>
 
   /**
    * Use this method to send text messages
@@ -160,7 +156,7 @@ export declare class Telegram extends ApiClient {
     chatId: number | string,
     fromChatId: number | string,
     messageId: string | number,
-    extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
+    extra?: tt.ExtraForwardMessage
   ): Promise<tt.Message>
 
   /**
@@ -176,7 +172,7 @@ export declare class Telegram extends ApiClient {
     chatId: number | string,
     fromChatId: number | string,
     messageIds: (string | number)[],
-    extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
+    extra?: tt.ExtraForwardMessage
   ): Promise<tt.MessageId[]>
 
   /**
@@ -192,13 +188,13 @@ export declare class Telegram extends ApiClient {
    * - record_video_note or upload_video_note for video notes.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param action Type of action to broadcast.
-   * @param messageThreadId Unique identifier for the target message thread; for supergroups only
+   * @param extra Extra parameters of request
    * @returns True on success
    */
   sendChatAction(
     chatId: number | string,
     action: tt.ChatAction,
-    messageThreadId?: number
+    extra?: tt.ExtraSendChatAction
   ): Promise<boolean>
 
   /**
@@ -433,7 +429,12 @@ export declare class Telegram extends ApiClient {
    */
   sendMediaGroup(
     chatId: number | string,
-    media: (tt.InputMediaAudio | tt.InputMediaDocument | tt.InputMediaPhoto | tt.InputMediaVideo)[],
+    media: (
+      | tt.InputMediaAudio
+      | tt.InputMediaDocument
+      | tt.InputMediaPhoto
+      | tt.InputMediaVideo
+    )[],
     extra?: tt.ExtraMediaGroup
   ): Promise<Array<tt.Message>>
 
@@ -514,7 +515,7 @@ export declare class Telegram extends ApiClient {
    * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
    * @returns Number on success
    */
-   getChatMemberCount(chatId: string | number): Promise<number>
+  getChatMemberCount(chatId: string | number): Promise<number>
 
   /**
    * Use this method to send answers to an inline query. On success, True is returned.
@@ -552,7 +553,7 @@ export declare class Telegram extends ApiClient {
    * @param extra Extra params
    * @returns True on success
    */
-   banChatMember(
+  banChatMember(
     chatId: number | string,
     userId: number,
     extra?: tt.ExtraBan
@@ -618,7 +619,7 @@ export declare class Telegram extends ApiClient {
    */
   banChatSenderChat(
     chatId: string | number,
-    senderChatId: number,
+    senderChatId: number
   ): Promise<boolean>
 
   /**
@@ -629,7 +630,7 @@ export declare class Telegram extends ApiClient {
    */
   unbanChatSenderChat(
     chatId: string | number,
-    senderChatId: number,
+    senderChatId: number
   ): Promise<boolean>
 
   /**
@@ -668,7 +669,10 @@ export declare class Telegram extends ApiClient {
    * @param description New chat description, 0-255 characters
    * @returns True on success
    */
-  setChatDescription(chatId: number | string, description: string): Promise<boolean>
+  setChatDescription(
+    chatId: number | string,
+    description: string
+  ): Promise<boolean>
 
   /**
    * Use this method to pin a message in a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights
@@ -689,7 +693,10 @@ export declare class Telegram extends ApiClient {
    * @param extra Extra params
    * @returns True on success
    */
-  unpinChatMessage(chatId: number | string, extra?: tt.ExtraUnpinMessage): Promise<boolean>
+  unpinChatMessage(
+    chatId: number | string,
+    extra?: tt.ExtraUnpinMessage
+  ): Promise<boolean>
 
   /**
    * Use this method to clear the list of pinned messages in a chat
@@ -739,7 +746,10 @@ export declare class Telegram extends ApiClient {
    * @param userId Unique identifier of the target user
    * @returns Returns a UserChatBoosts object.
    */
-  getUserChatBoosts(chatId: number | string, userId: number): Promise<tt.UserChatBoosts>;
+  getUserChatBoosts(
+    chatId: number | string,
+    userId: number
+  ): Promise<tt.UserChatBoosts>
 
   /**
    * Use this method to send answers to game query.
@@ -900,7 +910,10 @@ export declare class Telegram extends ApiClient {
    * @param messageIds A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
    * @returns Returns True on success.
    */
-  deleteMessages(chatId: number | string, messageIds: number[]): Promise<boolean>
+  deleteMessages(
+    chatId: number | string,
+    messageIds: number[]
+  ): Promise<boolean>
 
   /**
    * Use this method to set a new group sticker set for a supergroup.
@@ -910,10 +923,7 @@ export declare class Telegram extends ApiClient {
    * @param setName Name of the sticker set to be set as the group sticker set
    * @returns True on success.
    */
-  setChatStickerSet(
-    chatId: number | string,
-    setName: string
-  ): Promise<boolean>
+  setChatStickerSet(chatId: number | string, setName: string): Promise<boolean>
 
   /**
    * Use this method to delete a group sticker set from a supergroup.
@@ -922,15 +932,13 @@ export declare class Telegram extends ApiClient {
    * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
    * @returns True on success.
    */
-  deleteChatStickerSet(
-    chatId: number | string
-  ): Promise<boolean>
+  deleteChatStickerSet(chatId: number | string): Promise<boolean>
 
   /**
    * Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters.
    * @returns Returns an Array of Sticker objects.
    */
-  getForumTopicIconStickers(): Promise<tt.Sticker[]>;
+  getForumTopicIconStickers(): Promise<tt.Sticker[]>
 
   /**
    * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
@@ -939,7 +947,11 @@ export declare class Telegram extends ApiClient {
    * @param extra Extra params
    * @returns Returns information about the created topic as a ForumTopic object.
    */
-  createForumTopic(chatId: number | string, name: string, extra?: tt.ExtraCreateForumTopic): Promise<tt.ForumTopic>;
+  createForumTopic(
+    chatId: number | string,
+    name: string,
+    extra?: tt.ExtraCreateForumTopic
+  ): Promise<tt.ForumTopic>
 
   /**
    * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
@@ -949,7 +961,12 @@ export declare class Telegram extends ApiClient {
    * @param iconCustomEmojiId New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept
    * @returns Returns True on success.
    */
-  editForumTopic(chatId: number | string, messageThreadId: number, name?: string, iconCustomEmojiId?: string): Promise<boolean>;
+  editForumTopic(
+    chatId: number | string,
+    messageThreadId: number,
+    name?: string,
+    iconCustomEmojiId?: string
+  ): Promise<boolean>
 
   /**
    * Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
@@ -957,7 +974,10 @@ export declare class Telegram extends ApiClient {
    * @param messageThreadId Unique identifier for the target message thread of the forum topic
    * @returns Returns True on success.
    */
-  closeForumTopic(chatId: number | string, messageThreadId: number): Promise<boolean>;
+  closeForumTopic(
+    chatId: number | string,
+    messageThreadId: number
+  ): Promise<boolean>
 
   /**
    * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
@@ -965,7 +985,10 @@ export declare class Telegram extends ApiClient {
    * @param messageThreadId Unique identifier for the target message thread of the forum topic
    * @returns Returns True on success.
    */
-  reopenForumTopic(chatId: number | string, messageThreadId: number): Promise<boolean>;
+  reopenForumTopic(
+    chatId: number | string,
+    messageThreadId: number
+  ): Promise<boolean>
 
   /**
    * Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights.
@@ -973,7 +996,10 @@ export declare class Telegram extends ApiClient {
    * @param messageThreadId Unique identifier for the target message thread of the forum topic
    * @returns Returns True on success.
    */
-  deleteForumTopic(chatId: number | string, messageThreadId: number): Promise<boolean>;
+  deleteForumTopic(
+    chatId: number | string,
+    messageThreadId: number
+  ): Promise<boolean>
 
   /**
    * Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup.
@@ -981,7 +1007,10 @@ export declare class Telegram extends ApiClient {
    * @param messageThreadId Unique identifier for the target message thread of the forum topic
    * @returns Returns True on success.
    */
-  unpinAllForumTopicMessages(chatId: number | string, messageThreadId: number): Promise<boolean>;
+  unpinAllForumTopicMessages(
+    chatId: number | string,
+    messageThreadId: number
+  ): Promise<boolean>
 
   /**
    * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
@@ -989,42 +1018,42 @@ export declare class Telegram extends ApiClient {
    * @param name New topic name, 1-128 characters
    * @returns Returns True on success.
    */
-  editGeneralForumTopic(chatId: number | string, name: string): Promise<boolean>;
+  editGeneralForumTopic(chatId: number | string, name: string): Promise<boolean>
 
   /**
    * Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
    * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
    * @returns Returns True on success.
    */
-  closeGeneralForumTopic(chatId: number | string): Promise<boolean>;
+  closeGeneralForumTopic(chatId: number | string): Promise<boolean>
 
   /**
    * Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically unhidden if it was hidden.
    * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
    * @returns Returns True on success.
    */
-  reopenGeneralForumTopic(chatId: number | string): Promise<boolean>;
+  reopenGeneralForumTopic(chatId: number | string): Promise<boolean>
 
   /**
    * Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open.
    * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
    * @returns Returns True on success.
    */
-  hideGeneralForumTopic(chatId: number | string): Promise<boolean>;
+  hideGeneralForumTopic(chatId: number | string): Promise<boolean>
 
   /**
    * Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
    * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
    * @returns Returns True on success.
    */
-  unhideGeneralForumTopic(chatId: number | string): Promise<boolean>;
+  unhideGeneralForumTopic(chatId: number | string): Promise<boolean>
 
   /**
    * Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup.
    * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
    * @returns Returns True on success.
    */
-  unpinAllGeneralForumTopicMessages(chatId: number | string): Promise<boolean>;
+  unpinAllGeneralForumTopicMessages(chatId: number | string): Promise<boolean>
 
   /**
    * Use this method to get a sticker set
@@ -1050,7 +1079,7 @@ export declare class Telegram extends ApiClient {
   uploadStickerFile(
     ownerId: number,
     sticker: tt.InputFile,
-    stickerFormat: string
+    stickerFormat: tt.StickerFormat
   ): Promise<tt.File>
 
   /**
@@ -1059,7 +1088,6 @@ export declare class Telegram extends ApiClient {
    * @param name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
    * @param title Sticker set title, 1-64 characters
    * @param stickers Sticker object array
-   * @param stickerType Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created.
    * @param needsRepainting Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
    * @returns True on success.
    */
@@ -1068,7 +1096,6 @@ export declare class Telegram extends ApiClient {
     name: string,
     title: string,
     stickers: tt.InputSticker[],
-    stickerType?: tt.StickerFormat,
     needsRepainting?: boolean
   ): Promise<boolean>
 
@@ -1082,7 +1109,7 @@ export declare class Telegram extends ApiClient {
   addStickerToSet(
     ownerId: number,
     name: string,
-    sticker: tt.InputSticker,
+    sticker: tt.InputSticker
   ): Promise<boolean>
 
   /**
@@ -1110,7 +1137,12 @@ export declare class Telegram extends ApiClient {
    *  If exactly the same sticker had already been added to the set, then the set remains unchanged.
    * @returns True on success.
    */
-  replaceStickerInSet(userId: number, name: string, oldSticker: string, sticker: tt.InputSticker): Promise<boolean>
+  replaceStickerInSet(
+    userId: number,
+    name: string,
+    oldSticker: string,
+    sticker: tt.InputSticker
+  ): Promise<boolean>
 
   /**
    * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot.
@@ -1134,7 +1166,10 @@ export declare class Telegram extends ApiClient {
    * @param maskPosition A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.
    * @returns True on success.
    */
-  setStickerMaskPosition(sticker: string, maskPosition: tt.MaskPosition): Promise<boolean>
+  setStickerMaskPosition(
+    sticker: string,
+    maskPosition: tt.MaskPosition
+  ): Promise<boolean>
 
   /**
    * Use this method to set the title of a created sticker set.
@@ -1157,7 +1192,12 @@ export declare class Telegram extends ApiClient {
    * @param thumbnail Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a WEBM video
    * @returns True on success.
    */
-  setStickerSetThumbnail(name: string, userId: number, format: tt.StickerFormat, thumbnail?: tt.InputFile): Promise<boolean>
+  setStickerSetThumbnail(
+    name: string,
+    userId: number,
+    format: tt.StickerFormat,
+    thumbnail?: tt.InputFile
+  ): Promise<boolean>
 
   /**
    * Use this method to set the thumbnail of a custom emoji sticker set.
@@ -1165,7 +1205,10 @@ export declare class Telegram extends ApiClient {
    * @param customEmojiId Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail.
    * @returns True on success.
    */
-  setCustomEmojiStickerSetThumbnail(name: string, customEmojiId: string): Promise<boolean>
+  setCustomEmojiStickerSetThumbnail(
+    name: string,
+    customEmojiId: string
+  ): Promise<boolean>
 
   /**
    * Use this method to delete a sticker set that was created by the bot.
@@ -1179,9 +1222,7 @@ export declare class Telegram extends ApiClient {
    * @param extra Extra parameters for getMyCommands
    * @returns Array of BotCommand on success.
    */
-  getMyCommands(
-    extra?: tt.ExtraGetMyCommands
-  ): Promise<tt.BotCommand[]>
+  getMyCommands(extra?: tt.ExtraGetMyCommands): Promise<tt.BotCommand[]>
 
   /**
    * Use this method to change the bot's name.
@@ -1204,14 +1245,17 @@ export declare class Telegram extends ApiClient {
    * @param languageCode A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description.
    * @returns Returns True on success.
    */
-  setMyDescription(description?: string, languageCode?: string): Promise<boolean>
+  setMyDescription(
+    description?: string,
+    languageCode?: string
+  ): Promise<boolean>
 
   /**
    * Use this method to get the current bot description for the given user language.
    * @param languageCode A two-letter ISO 639-1 language code or an empty string
    * @returns Returns BotDescription on success.
    */
-  getMyDescription(languageCode?: string): Promise<BotDescription>;
+  getMyDescription(languageCode?: string): Promise<BotDescription>
 
   /**
    * Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot.
@@ -1219,14 +1263,17 @@ export declare class Telegram extends ApiClient {
    * @param languageCode A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description.
    * @returns Returns True on success.
    */
-  setMyShortDescription(shortDescription?: string, languageCode?: string): Promise<boolean>
+  setMyShortDescription(
+    shortDescription?: string,
+    languageCode?: string
+  ): Promise<boolean>
 
   /**
    * Use this method to get the current bot short description for the given user language.
    * @param languageCode A two-letter ISO 639-1 language code or an empty string
    * @returns Returns BotShortDescription on success.
    */
-  getMyShortDescription(languageCode?: string): Promise<BotShortDescription>;
+  getMyShortDescription(languageCode?: string): Promise<BotShortDescription>
 
   /**
    * Use this method to change the list of the bot's commands.
@@ -1245,9 +1292,7 @@ export declare class Telegram extends ApiClient {
    * @param extra Extra parameters for deleteMyCommands
    * @returns True on success
    */
-  deleteMyCommands(
-    extra?: tt.ExtraDeleteMyCommands
-  ): Promise<boolean>
+  deleteMyCommands(extra?: tt.ExtraDeleteMyCommands): Promise<boolean>
 
   /**
    * Informs a user that some of the Telegram Passport elements they provided contains errors.
@@ -1382,9 +1427,7 @@ export declare class Telegram extends ApiClient {
    * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    */
-  getChatMenuButton(
-    chatId?: number | string,
-  ): Promise<tt.MenuButton>
+  getChatMenuButton(chatId?: number | string): Promise<tt.MenuButton>
 
   /**
    * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels.
@@ -1405,4 +1448,11 @@ export declare class Telegram extends ApiClient {
     forChannels?: boolean
   ): Promise<tt.ChatAdministratorRights>
 
+  /**
+   * Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
+   * @param businessConnectionId Unique identifier of the business connection
+   */
+  getBusinessConnection(
+    businessConnectionId: string
+  ): Promise<tt.BusinessConnection>
 }

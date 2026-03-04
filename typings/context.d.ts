@@ -4,10 +4,16 @@ import * as tt from './telegram-types'
 
 import { Telegram } from './telegram'
 import { BotDescription, BotName, BotShortDescription } from '@grammyjs/types'
+import type { Message } from '@grammyjs/types/message'
+import { Update } from '@grammyjs/types/update'
+
+export const UpdateTypes: tt.UpdateType[];
+
+export const MessageSubTypes: tt.MessageSubTypes[];
 
 export declare class RegrafContext {
-  static get UpdateTypes (): tt.UpdateType[];
-  static get MessageSubTypes (): tt.MessageSubTypes[];
+  static get UpdateTypes(): tt.UpdateType[]
+  static get MessageSubTypes(): tt.MessageSubTypes[]
 
   tg: Telegram
   update: tt.Update
@@ -19,6 +25,7 @@ export declare class RegrafContext {
   telegram: Telegram
   message?: tt.Message
   editedMessage?: tt.Message
+  deletedMessages?: tt.BusinessMessagesDeleted
   inlineQuery?: tt.InlineQuery
   shippingQuery?: tt.ShippingQuery
   preCheckoutQuery?: tt.PreCheckoutQuery
@@ -50,12 +57,18 @@ export declare class RegrafContext {
   giveawayWinners?: tt.GiveawayWinners
   giveawayCompleted?: tt.GiveawayCompleted
   boostAdded?: tt.ChatBoostAdded
+  businessConnection?: tt.BusinessConnection
+  businessMessage?: Message & Update.Private
+  editedBusinessMessage?: Message & Update.Edited & Update.Private
+  deletedBusinessMessages?: tt.BusinessMessagesDeleted
+  businessConnectionId?: string
+  senderBusinessBot?: tt.User
 
   constructor(
     update: tt.Update,
     telegram: Telegram,
     options?: {
-      username?: string,
+      username?: string
       channelMode?: boolean
     }
   )
@@ -66,17 +79,13 @@ export declare class RegrafContext {
    * @param sticker Sticker object
    * @returns Returns True on success.
    */
-  addStickerToSet(
-    name: string,
-    sticker: tt.InputSticker
-  ): Promise<boolean>
+  addStickerToSet(name: string, sticker: tt.InputSticker): Promise<boolean>
 
   /**
    * Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set
    * @param name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
    * @param title Sticker set title, 1-64 characters
    * @param stickers Sticker object array
-   * @param sticker_type Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created.
    * @param needs_repainting Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
    * @returns True on success.
    */
@@ -84,7 +93,6 @@ export declare class RegrafContext {
     name: string,
     title: string,
     stickers: tt.InputSticker[],
-    sticker_type?: "regular" | "mask" | "custom_emoji",
     needs_repainting?: boolean
   ): Promise<boolean>
 
@@ -104,7 +112,11 @@ export declare class RegrafContext {
    *  If exactly the same sticker had already been added to the set, then the set remains unchanged.
    * @returns True on success.
    */
-  replaceStickerInSet(name: string, oldSticker: string, sticker: tt.InputSticker): Promise<boolean>
+  replaceStickerInSet(
+    name: string,
+    oldSticker: string,
+    sticker: tt.InputSticker
+  ): Promise<boolean>
 
   /**
    * Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot.
@@ -128,7 +140,10 @@ export declare class RegrafContext {
    * @param maskPosition A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the mask position.
    * @returns True on success.
    */
-  setStickerMaskPosition(sticker: string, maskPosition: tt.MaskPosition): Promise<boolean>
+  setStickerMaskPosition(
+    sticker: string,
+    maskPosition: tt.MaskPosition
+  ): Promise<boolean>
 
   /**
    * Use this method to set the title of a created sticker set.
@@ -151,7 +166,12 @@ export declare class RegrafContext {
    * @param thumbnail Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, or “video” for a WEBM video
    * @returns True on success.
    */
-  setStickerSetThumbnail(name: string, userId: number, format: tt.StickerFormat, thumbnail?: tt.InputFile): Promise<boolean>
+  setStickerSetThumbnail(
+    name: string,
+    userId: number,
+    format: tt.StickerFormat,
+    thumbnail?: tt.InputFile
+  ): Promise<boolean>
 
   /**
    * Use this method to set the thumbnail of a custom emoji sticker set.
@@ -159,7 +179,10 @@ export declare class RegrafContext {
    * @param customEmojiId Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first sticker as the thumbnail.
    * @returns True on success.
    */
-  setCustomEmojiStickerSetThumbnail(name: string, customEmojiId: string): Promise<boolean>
+  setCustomEmojiStickerSetThumbnail(
+    name: string,
+    customEmojiId: string
+  ): Promise<boolean>
 
   /**
    * Use this method to delete a sticker set that was created by the bot.
@@ -203,7 +226,7 @@ export declare class RegrafContext {
    * Use this method to get the number of members in a chat
    * @returns Number on success
    */
-   getChatMemberCount(): Promise<number>
+  getChatMemberCount(): Promise<number>
 
   /**
    * Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all boolean parameters to lift restrictions from a user. Returns True on success.
@@ -236,9 +259,7 @@ export declare class RegrafContext {
    * @param setName Name of the sticker set to be set as the group sticker set
    * @returns True on success.
    */
-  setChatStickerSet(
-    setName: string
-  ): Promise<boolean>
+  setChatStickerSet(setName: string): Promise<boolean>
 
   /**
    * Use this method to delete a group sticker set from a supergroup.
@@ -252,7 +273,7 @@ export declare class RegrafContext {
    * Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters.
    * @returns Returns an Array of Sticker objects.
    */
-  getForumTopicIconStickers(): Promise<tt.Sticker[]>;
+  getForumTopicIconStickers(): Promise<tt.Sticker[]>
 
   /**
    * Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
@@ -260,7 +281,10 @@ export declare class RegrafContext {
    * @param extra Extra params
    * @returns Returns information about the created topic as a ForumTopic object.
    */
-  createForumTopic(name: string, extra?: tt.ExtraCreateForumTopic): Promise<tt.ForumTopic>;
+  createForumTopic(
+    name: string,
+    extra?: tt.ExtraCreateForumTopic
+  ): Promise<tt.ForumTopic>
 
   /**
    * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
@@ -268,68 +292,68 @@ export declare class RegrafContext {
    * @param iconCustomEmojiId New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept
    * @returns Returns True on success.
    */
-  editForumTopic(name?: string, iconCustomEmojiId?: string): Promise<boolean>;
+  editForumTopic(name?: string, iconCustomEmojiId?: string): Promise<boolean>
 
   /**
    * Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
    * @returns Returns True on success.
    */
-  closeForumTopic(): Promise<boolean>;
+  closeForumTopic(): Promise<boolean>
 
   /**
    * Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic.
    * @returns Returns True on success.
    */
-  reopenForumTopic(): Promise<boolean>;
+  reopenForumTopic(): Promise<boolean>
 
   /**
    * Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights.
    * @returns Returns True on success.
    */
-  deleteForumTopic(): Promise<boolean>;
+  deleteForumTopic(): Promise<boolean>
 
   /**
    * Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup.
    * @returns Returns True on success.
    */
-  unpinAllForumTopicMessages(): Promise<boolean>;
+  unpinAllForumTopicMessages(): Promise<boolean>
 
   /**
    * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
    * @param name New topic name, 1-128 characters
    * @returns Returns True on success.
    */
-  editGeneralForumTopic(name: string): Promise<boolean>;
+  editGeneralForumTopic(name: string): Promise<boolean>
 
   /**
    * Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
    * @returns Returns True on success.
    */
-  closeGeneralForumTopic(): Promise<boolean>;
+  closeGeneralForumTopic(): Promise<boolean>
 
   /**
    * Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically unhidden if it was hidden.
    * @returns Returns True on success.
    */
-  reopenGeneralForumTopic(): Promise<boolean>;
+  reopenGeneralForumTopic(): Promise<boolean>
 
   /**
    * Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open.
    * @returns Returns True on success.
    */
-  hideGeneralForumTopic(): Promise<boolean>;
+  hideGeneralForumTopic(): Promise<boolean>
 
   /**
    * Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights.
    * @returns Returns True on success.
    */
-  unhideGeneralForumTopic(): Promise<boolean>;
+  unhideGeneralForumTopic(): Promise<boolean>
 
   /**
    * Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup.
    * @returns Returns True on success.
    */
-  unpinAllGeneralForumTopicMessages(): Promise<boolean>;
+  unpinAllGeneralForumTopicMessages(): Promise<boolean>
 
   /**
    * Use this method for your bot to leave a group, supergroup or channel
@@ -703,7 +727,7 @@ export declare class RegrafContext {
    * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat.
    * @returns Returns a UserChatBoosts object.
    */
-  getUserChatBoosts(): Promise<tt.UserChatBoosts>;
+  getUserChatBoosts(): Promise<tt.UserChatBoosts>
 
   /**
    * Use this method to send answers to game query.
@@ -800,10 +824,7 @@ export declare class RegrafContext {
    * @param extra Extra params
    * @returns True on success
    */
-   banChatMember(
-    userId: number,
-    extra?: tt.ExtraBan
-  ): Promise<boolean>
+  banChatMember(userId: number, extra?: tt.ExtraBan): Promise<boolean>
 
   /**
    * @deprecated in favor of `banChatMember`
@@ -848,18 +869,14 @@ export declare class RegrafContext {
    * @param senderChatId Unique identifier of the target sender chat
    * @returns True on success
    */
-  banChatSenderChat(
-    senderChatId: number,
-  ): Promise<boolean>
+  banChatSenderChat(senderChatId: number): Promise<boolean>
 
   /**
    * Use this method to unban a previously banned channel chat in a supergroup or channel
    * @param senderChatId Unique identifier of the target sender chat
    * @returns True on success
    */
-  unbanChatSenderChat(
-    senderChatId: number,
-  ): Promise<boolean>
+  unbanChatSenderChat(senderChatId: number): Promise<boolean>
 
   /**
    * Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights
@@ -914,7 +931,11 @@ export declare class RegrafContext {
    */
   forwardMessage(
     chatId: number | string,
-    extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
+    extra?: {
+      disable_notification?: boolean
+      message_thread_id?: number
+      protect_content?: boolean
+    }
   ): Promise<tt.Message>
 
   /**
@@ -928,20 +949,23 @@ export declare class RegrafContext {
   forwardMessages(
     chatId: number | string,
     messageIds?: (string | number)[],
-    extra?: { disable_notification?: boolean, message_thread_id?: number, protect_content?: boolean }
+    extra?: {
+      disable_notification?: boolean
+      message_thread_id?: number
+      protect_content?: boolean
+    }
   ): Promise<tt.MessageId[]>
 
   /**
    * Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times)
    * https://core.telegram.org/bots/api#sending-files
-   * @param ownerId User identifier of sticker file owner
    * @param sticker A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
    * @param stickerFormat Format of the sticker, must be one of “static”, “animated”, “video”
    * @returns Returns the uploaded File on success
    */
   uploadStickerFile(
     sticker: tt.InputFile,
-    stickerFormat: string
+    stickerFormat: tt.StickerFormat
   ): Promise<tt.File>
 
   /**
@@ -962,18 +986,14 @@ export declare class RegrafContext {
    * @param errors An array describing the errors
    * @returns True on success.
    */
-  setPassportDataErrors(
-    errors: tt.PassportElementError[]
-  ): Promise<boolean>
+  setPassportDataErrors(errors: tt.PassportElementError[]): Promise<boolean>
 
   /**
    * Use this method to get the current list of the bot's commands for the given scope and user language.
    * @param extra Extra parameters for getMyCommands
    * @returns Array of BotCommand on success.
    */
-  getMyCommands(
-    extra?: tt.ExtraGetMyCommands
-  ): Promise<tt.BotCommand[]>
+  getMyCommands(extra?: tt.ExtraGetMyCommands): Promise<tt.BotCommand[]>
 
   /**
    * Use this method to change the bot's name.
@@ -996,14 +1016,17 @@ export declare class RegrafContext {
    * @param languageCode A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there is no dedicated description.
    * @returns Returns True on success.
    */
-  setMyDescription(description?: string, languageCode?: string): Promise<boolean>
+  setMyDescription(
+    description?: string,
+    languageCode?: string
+  ): Promise<boolean>
 
   /**
    * Use this method to get the current bot description for the given user language.
    * @param languageCode A two-letter ISO 639-1 language code or an empty string
    * @returns Returns BotDescription on success.
    */
-  getMyDescription(languageCode?: string): Promise<BotDescription>;
+  getMyDescription(languageCode?: string): Promise<BotDescription>
 
   /**
    * Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot.
@@ -1011,14 +1034,17 @@ export declare class RegrafContext {
    * @param languageCode A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language there is no dedicated short description.
    * @returns Returns True on success.
    */
-  setMyShortDescription(shortDescription?: string, languageCode?: string): Promise<boolean>
+  setMyShortDescription(
+    shortDescription?: string,
+    languageCode?: string
+  ): Promise<boolean>
 
   /**
    * Use this method to get the current bot short description for the given user language.
    * @param languageCode A two-letter ISO 639-1 language code or an empty string
    * @returns Returns BotShortDescription on success.
    */
-  getMyShortDescription(languageCode?: string): Promise<BotShortDescription>;
+  getMyShortDescription(languageCode?: string): Promise<BotShortDescription>
 
   /**
    * Use this method to change the list of the bot's commands.
@@ -1037,9 +1063,7 @@ export declare class RegrafContext {
    * @param extra Extra parameters for deleteMyCommands
    * @returns True on success
    */
-  deleteMyCommands(
-    extra?: tt.ExtraDeleteMyCommands
-  ): Promise<boolean>
+  deleteMyCommands(extra?: tt.ExtraDeleteMyCommands): Promise<boolean>
 
   /**
    * Use this method to create an additional invite link for a chat.
@@ -1066,10 +1090,7 @@ export declare class RegrafContext {
    * @param inviteLink The invite link to revoke
    * @returns the revoked invite link as a ChatInviteLink object
    */
-  revokeChatInviteLink(
-    inviteLink: string
-  ): Promise<tt.ChatInviteLink>
-
+  revokeChatInviteLink(inviteLink: string): Promise<tt.ChatInviteLink>
 
   /**
    * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
@@ -1085,9 +1106,7 @@ export declare class RegrafContext {
    * Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
    * @param menuButton A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
    */
-  setChatMenuButton(
-    menuButton?: tt.MenuButton
-  ): Promise<boolean>
+  setChatMenuButton(menuButton?: tt.MenuButton): Promise<boolean>
 
   /**
    * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
@@ -1113,4 +1132,8 @@ export declare class RegrafContext {
     forChannels?: boolean
   ): Promise<tt.ChatAdministratorRights>
 
+  /**
+   * Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
+   */
+  getBusinessConnection(): Promise<tt.BusinessConnection>
 }

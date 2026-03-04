@@ -1,4 +1,4 @@
-const UpdateTypes = [
+export const UpdateTypes = [
   'callback_query',
   'channel_post',
   'chosen_inline_result',
@@ -14,10 +14,14 @@ const UpdateTypes = [
   'chat_member',
   'chat_join_request',
   'message_reaction_count',
-  'message_reaction'
+  'message_reaction',
+  'business_connection',
+  'business_message',
+  'edited_business_message',
+  'deleted_business_messages'
 ]
 
-const MessageSubTypes = [
+export const MessageSubTypes = [
   'voice',
   'video_note',
   'video',
@@ -117,11 +121,15 @@ class RegrafContext extends TelegrafContext {
   }
 
   get message () {
-    return this.update.message
+    return this.update.message || this.update.business_message
   }
 
   get editedMessage () {
-    return this.update.edited_message
+    return this.update.edited_message || this.update.edited_business_message
+  }
+
+  get deletedMessages () {
+    return this.update.deleted_business_messages
   }
 
   get inlineQuery () {
@@ -176,6 +184,10 @@ class RegrafContext extends TelegrafContext {
     return this.update.message_reaction_count
   }
 
+  get businessConnection () {
+    return this.update.business_connection
+  }
+
   get chat () {
     return (this.message && this.message.chat) ||
       (this.editedMessage && this.editedMessage.chat) ||
@@ -187,7 +199,8 @@ class RegrafContext extends TelegrafContext {
       (this.messageReaction && this.messageReaction.chat) ||
       (this.messageReactionCount && this.messageReactionCount.chat) ||
       (this.chatJoinRequest && this.chatJoinRequest.chat) ||
-      (this.chatMember && this.chatMember.chat)
+      (this.chatMember && this.chatMember.chat) ||
+      (this.businessConnection && this.businessConnection.user)
   }
 
   get from () {
@@ -203,7 +216,8 @@ class RegrafContext extends TelegrafContext {
       (this.myChatMember && this.myChatMember.from) ||
       (this.chatMember && this.chatMember.from) ||
       (this.messageReaction && this.messageReaction.user) ||
-      (this.chatJoinRequest && this.chatJoinRequest.from)
+      (this.chatJoinRequest && this.chatJoinRequest.from) ||
+      (this.businessConnection && this.businessConnection.user)
   }
 
   get senderChat () {
@@ -260,6 +274,30 @@ class RegrafContext extends TelegrafContext {
 
   get boostAdded () {
     return this.message && this.message.boost_added
+  }
+
+  get businessMessage () {
+    return this.update.business_message
+  }
+
+  get editedBusinessMessage () {
+    return this.update.edited_business_message
+  }
+
+  get deletedBusinessMessages () {
+    return this.update.deleted_business_messages
+  }
+
+  get businessConnectionId () {
+    return (this.message && this.message.business_connection_id) ||
+      (this.businessMessage && this.businessMessage.business_connection_id) ||
+      (this.editedBusinessMessage && this.editedBusinessMessage.business_connection_id) ||
+      (this.deletedBusinessMessages && this.deletedBusinessMessages.business_connection_id) ||
+      (this.businessConnection && this.businessConnection.id)
+  }
+
+  get senderBusinessBot () {
+    return (this.message && this.message.sender_business_bot)
   }
 
   get state () {
@@ -1025,6 +1063,11 @@ class RegrafContext extends TelegrafContext {
 
   getMyDefaultAdministratorRights (forChannels) {
     return this.telegram.getMyDefaultAdministratorRights(forChannels)
+  }
+
+  getBusinessConnection () {
+    this.assert(this.businessConnectionId, 'getBusinessConnection')
+    return this.telegram.getBusinessConnection(this.businessConnectionId)
   }
 }
 

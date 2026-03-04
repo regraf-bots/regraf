@@ -527,7 +527,6 @@ class Telegram extends ApiClient {
       title,
       user_id: ownerId,
       stickers: stickers,
-      sticker_type: stickerType,
       needs_repainting: needsRepainting
     })
   }
@@ -723,6 +722,12 @@ class Telegram extends ApiClient {
   getMyDefaultAdministratorRights (forChannels) {
     return this.callApi('getMyDefaultAdministratorRights', {
       for_channels: forChannels
+    })
+  }
+
+  getBusinessConnection (businessConnectionId) {
+    return this.callApi('getBusinessConnection', {
+      business_connection_id: businessConnectionId
     })
   }
 }
