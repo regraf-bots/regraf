@@ -395,7 +395,7 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.MessageVideoNote>
 
   /**
-   * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+   * Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data
    * @param extra Additional params to send voice
@@ -442,14 +442,14 @@ export declare class Telegram extends ApiClient {
    * Use this method to send a native poll.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param question Poll question, 1-300 characters
-   * @param options A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
+   * @param options List of 2-12 answer options
    * @param extra Additional params to send poll
    * @returns On success, the sent Message is returned.
    */
   sendPoll(
     chatId: number | string,
     question: string,
-    options: string[],
+    options: tt.InputPollOption[],
     extra: tt.ExtraPoll
   ): Promise<tt.MessagePoll>
 
@@ -457,14 +457,14 @@ export declare class Telegram extends ApiClient {
    * Use this method to send a native quiz.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param question Poll question, 1-255 characters
-   * @param options A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
+   * @param options List of 2-12 answer options
    * @param extra Additional params to send quiz
    * @returns On success, the sent Message is returned.
    */
   sendQuiz(
     chatId: number | string,
     question: string,
-    options: string[],
+    options: tt.InputPollOption[],
     extra: tt.ExtraQuiz
   ): Promise<tt.MessagePoll>
 

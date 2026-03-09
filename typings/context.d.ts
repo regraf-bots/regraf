@@ -63,6 +63,7 @@ export declare class RegrafContext {
   deletedBusinessMessages?: tt.BusinessMessagesDeleted
   businessConnectionId?: string
   senderBusinessBot?: tt.User
+  chatBackground?: tt.ChatBackground
 
   constructor(
     update: tt.Update,
@@ -580,26 +581,26 @@ export declare class RegrafContext {
   /**
    * Use this method to send a native poll.
    * @param question Poll question, 1-255 characters
-   * @param options A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
+   * @param options List of 2-12 answer options
    * @param extra Additional params to send poll
    * @returns On success, the sent Message is returned.
    */
   replyWithPoll(
     question: string,
-    options: string[],
+    options: tt.InputPollOption[],
     extra: tt.ExtraPoll
   ): Promise<tt.MessagePoll>
 
   /**
    * Use this method to send a native quiz.
    * @param question Poll question, 1-255 characters
-   * @param options A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
+   * @param options List of 2-12 answer options
    * @param extra Additional params to send quiz
    * @returns On success, the sent Message is returned.
    */
   replyWithQuiz(
     question: string,
-    options: string[],
+    options: tt.InputPollOption[],
     extra: tt.ExtraQuiz
   ): Promise<tt.MessagePoll>
 

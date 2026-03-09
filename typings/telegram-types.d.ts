@@ -612,7 +612,7 @@ export interface ExtraEditLocation extends ExtraReplyMarkupInlineKeyboard {
   horizontal_accuracy?: number
 
   /**
-   * Period in seconds for which the location will be updated (should be between 60 and 86400)
+   * Period in seconds during which the location will be updated (see Live Locations, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
    */
   live_period?: number
 
@@ -785,6 +785,12 @@ export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage,
 
   /** Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period. */
   close_date?: number
+
+  /** Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed */
+  question_parse_mode?: ParseMode
+
+  /** List of special entities that appear in the poll question. It can be specified instead of question_parse_mode */
+  question_entities?: TT.MessageEntity[]
 }
 
 export interface ExtraQuiz extends ExtraPoll, ExtraMessageThread {
@@ -949,6 +955,7 @@ type ServiceMessageBundle = TT.Message.ChannelChatCreatedMessage
   & TT.Message.ForumTopicClosedMessage
   & TT.Message.ForumTopicReopenedMessage
   & TT.Message.WriteAccessAllowedMessage
+  & TT.Message.ChatBackgroundSetMessage
 
 type CommonMessageBundle = TT.Message.AnimationMessage
   & TT.Message.AudioMessage

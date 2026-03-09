@@ -300,6 +300,10 @@ class RegrafContext extends TelegrafContext {
     return (this.message && this.message.sender_business_bot)
   }
 
+  get chatBackground () {
+    return this.message && this.message.chat_background_set
+  }
+
   get state () {
     if (!this.contextState) {
       this.contextState = {}
