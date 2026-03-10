@@ -1,4 +1,4 @@
-export const UpdateTypes = [
+const UpdateTypes = [
   'callback_query',
   'channel_post',
   'chosen_inline_result',
@@ -21,7 +21,7 @@ export const UpdateTypes = [
   'deleted_business_messages'
 ]
 
-export const MessageSubTypes = [
+const MessageSubTypes = [
   'voice',
   'video_note',
   'video',
@@ -1076,3 +1076,5 @@ class RegrafContext extends TelegrafContext {
 }
 
 module.exports = RegrafContext
+module.exports.UpdateTypes = UpdateTypes
+module.exports.MessageSubTypes = MessageSubTypes
