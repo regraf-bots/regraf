@@ -275,6 +275,17 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.MessageInvoice>
 
   /**
+   * Use this method to create a link for an invoice.
+   * @param invoice Object with new invoice params
+   * @param extra Additional params for createInvoiceLink
+   * @returns Returns the created invoice link as String on success.
+   */
+  createInvoiceLink(
+    invoice: tt.NewInvoiceParameters,
+    extra?: tt.CreateInvoiceLink
+  ): Promise<string>
+
+  /**
    * Use this method to send phone contacts
    * @param chatId Unique identifier for the target private chat
    * @param phoneNumber Contact's phone number
@@ -1394,9 +1405,10 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.ChatInviteLink>
 
   /**
-   * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
+   * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param userId Unique identifier of the target user
+   * @returns Returns True on success.
    */
   approveChatJoinRequest(
     chatId: number | string,
@@ -1404,9 +1416,10 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
-   * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
+   * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param userId Unique identifier of the target user
+   * @returns Returns True on success.
    */
   declineChatJoinRequest(
     chatId: number | string,
@@ -1414,9 +1427,10 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
-   * Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
+   * Use this method to change the bot's menu button in a private chat, or the default menu button.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param menuButton A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
+   * @returns Returns True on success.
    */
   setChatMenuButton(
     chatId?: number | string,
@@ -1424,16 +1438,18 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
-   * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
+   * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @returns Returns MenuButton on success.
    */
   getChatMenuButton(chatId?: number | string): Promise<tt.MenuButton>
 
   /**
    * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels.
-   * These rights will be suggested to users, but they are are free to modify the list before adding the bot. Returns True on success.
+   * These rights will be suggested to users, but they are are free to modify the list before adding the bot.
    * @param rights A JSON-serialized object describing new default administrator rights. If not specified, the default administrator rights will be cleared.
    * @param forChannels Pass True to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed.
+   * @returns Returns True on success.
    */
   setMyDefaultAdministratorRights(
     rights?: tt.ChatAdministratorRights,
@@ -1441,18 +1457,31 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
-   * Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
+   * Use this method to get the current default administrator rights of the bot.
    * @param forChannels Pass True to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed.
+   * @returns Returns ChatAdministratorRights on success.
    */
   getMyDefaultAdministratorRights(
     forChannels?: boolean
   ): Promise<tt.ChatAdministratorRights>
 
   /**
-   * Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
+   * Use this method to get information about the connection of the bot with a business account.
    * @param businessConnectionId Unique identifier of the business connection
+   * @returns Returns a BusinessConnection object on success.
    */
   getBusinessConnection(
     businessConnectionId: string
   ): Promise<tt.BusinessConnection>
+
+  /**
+   * Refunds a successful payment in Telegram Stars.
+   * @param userId Identifier of the user whose payment will be refunded
+   * @param telegramPaymentChargeId Telegram payment identifier
+   * @returns Returns True on success.
+   */
+  refundStarPayment(
+    userId: number,
+    telegramPaymentChargeId: string
+  ): Promise<boolean>
 }

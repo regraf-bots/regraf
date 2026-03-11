@@ -1094,31 +1094,36 @@ export declare class RegrafContext {
   revokeChatInviteLink(inviteLink: string): Promise<tt.ChatInviteLink>
 
   /**
-   * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
+   * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+   * @returns Returns True on success.
    */
   approveChatJoinRequest(): Promise<boolean>
 
   /**
-   * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
+   * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+   * @returns Returns True on success.
    */
   declineChatJoinRequest(): Promise<boolean>
 
   /**
-   * Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
+   * Use this method to change the bot's menu button in a private chat, or the default menu button.
    * @param menuButton A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
+   * @returns Returns True on success.
    */
   setChatMenuButton(menuButton?: tt.MenuButton): Promise<boolean>
 
   /**
-   * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
+   * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.
+   * @returns Returns MenuButton on success.
    */
   getChatMenuButton(): Promise<tt.MenuButton>
 
   /**
    * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels.
-   * These rights will be suggested to users, but they are are free to modify the list before adding the bot. Returns True on success.
+   * These rights will be suggested to users, but they are are free to modify the list before adding the bot.
    * @param rights A JSON-serialized object describing new default administrator rights. If not specified, the default administrator rights will be cleared.
    * @param forChannels Pass True to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed.
+   * @returns Returns True on success.
    */
   setMyDefaultAdministratorRights(
     rights?: tt.ChatAdministratorRights,
@@ -1126,15 +1131,24 @@ export declare class RegrafContext {
   ): Promise<boolean>
 
   /**
-   * Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
+   * Use this method to get the current default administrator rights of the bot.
    * @param forChannels Pass True to change the default administrator rights of the bot in channels. Otherwise, the default administrator rights of the bot for groups and supergroups will be changed.
+   * Returns ChatAdministratorRights on success.
    */
   getMyDefaultAdministratorRights(
     forChannels?: boolean
   ): Promise<tt.ChatAdministratorRights>
 
   /**
-   * Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
+   * Use this method to get information about the connection of the bot with a business account.
+   * @returns Returns a BusinessConnection object on success.
    */
   getBusinessConnection(): Promise<tt.BusinessConnection>
+
+  /**
+   * Use this method to refund a Star payment.
+   * @param telegramPaymentChargeId Identifier of the user whose payment will be refunded
+   * @returns Returns True on success.
+   */
+  refundStarPayment(telegramPaymentChargeId: string): Promise<boolean>
 }

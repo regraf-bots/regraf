@@ -127,6 +127,10 @@ class Telegram extends ApiClient {
     return this.callApi('sendInvoice', { chat_id: chatId, ...invoice, ...extra })
   }
 
+  createInvoiceLink (invoice, extra) {
+    return this.callApi('createInvoiceLink', { ...invoice, ...extra })
+  }
+
   sendContact (chatId, phoneNumber, firstName, extra) {
     if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
@@ -728,6 +732,16 @@ class Telegram extends ApiClient {
   getBusinessConnection (businessConnectionId) {
     return this.callApi('getBusinessConnection', {
       business_connection_id: businessConnectionId
+    })
+  }
+
+  refundStarPayment (
+    userId,
+    telegramPaymentChargeId
+  ) {
+    return this.callApi('refundStarPayment', {
+      user_id: userId,
+      telegram_payment_charge_id: telegramPaymentChargeId
     })
   }
 }

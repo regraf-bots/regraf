@@ -1073,6 +1073,11 @@ class RegrafContext extends TelegrafContext {
     this.assert(this.businessConnectionId, 'getBusinessConnection')
     return this.telegram.getBusinessConnection(this.businessConnectionId)
   }
+
+  refundStarPayment (telegramPaymentChargeId) {
+    this.assert(this.from, 'refundStarPayment')
+    return this.telegram.refundStarPayment(this.from.id, telegramPaymentChargeId)
+  }
 }
 
 module.exports = RegrafContext
