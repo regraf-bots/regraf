@@ -753,6 +753,14 @@ class Telegram extends ApiClient {
     })
   }
 
+  getAvailableGifts () {
+    return this.callApi('getAvailableGifts')
+  }
+
+  sendGift (giftId, target, extra) {
+    return this.callApi('sendGift', { gift_id: giftId, ...target, ...extra })
+  }
+
   getBusinessConnection (businessConnectionId) {
     return this.callApi('getBusinessConnection', {
       business_connection_id: businessConnectionId
@@ -770,6 +778,18 @@ class Telegram extends ApiClient {
     return this.callApi('refundStarPayment', {
       user_id: userId,
       telegram_payment_charge_id: telegramPaymentChargeId
+    })
+  }
+
+  editUserStarSubscription (
+    userId,
+    telegramPaymentChargeId,
+    isCanceled
+  ) {
+    return this.callApi('editUserStarSubscription', {
+      user_id: userId,
+      telegram_payment_charge_id: telegramPaymentChargeId,
+      is_canceled: isCanceled
     })
   }
 }

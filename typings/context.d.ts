@@ -465,6 +465,17 @@ export declare class RegrafContext {
   ): Promise<boolean>
 
   /**
+   * Changes the emoji status for a given user that previously allowed the bot to manage their emoji status via the Mini App method requestEmojiStatusAccess.
+   * @param emojiStatusCustomEmojiId Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.
+   * @param emojiStatusExpirationDate Expiration date of the emoji status, if any
+   * @returns Returns True on success.
+   */
+  setUserEmojiStatus(
+    emojiStatusCustomEmojiId?: string,
+    emojiStatusExpirationDate?: number
+  ): Promise<boolean>
+
+  /**
    * Use this method to send general files. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
    * @param document File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data
    * @param extra Additional params for send document
@@ -1175,6 +1186,23 @@ export declare class RegrafContext {
   ): Promise<tt.ChatAdministratorRights>
 
   /**
+   * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters.
+   * @returns Returns a Gifts object.
+   */
+  getAvailableGifts(): Promise<tt.Gifts>
+
+  /**
+   * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver.
+   * @param giftId Identifier of the gift; limited gifts can't be sent to channel chats
+   * @param extra Extra params
+   * @returns Returns True on success.
+   */
+  sendGift(
+    giftId: string,
+    extra?: tt.ExtraGift
+  ): Promise<boolean>
+
+  /**
    * Use this method to get information about the connection of the bot with a business account.
    * @returns Returns a BusinessConnection object on success.
    */
@@ -1196,4 +1224,15 @@ export declare class RegrafContext {
    * @returns Returns True on success.
    */
   refundStarPayment(telegramPaymentChargeId: string): Promise<boolean>
+
+  /**
+   * Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars.
+   * @param telegramPaymentChargeId Telegram payment identifier for the subscription
+   * @param isCanceled Pass True to cancel extension of the user subscription; the subscription must be active up to the end of the current subscription period. Pass False to allow the user to re-enable a subscription that was previously canceled by the bot.
+   * @returns Returns True on success.
+   */
+  editUserStarSubscription(
+    telegramPaymentChargeId: string,
+    isCanceled: boolean
+  ): Promise<boolean>
 }

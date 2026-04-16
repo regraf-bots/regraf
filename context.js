@@ -749,6 +749,14 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.setMessageReaction(this.chat.id, this.message.message_id, reaction, isBig)
   }
 
+  setUserEmojiStatus (
+    emojiStatusCustomEmojiId,
+    emojiStatusExpirationDate
+  ) {
+    this.assert(this.from, 'setUserEmojiStatus')
+    return this.telegram.setUserEmojiStatus(this.from.id, emojiStatusCustomEmojiId, emojiStatusExpirationDate)
+  }
+
   replyWithLocation (latitude, longitude, extra = {}) {
     this.assert(this.chat, 'replyWithLocation')
     if (this.message?.message_thread_id) {
@@ -1097,6 +1105,21 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.getMyDefaultAdministratorRights(forChannels)
   }
 
+  getAvailableGifts () {
+    return this.telegram.getAvailableGifts()
+  }
+
+  sendGift (giftId, extra) {
+    let target = null
+    if (this.chat) {
+      target = { chat_id: this.chat.id }
+    } else if (this.from) {
+      target = { user_id: this.from.id }
+    }
+    this.assert(target, 'sendGift')
+    return this.telegram.sendGift(giftId, target, extra)
+  }
+
   getBusinessConnection () {
     this.assert(this.businessConnectionId, 'getBusinessConnection')
     return this.telegram.getBusinessConnection(this.businessConnectionId)
@@ -1109,6 +1132,11 @@ class RegrafContext extends TelegrafContext {
   refundStarPayment (telegramPaymentChargeId) {
     this.assert(this.from, 'refundStarPayment')
     return this.telegram.refundStarPayment(this.from.id, telegramPaymentChargeId)
+  }
+
+  editUserStarSubscription (telegramPaymentChargeId, isCanceled) {
+    this.assert(this.from, 'editUserStarSubscription')
+    return this.telegram.editUserStarSubscription(this.from.id, telegramPaymentChargeId, isCanceled)
   }
 }
 

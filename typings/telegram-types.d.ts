@@ -161,6 +161,18 @@ export type MessageMedia =
   InputMediaAudio |
   InputMediaDocument
 
+export interface TargetEntity {
+  /**
+   * Required if chat_id is not specified. Unique identifier of the target user who will receive the gift.
+   */
+  user_id?: number;
+
+  /**
+   * Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
+   */
+  chat_id?: number;
+}
+
 export interface InputMediaPhoto extends ExtraCaption, ExtraSpoiler {
   type: InputMediaTypes
   media: InputFile
@@ -445,6 +457,18 @@ export interface ExtraCaptionFormatting {
   caption_entities?: TT.MessageEntity[]
 }
 
+export interface ExtraTextFormatting {
+  /**
+   * Mode for parsing entities in the text. See formatting options for more details. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
+   */
+  text_parse_mode?: ParseMode
+
+  /**
+   * List of special entities that appear in the gift text. It can be specified instead of text_parse_mode. Entities other than “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, “custom_emoji”, and “date_time” are ignored.
+   */
+  text_entities?: TT.MessageEntity[]
+}
+
 export interface ExtraCaption extends ExtraCaptionFormatting {
   /**
    * Media caption, 0-1024 characters
@@ -629,6 +653,10 @@ export interface ExtraInvoice extends ExtraDisableNotifications, ExtraReplyMessa
 }
 
 export interface CreateInvoiceLink extends ExtraBusinessConnectionId {
+  /**
+   * The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time, including multiple concurrent subscriptions from the same user. Subscription price must no exceed 10000 Telegram Stars.
+   */
+  subscription_period: number
 }
 
 export interface ExtraLocation extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
@@ -856,6 +884,18 @@ export interface ExtraQuiz extends ExtraPoll {
 
   /** Mode for parsing entities in the explanation. See formatting options for more details. */
   explanation_parse_mode?: ParseMode
+}
+
+export interface ExtraGift extends ExtraTextFormatting {
+  /**
+   * Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for the receiver
+   */
+  pay_for_upgrade?: boolean
+
+  /**
+   * Text that will be shown along with the gift; 0-128 characters
+   */
+  text?: string
 }
 
 export interface ExtraStopPoll extends ExtraReplyMarkupInlineKeyboard, ExtraBusinessConnectionId {

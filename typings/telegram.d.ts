@@ -5,7 +5,11 @@ import * as tt from './telegram-types.d'
 import * as https from 'https'
 import * as http from 'http'
 import { BotDescription, BotName, BotShortDescription } from '@grammyjs/types'
-import { ExtraPaidMedia, ExtraSendChatAction } from './telegram-types.d'
+import {
+  ExtraPaidMedia,
+  ExtraSendChatAction,
+  TargetEntity,
+} from './telegram-types.d'
 
 export interface TelegramOptions {
   /**
@@ -226,6 +230,19 @@ export declare class Telegram extends ApiClient {
     offset?: number,
     limit?: number
   ): Promise<tt.UserProfilePhotos>
+
+  /**
+   * Changes the emoji status for a given user that previously allowed the bot to manage their emoji status via the Mini App method requestEmojiStatusAccess.
+   * @param userId Unique identifier of the target user
+   * @param emojiStatusCustomEmojiId Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.
+   * @param emojiStatusExpirationDate Expiration date of the emoji status, if any
+   * @returns Returns True on success.
+   */
+  setUserEmojiStatus(
+    userId: number,
+    emojiStatusCustomEmojiId?: string,
+    emojiStatusExpirationDate?: number
+  ): Promise<boolean>
 
   /**
    * Use this method to send point on the map
@@ -1508,6 +1525,25 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.ChatAdministratorRights>
 
   /**
+   * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no parameters.
+   * @returns Returns a Gifts object.
+   */
+  getAvailableGifts(): Promise<tt.Gifts>
+
+  /**
+   * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the receiver.
+   * @param giftId Identifier of the gift; limited gifts can't be sent to channel chats
+   * @param target Chat identifier of the user or channel chat to which the gift is sent
+   * @param extra Extra params
+   * @returns Returns True on success.
+   */
+  sendGift(
+    giftId: string,
+    target: TargetEntity,
+    extra?: tt.ExtraGift
+  ): Promise<boolean>
+
+  /**
    * Use this method to get information about the connection of the bot with a business account.
    * @param businessConnectionId Unique identifier of the business connection
    * @returns Returns a BusinessConnection object on success.
@@ -1535,5 +1571,18 @@ export declare class Telegram extends ApiClient {
   refundStarPayment(
     userId: number,
     telegramPaymentChargeId: string
+  ): Promise<boolean>
+
+  /**
+   * Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars.
+   * @param userId Identifier of the user whose subscription will be edited
+   * @param telegramPaymentChargeId Telegram payment identifier for the subscription
+   * @param isCanceled Pass True to cancel extension of the user subscription; the subscription must be active up to the end of the current subscription period. Pass False to allow the user to re-enable a subscription that was previously canceled by the bot.
+   * @returns Returns True on success.
+   */
+  editUserStarSubscription(
+    userId: number,
+    telegramPaymentChargeId: string,
+    isCanceled: boolean
   ): Promise<boolean>
 }
