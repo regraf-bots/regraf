@@ -1544,6 +1544,36 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
+   * Verifies a user on behalf of the organization which is represented by the bot.
+   * @param userId Unique identifier of the target user
+   * @param customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+   * @returns Returns True on success.
+   */
+  verifyUser(userId: number, customDescription?: string): Promise<boolean>
+
+  /**
+   * Verifies a chat on behalf of the organization which is represented by the bot.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername). Channel direct messages chats can't be verified.
+   * @param customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+   * @returns Returns True on success.
+   */
+  verifyUser(chatId: number, customDescription?: string): Promise<boolean>
+
+  /**
+   * Removes verification from a user who is currently verified on behalf of the organization represented by the bot.
+   * @param userId Unique identifier of the target user
+   * @returns Returns True on success.
+   */
+  removeUserVerification(userId: number): Promise<boolean>
+
+  /**
+   * Removes verification from a chat who is currently verified on behalf of the organization represented by the bot.
+   * @param chatId 	Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @returns Returns True on success.
+   */
+  removeChatVerification(chatId: number): Promise<boolean>
+
+  /**
    * Use this method to get information about the connection of the bot with a business account.
    * @param businessConnectionId Unique identifier of the business connection
    * @returns Returns a BusinessConnection object on success.

@@ -1197,10 +1197,33 @@ export declare class RegrafContext {
    * @param extra Extra params
    * @returns Returns True on success.
    */
-  sendGift(
-    giftId: string,
-    extra?: tt.ExtraGift
-  ): Promise<boolean>
+  sendGift(giftId: string, extra?: tt.ExtraGift): Promise<boolean>
+
+  /**
+   * Verifies a user on behalf of the organization which is represented by the bot.
+   * @param customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+   * @returns Returns True on success.
+   */
+  verifyUser(customDescription?: string): Promise<boolean>
+
+  /**
+   * Verifies a chat on behalf of the organization which is represented by the bot.
+   * @param customDescription Custom description for the verification; 0-70 characters. Must be empty if the organization isn't allowed to provide a custom verification description.
+   * @returns Returns True on success.
+   */
+  verifyUser(customDescription?: string): Promise<boolean>
+
+  /**
+   * Removes verification from a user who is currently verified on behalf of the organization represented by the bot.
+   * @returns Returns True on success.
+   */
+  removeUserVerification(): Promise<boolean>
+
+  /**
+   * Removes verification from a chat who is currently verified on behalf of the organization represented by the bot.
+   * @returns Returns True on success.
+   */
+  removeChatVerification(): Promise<boolean>
 
   /**
    * Use this method to get information about the connection of the bot with a business account.

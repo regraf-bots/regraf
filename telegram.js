@@ -761,6 +761,22 @@ class Telegram extends ApiClient {
     return this.callApi('sendGift', { gift_id: giftId, ...target, ...extra })
   }
 
+  verifyUser (userId, customDescription) {
+    return this.callApi('verifyUser', { user_id: userId, custom_description: customDescription })
+  }
+
+  verifyChat (chatId, customDescription) {
+    return this.callApi('verifyChat', { chat_id: chatId, custom_description: customDescription })
+  }
+
+  removeUserVerification (userId) {
+    return this.callApi('removeUserVerification', { user_id: userId })
+  }
+
+  removeChatVerification (chatId) {
+    return this.callApi('removeChatVerification', { chat_id: chatId })
+  }
+
   getBusinessConnection (businessConnectionId) {
     return this.callApi('getBusinessConnection', {
       business_connection_id: businessConnectionId

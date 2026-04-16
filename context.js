@@ -1120,6 +1120,26 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.sendGift(giftId, target, extra)
   }
 
+  verifyUser (customDescription) {
+    this.assert(this.from, 'verifyUser')
+    return this.telegram.verifyUser(this.from.id, customDescription)
+  }
+
+  verifyChat (customDescription) {
+    this.assert(this.chat, 'verifyChat')
+    return this.telegram.verifyChat(this.chat.id, customDescription)
+  }
+
+  removeUserVerification () {
+    this.assert(this.from, 'removeUserVerification')
+    return this.telegram.removeUserVerification(this.from.id)
+  }
+
+  removeChatVerification () {
+    this.assert(this.chat, 'removeChatVerification')
+    return this.telegram.removeChatVerification(this.chat.id)
+  }
+
   getBusinessConnection () {
     this.assert(this.businessConnectionId, 'getBusinessConnection')
     return this.telegram.getBusinessConnection(this.businessConnectionId)
