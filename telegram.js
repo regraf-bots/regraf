@@ -201,6 +201,13 @@ class Telegram extends ApiClient {
     return this.callApi('sendVoice', { chat_id: chatId, voice, ...extra })
   }
 
+  sendPaidMedia (chatId, starCount, media, extra) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
+      delete extra.reply_parameters
+    }
+    return this.callApi('sendPaidMedia', { chat_id: chatId, star_count: starCount, media, ...extra })
+  }
+
   sendGame (chatId, gameName, extra) {
     if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters

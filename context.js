@@ -627,6 +627,14 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.sendAudio(this.chat.id, audio, extra)
   }
 
+  replyWithPaidMedia (starCount, media, extra = {}) {
+    this.assert(this.chat, 'replyWithPaidMedia')
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendPaidMedia(this.chat.id, starCount, media, extra)
+  }
+
   replyWithDice (extra = {}) {
     this.assert(this.chat, 'replyWithDice')
     if (this.message?.message_thread_id) {

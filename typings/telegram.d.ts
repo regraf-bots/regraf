@@ -5,7 +5,7 @@ import * as tt from './telegram-types.d'
 import * as https from 'https'
 import * as http from 'http'
 import { BotDescription, BotName, BotShortDescription } from '@grammyjs/types'
-import { ExtraSendChatAction } from './telegram-types.d'
+import { ExtraPaidMedia, ExtraSendChatAction } from './telegram-types.d'
 
 export interface TelegramOptions {
   /**
@@ -417,6 +417,21 @@ export declare class Telegram extends ApiClient {
     voice: tt.InputFile,
     extra?: tt.ExtraVoice
   ): Promise<tt.MessageVoice>
+
+  /**
+   * Use this method to send paid media.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
+   * @param starCount The number of Telegram Stars that must be paid to buy access to the media; 1-25000
+   * @param media array describing the media to be sent; up to 10 items
+   * @param extra Extra params
+   * @returns On success, the sent Message is returned.
+   */
+  sendPaidMedia(
+    chatId: number | string,
+    starCount: number,
+    media: tt.PaidMedia[],
+    extra?: tt.ExtraPaidMedia
+  ): Promise<tt.Message>
 
   /**
    * Use this method to send a game
@@ -1337,7 +1352,7 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.Message>
 
   /**
-   * Use this method to send copy of exists message.
+   * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param fromChatId Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
    * @param messageId Message identifier in the chat specified in from_chat_id
@@ -1352,10 +1367,7 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.MessageId>
 
   /**
-   * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped.
-   * Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied.
-   * A quiz poll can be copied only if the value of the field correct_option_id is known to the bot.
-   * The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.
+   * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param fromChatId Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
    * @param messageIds A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.

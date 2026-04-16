@@ -260,6 +260,25 @@ export type InputFile =
  */
 export type InputFileVideoNote = Exclude<InputFile, InputFileByURL>
 
+export interface PaidMediaPhoto {
+  type: "photo"
+  media: InputFile
+}
+
+export interface PaidMediaVideo {
+  type: "video"
+  media: InputFile
+  thumbnail?: InputFile
+  cover?: InputFile
+  start_timestamp?: number
+  width?: number
+  height?: number
+  duration?: number
+  supports_streaming?: boolean
+}
+
+export type PaidMedia = PaidMediaPhoto | PaidMediaVideo
+
 export type StickerFormat = "regular" | "mask" | "custom_emoji";
 
 export interface ChatPermissions {
@@ -777,6 +796,9 @@ export interface ExtraVoice extends ExtraCaption, ExtraDisableNotifications, Ext
   duration?: number
 }
 
+export interface ExtraPaidMedia extends ExtraBusinessConnectionId, ExtraMessageThread, ExtraPayload, ExtraCaption, ExtraCaptionFormatting, ExtraCaptionAboveMedia, ExtraDisableNotifications, ExtraProtectContent, ExtraReplyMarkup, ExtraReplyMessage {
+}
+
 export interface ExtraDice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
   /**
    * Emoji on which the dice throw animation is based.
@@ -1000,7 +1022,14 @@ export type Update = TT.Update;
 
 export type CallbackQuery = TT.CallbackQuery
 
-export interface NewInvoiceParameters {
+export interface ExtraPayload {
+  /**
+   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+   */
+  payload: string
+}
+
+export interface NewInvoiceParameters extends ExtraPayload {
   /**
    * Product name, 1-32 characters
    */
@@ -1010,11 +1039,6 @@ export interface NewInvoiceParameters {
    * Product description, 1-255 characters
    */
   description: string
-
-  /**
-   * Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
-   */
-  payload: string
 
   /**
    * Payments provider token, obtained via Botfather. Pass an empty string for payments in Telegram Stars.

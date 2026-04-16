@@ -422,6 +422,19 @@ export declare class RegrafContext {
   ): Promise<tt.MessageAudio>
 
   /**
+   * Use this method to send paid media.
+   * @param starCount The number of Telegram Stars that must be paid to buy access to the media; 1-25000
+   * @param media array describing the media to be sent; up to 10 items
+   * @param extra Extra params
+   * @returns On success, the sent Message is returned.
+   */
+  replyWithPaidMedia(
+    starCount: number,
+    media: tt.PaidMedia[],
+    extra?: tt.ExtraPaidMedia
+  ): Promise<tt.Message>
+
+  /**
    * Use this method when you need to tell the user that something is happening on the bot's side.
    * The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
    * Choose one, depending on what the user is about to receive:
@@ -677,7 +690,7 @@ export declare class RegrafContext {
   replyWithDice(extra?: tt.ExtraDice): Promise<tt.MessageDice>
 
   /**
-   * Use this method to send copy of exists message.
+   * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param extra Additional params to send modified copy of message
    * @returns the MessageId of the sent message on success
@@ -688,10 +701,7 @@ export declare class RegrafContext {
   ): Promise<tt.MessageId>
 
   /**
-   * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped.
-   * Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied.
-   * A quiz poll can be copied only if the value of the field correct_option_id is known to the bot.
-   * The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.
+   * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param messageIds A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
    * @param extra Extra params for copyMessages
