@@ -710,7 +710,7 @@ export declare class Telegram extends ApiClient {
   pinChatMessage(
     chatId: number | string,
     messageId: number,
-    extra?: { disable_notification?: boolean }
+    extra?: tt.ExtraPinMessage
   ): Promise<boolean>
 
   /**

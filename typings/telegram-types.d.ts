@@ -563,7 +563,10 @@ export interface ExtraForwardMessage extends ExtraDisableNotifications, ExtraMes
 export interface ExtraSendChatAction extends ExtraMessageThread, ExtraBusinessConnectionId {
 }
 
-export interface ExtraUnpinMessage {
+export interface ExtraPinMessage extends ExtraBusinessConnectionId, ExtraDisableNotifications {
+}
+
+export interface ExtraUnpinMessage extends ExtraBusinessConnectionId {
   /**
    * Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
    */
