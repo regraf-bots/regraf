@@ -70,7 +70,8 @@ const MessageSubTypes = [
   'giveaway_winners',
   'giveaway_completed',
   'story',
-  'boost_added'
+  'boost_added',
+  'refunded_payment'
 ]
 
 const MessageSubTypesMapping = {
@@ -274,6 +275,10 @@ class RegrafContext extends TelegrafContext {
 
   get boostAdded () {
     return this.message && this.message.boost_added
+  }
+
+  get refundedPayment () {
+    return this.message && this.message.refunded_payment
   }
 
   get businessMessage () {

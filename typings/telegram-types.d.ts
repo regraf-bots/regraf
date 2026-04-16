@@ -95,7 +95,8 @@ export type MessageSubTypes =
   'giveaway_winners' |
   'giveaway_completed' |
   'story' |
-  'boost_added'
+  'boost_added' |
+  'refunded_payment'
 
 export type InputMediaTypes =
   'photo'
@@ -998,6 +999,7 @@ type ServiceMessageBundle = TT.Message.ChannelChatCreatedMessage
   & TT.Message.ForumTopicReopenedMessage
   & TT.Message.WriteAccessAllowedMessage
   & TT.Message.ChatBackgroundSetMessage
+  & TT.Message.RefundedPaymentMessage
 
 type CommonMessageBundle = TT.Message.AnimationMessage
   & TT.Message.AudioMessage
