@@ -689,6 +689,23 @@ class Telegram extends ApiClient {
     })
   }
 
+  createChatSubscriptionInviteLink (chatId, subscriptionPeriod, subscriptionPrice, name) {
+    return this.callApi('createChatInviteLink', {
+      chat_id: chatId,
+      name: name,
+      subscription_period: subscriptionPeriod,
+      subscription_price: subscriptionPrice
+    })
+  }
+
+  editChatSubscriptionInviteLink (chatId, inviteLink, name) {
+    return this.callApi('editChatInviteLink', {
+      chat_id: chatId,
+      invite_link: inviteLink,
+      name: name
+    })
+  }
+
   revokeChatInviteLink (chatId, inviteLink) {
     return this.callApi('revokeChatInviteLink', {
       chat_id: chatId,

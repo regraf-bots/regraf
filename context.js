@@ -1047,6 +1047,16 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.editChatInviteLink(this.chat.id, ...args)
   }
 
+  createChatSubscriptionInviteLink (subscriptionPeriod, subscriptionPrice, name) {
+    this.assert(this.chat, 'createChatSubscriptionInviteLink')
+    return this.telegram.createChatSubscriptionInviteLink(this.chat.id, subscriptionPeriod, subscriptionPrice, name)
+  }
+
+  editChatSubscriptionInviteLink (inviteLink, name) {
+    this.assert(this.chat, 'editChatSubscriptionInviteLink')
+    return this.telegram.editChatSubscriptionInviteLink(this.chat.id, inviteLink, name)
+  }
+
   revokeChatInviteLink (...args) {
     this.assert(this.chat, 'revokeChatInviteLink')
     return this.telegram.revokeChatInviteLink(this.chat.id, ...args)

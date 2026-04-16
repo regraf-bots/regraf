@@ -1408,6 +1408,34 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.ChatInviteLink>
 
   /**
+   * Use this method to create a subscription invite link for a channel chat. The bot must have the can_invite_users administrator rights. The link can be edited using the method editChatSubscriptionInviteLink or revoked using the method revokeChatInviteLink.
+   * @param chatId Unique identifier for the target channel chat or username of the target channel (in the format @channelusername)
+   * @param subscriptionPeriod The number of seconds the subscription will be active for before the next payment. Currently, it must always be 2592000 (30 days).
+   * @param subscriptionPrice The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat; 1-10000
+   * @param name Invite link name; 0-32 characters
+   * @returns Returns the new invite link as a ChatInviteLink object.
+   */
+  createChatSubscriptionInviteLink(
+    chatId: number | string,
+    subscriptionPeriod: number,
+    subscriptionPrice: number,
+    name?: string
+  ): Promise<tt.ChatInviteLink>
+
+  /**
+   * Use this method to edit a subscription invite link created by the bot. The bot must have the can_invite_users administrator rights.
+   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+   * @param inviteLink The invite link to edit
+   * @param name Invite link name; 0-32 characters
+   * @returns Returns the edited invite link as a ChatInviteLink object.
+   */
+  editChatSubscriptionInviteLink(
+    chatId: number | string,
+    inviteLink: string,
+    name?: string
+  ): Promise<tt.ChatInviteLink>
+
+  /**
    * Use this method to revoke an invite link created by the bot.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param inviteLink The invite link to revoke
