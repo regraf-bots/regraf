@@ -1074,6 +1074,10 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.getBusinessConnection(this.businessConnectionId)
   }
 
+  getStarTransactions (extra) {
+    return this.telegram.getStarTransactions(extra)
+  }
+
   refundStarPayment (telegramPaymentChargeId) {
     this.assert(this.from, 'refundStarPayment')
     return this.telegram.refundStarPayment(this.from.id, telegramPaymentChargeId)

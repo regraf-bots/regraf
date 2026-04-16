@@ -1146,6 +1146,16 @@ export declare class RegrafContext {
   getBusinessConnection(): Promise<tt.BusinessConnection>
 
   /**
+   * @param extra.offset Number of transactions to skip in the response
+   * @param extra.limit The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100.
+   * @returns Returns the bot's Telegram Star transactions in chronological order. On success, returns a StarTransactions object.
+   */
+  getStarTransactions(extra: {
+    offset?: number
+    limit?: number
+  }): Promise<tt.StarTransactions>
+
+  /**
    * Use this method to refund a Star payment.
    * @param telegramPaymentChargeId Identifier of the user whose payment will be refunded
    * @returns Returns True on success.

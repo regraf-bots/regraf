@@ -531,10 +531,10 @@ export interface ExtraCaptionAboveMedia {
 export interface ExtraSendMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
 }
 
-export interface ExtraEditMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraReplyMarkupInlineKeyboard {
+export interface ExtraEditMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraReplyMarkupInlineKeyboard, ExtraBusinessConnectionId {
 }
 
-export interface ExtraEditMessageMedia extends ExtraReplyMarkupInlineKeyboard {
+export interface ExtraEditMessageMedia extends ExtraReplyMarkupInlineKeyboard, ExtraBusinessConnectionId {
 }
 
 export interface ExtraForwardMessage extends ExtraDisableNotifications, ExtraMessageThread, ExtraProtectContent, ExtraBusinessConnectionId {
@@ -622,7 +622,7 @@ export interface ExtraLocation extends ExtraDisableNotifications, ExtraReplyMess
   proximity_alert_radius?: number
 }
 
-export interface ExtraEditLocation extends ExtraReplyMarkupInlineKeyboard {
+export interface ExtraEditLocation extends ExtraReplyMarkupInlineKeyboard, ExtraBusinessConnectionId {
   /**
    * The radius of uncertainty for the location, measured in meters; 0-1500
    */
@@ -644,7 +644,7 @@ export interface ExtraEditLocation extends ExtraReplyMarkupInlineKeyboard {
   proximity_alert_radius?: number
 }
 
-export interface ExtraStopLiveLocation extends ExtraReplyMarkupInlineKeyboard {
+export interface ExtraStopLiveLocation extends ExtraReplyMarkupInlineKeyboard, ExtraBusinessConnectionId {
 }
 
 export interface ExtraCreateForumTopic extends ExtraIcon {
@@ -824,10 +824,13 @@ export interface ExtraQuiz extends ExtraPoll {
   explanation_parse_mode?: ParseMode
 }
 
-export interface ExtraStopPoll extends ExtraReplyMarkupInlineKeyboard {
+export interface ExtraStopPoll extends ExtraReplyMarkupInlineKeyboard, ExtraBusinessConnectionId {
 }
 
-export interface ExtraEditCaption extends ExtraCaptionFormatting, ExtraReplyMarkupInlineKeyboard, ExtraCaptionAboveMedia {
+export interface ExtraEditCaption extends ExtraCaptionFormatting, ExtraReplyMarkupInlineKeyboard, ExtraCaptionAboveMedia, ExtraBusinessConnectionId {
+}
+
+export interface ExtraEditMessageReplyMarkup extends ExtraBusinessConnectionId {
 }
 
 export interface ExtraAnswerCallbackQuery {

@@ -735,6 +735,10 @@ class Telegram extends ApiClient {
     })
   }
 
+  getStarTransactions (extra) {
+    return this.callApi('getStarTransactions', extra)
+  }
+
   refundStarPayment (
     userId,
     telegramPaymentChargeId

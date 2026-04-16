@@ -860,12 +860,14 @@ export declare class Telegram extends ApiClient {
    * @param messageId Required if inlineMessageId is not specified. Identifier of the sent message
    * @param inlineMessageId Required if chatId and messageId are not specified. Identifier of the inline message
    * @param markup Markup of inline keyboard
+   * @param extra Extra params
    */
   editMessageReplyMarkup(
     chatId?: number | string,
     messageId?: number,
     inlineMessageId?: string,
-    markup?: tt.InlineKeyboardMarkup
+    markup?: tt.InlineKeyboardMarkup,
+    extra?: tt.ExtraEditMessageReplyMarkup
   ): Promise<tt.Message | boolean>
 
   /**
@@ -1473,6 +1475,16 @@ export declare class Telegram extends ApiClient {
   getBusinessConnection(
     businessConnectionId: string
   ): Promise<tt.BusinessConnection>
+
+  /**
+   * @param extra.offset Number of transactions to skip in the response
+   * @param extra.limit The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to 100.
+   * @returns Returns the bot's Telegram Star transactions in chronological order. On success, returns a StarTransactions object.
+   */
+  getStarTransactions(extra: {
+    offset?: number
+    limit?: number
+  }): Promise<tt.StarTransactions>
 
   /**
    * Refunds a successful payment in Telegram Stars.
