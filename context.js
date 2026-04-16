@@ -18,7 +18,8 @@ const UpdateTypes = [
   'business_connection',
   'business_message',
   'edited_business_message',
-  'deleted_business_messages'
+  'deleted_business_messages',
+  'purchased_paid_media'
 ]
 
 const MessageSubTypes = [
@@ -307,6 +308,10 @@ class RegrafContext extends TelegrafContext {
 
   get chatBackground () {
     return this.message && this.message.chat_background_set
+  }
+
+  get paidMedia () {
+    return this.update && this.update.purchased_paid_media
   }
 
   get state () {

@@ -45,7 +45,8 @@ export type UpdateType =
   'business_connection ' |
   'business_message' |
   'edited_business_message' |
-  'deleted_business_messages'
+  'deleted_business_messages' |
+  'purchased_paid_media'
 
 export type MessageSubTypes =
   'voice' |

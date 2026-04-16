@@ -64,6 +64,7 @@ export declare class RegrafContext {
   businessConnectionId?: string
   senderBusinessBot?: tt.User
   chatBackground?: tt.ChatBackground
+  paidMedia?: tt.PaidMedia
 
   constructor(
     update: tt.Update,
