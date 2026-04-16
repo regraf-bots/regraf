@@ -178,7 +178,7 @@ export interface InputMediaPhoto extends ExtraCaption, ExtraSpoiler {
   media: InputFile
 }
 
-export interface InputMediaVideo extends ExtraCaption, ExtraSpoiler {
+export interface InputMediaVideo extends ExtraCaption, ExtraSpoiler, ExtraCover, ExtraStartTimestamp {
   type: InputMediaTypes
   media: InputFile
   thumbnail?: string | InputFile
@@ -279,12 +279,10 @@ export interface PaidMediaPhoto {
   media: InputFile
 }
 
-export interface PaidMediaVideo {
+export interface PaidMediaVideo extends ExtraCover, ExtraStartTimestamp {
   type: "video"
   media: InputFile
   thumbnail?: InputFile
-  cover?: InputFile
-  start_timestamp?: number
   width?: number
   height?: number
   duration?: number
@@ -589,7 +587,7 @@ export interface ExtraEditMessage extends ExtraFormatting, ExtraDisableWebPagePr
 export interface ExtraEditMessageMedia extends ExtraReplyMarkupInlineKeyboard, ExtraBusinessConnectionId {
 }
 
-export interface ExtraForwardMessage extends ExtraDisableNotifications, ExtraMessageThread, ExtraProtectContent, ExtraBusinessConnectionId {
+export interface ExtraForwardMessage extends ExtraDisableNotifications, ExtraMessageThread, ExtraProtectContent, ExtraBusinessConnectionId, ExtraVideoStartTimestamp {
 }
 
 export interface ExtraSendChatAction extends ExtraMessageThread, ExtraBusinessConnectionId {
@@ -763,6 +761,27 @@ export interface ExtraSpoiler {
   has_spoiler?: boolean
 }
 
+export interface ExtraCover {
+  /**
+   * Cover for the video in the message.
+   */
+  cover?: InputFile
+}
+
+export interface ExtraStartTimestamp {
+  /**
+   * Start timestamp for the video in the message
+   */
+  start_timestamp?: number
+}
+
+export interface ExtraVideoStartTimestamp {
+  /**
+   * New start timestamp for the forwarded video in the message
+   */
+  video_start_timestamp?: number
+}
+
 export interface ExtraPhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia, ExtraPaidBroadcast {
 }
 
@@ -779,7 +798,7 @@ export interface ExtraSticker extends ExtraDisableNotifications, ExtraReplyMessa
   emoji?: string
 }
 
-export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia, ExtraPaidBroadcast {
+export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia, ExtraPaidBroadcast, ExtraCover, ExtraStartTimestamp {
   /**
    * Duration of sent video in seconds
    */
@@ -923,7 +942,7 @@ export interface ExtraAnswerCallbackQuery {
   cache_time?: number
 }
 
-export interface ExtraCopyMessage extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraCaptionAboveMedia, ExtraPaidBroadcast {
+export interface ExtraCopyMessage extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraCaptionAboveMedia, ExtraPaidBroadcast, ExtraVideoStartTimestamp {
 }
 
 export type Extra = ExtraSendMessage
