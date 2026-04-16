@@ -549,7 +549,14 @@ export interface ExtraCaptionAboveMedia {
   show_caption_above_media?: boolean
 }
 
-export interface ExtraSendMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraPaidBroadcast {
+  /**
+   * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+   */
+  allow_paid_broadcast?: boolean
+}
+
+export interface ExtraSendMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
 }
 
 export interface ExtraEditMessage extends ExtraFormatting, ExtraDisableWebPagePreview, ExtraReplyMarkupInlineKeyboard, ExtraBusinessConnectionId {
@@ -574,7 +581,7 @@ export interface ExtraUnpinMessage extends ExtraBusinessConnectionId {
   message_id?: number
 }
 
-export interface ExtraAudio extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraAudio extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
 
   /**
    * Duration of the audio in seconds
@@ -600,7 +607,7 @@ export interface ExtraAudio extends ExtraCaption, ExtraDisableNotifications, Ext
   thumbnail?: InputFile
 }
 
-export interface ExtraDocument extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraDocument extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /**
    * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
    * The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail‘s width and height should not exceed 320.
@@ -615,16 +622,16 @@ export interface ExtraDocument extends ExtraCaption, ExtraDisableNotifications, 
   disable_content_type_detection?: Boolean
 }
 
-export interface ExtraGame extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkupInlineKeyboard, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraGame extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkupInlineKeyboard, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
 }
 
-export interface ExtraInvoice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkupInlineKeyboard, ExtraProtectContent, ExtraMessageThread, ExtraEffectId {
+export interface ExtraInvoice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkupInlineKeyboard, ExtraProtectContent, ExtraMessageThread, ExtraEffectId, ExtraPaidBroadcast {
 }
 
 export interface CreateInvoiceLink extends ExtraBusinessConnectionId {
 }
 
-export interface ExtraLocation extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraLocation extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /**
    * The radius of uncertainty for the location, measured in meters; 0-1500
    */
@@ -687,7 +694,7 @@ export interface ExtraIcon {
   icon_custom_emoji_id?: string
 }
 
-export interface ExtraVenue extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraVenue extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /**
    * Foursquare identifier of the venue
    */
@@ -709,7 +716,7 @@ export interface ExtraVenue extends ExtraDisableNotifications, ExtraReplyMessage
   google_place_type?: string
 }
 
-export interface ExtraContact extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraContact extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /**
    * Contact's last name
    */
@@ -728,23 +735,23 @@ export interface ExtraSpoiler {
   has_spoiler?: boolean
 }
 
-export interface ExtraPhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia {
+export interface ExtraPhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia, ExtraPaidBroadcast {
 }
 
-export interface ExtraMediaGroup extends ExtraDisableNotifications, ExtraReplyMessage, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraMediaGroup extends ExtraDisableNotifications, ExtraReplyMessage, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
 }
 
-export interface ExtraAnimation extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia {
+export interface ExtraAnimation extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia, ExtraPaidBroadcast {
 }
 
-export interface ExtraSticker extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraSticker extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /**
    * Emoji associated with the sticker; only for just uploaded stickers
    */
   emoji?: string
 }
 
-export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia {
+export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia, ExtraPaidBroadcast {
   /**
    * Duration of sent video in seconds
    */
@@ -774,7 +781,7 @@ export interface ExtraVideo extends ExtraCaption, ExtraDisableNotifications, Ext
   supports_streaming?: boolean
 }
 
-export interface ExtraVideoNote extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraVideoNote extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /**
    * Duration of sent video in seconds
    */
@@ -794,17 +801,17 @@ export interface ExtraVideoNote extends ExtraDisableNotifications, ExtraReplyMes
   thumbnail?: InputFile
 }
 
-export interface ExtraVoice extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraVoice extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /**
    * Duration of the voice message in seconds
    */
   duration?: number
 }
 
-export interface ExtraPaidMedia extends ExtraBusinessConnectionId, ExtraMessageThread, ExtraPayload, ExtraCaption, ExtraCaptionFormatting, ExtraCaptionAboveMedia, ExtraDisableNotifications, ExtraProtectContent, ExtraReplyMarkup, ExtraReplyMessage {
+export interface ExtraPaidMedia extends ExtraBusinessConnectionId, ExtraMessageThread, ExtraPayload, ExtraCaption, ExtraCaptionFormatting, ExtraCaptionAboveMedia, ExtraDisableNotifications, ExtraProtectContent, ExtraReplyMarkup, ExtraReplyMessage, ExtraPaidBroadcast {
 }
 
-export interface ExtraDice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraDice extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /**
    * Emoji on which the dice throw animation is based.
    * Currently, must be one of “🎲”, “🎯”, “🏀”, “⚽”, or “🎰”.
@@ -814,7 +821,7 @@ export interface ExtraDice extends ExtraDisableNotifications, ExtraReplyMessage,
   emoji?: string
 }
 
-export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId {
+export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /** True, if the poll needs to be anonymous, defaults to True */
   is_anonymous?: boolean
 
@@ -876,7 +883,7 @@ export interface ExtraAnswerCallbackQuery {
   cache_time?: number
 }
 
-export interface ExtraCopyMessage extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraCaptionAboveMedia {
+export interface ExtraCopyMessage extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraCaptionAboveMedia, ExtraPaidBroadcast {
 }
 
 export type Extra = ExtraSendMessage
