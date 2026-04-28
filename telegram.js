@@ -1,5 +1,8 @@
 const replicators = require('./core/replicators')
 const ApiClient = require('./core/network/client')
+const { InputProfilePhoto, InputStoryContent } = require('./typings/telegram-types')
+const { AcceptedGiftTypes } = require('@grammyjs/types')
+const tt = require('./typings/telegram-types')
 
 class Telegram extends ApiClient {
   getMe () {
@@ -775,6 +778,201 @@ class Telegram extends ApiClient {
 
   removeChatVerification (chatId) {
     return this.callApi('removeChatVerification', { chat_id: chatId })
+  }
+
+  readBusinessMessage (
+    businessConnectionId,
+    chatId,
+    messageId
+  ) {
+    return this.callApi('readBusinessMessage', {
+      business_connection_id: businessConnectionId,
+      chat_id: chatId,
+      message_id: messageId
+    })
+  }
+
+  deleteBusinessMessages (
+    businessConnectionId,
+    messageIds
+  ) {
+    return this.callApi('deleteBusinessMessages', {
+      business_connection_id: businessConnectionId,
+      message_ids: messageIds
+    })
+  }
+
+  setBusinessAccountName (
+    businessConnectionId,
+    firstName,
+    lastName
+  ) {
+    return this.callApi('setBusinessAccountName', {
+      business_connection_id: businessConnectionId,
+      first_name: firstName,
+      last_name: lastName
+    })
+  }
+
+  setBusinessAccountUsername (businessConnectionId, username) {
+    return this.callApi('setBusinessAccountUsername', {
+      business_connection_id: businessConnectionId,
+      username: username
+    })
+  }
+
+  setBusinessAccountBio (businessConnectionId, bio) {
+    return this.callApi('setBusinessAccountBio', {
+      business_connection_id: businessConnectionId,
+      bio: bio
+    })
+  }
+
+  setBusinessAccountProfilePhoto (
+    businessConnectionId,
+    photo,
+    isPublic
+  ) {
+    return this.callApi('setBusinessAccountProfilePhoto', {
+      business_connection_id: businessConnectionId,
+      photo: photo,
+      is_public: isPublic
+    })
+  }
+
+  removeBusinessAccountProfilePhoto (
+    businessConnectionId,
+    isPublic
+  ) {
+    return this.callApi('removeBusinessAccountProfilePhoto', {
+      business_connection_id: businessConnectionId,
+      is_public: isPublic
+    })
+  }
+
+  setBusinessAccountGiftSettings (
+    businessConnectionId,
+    showGiftButton,
+    acceptedGiftTypes
+  ) {
+    return this.callApi('setBusinessAccountGiftSettings', {
+      business_connection_id: businessConnectionId,
+      show_gift_button: showGiftButton,
+      accepted_gift_types: acceptedGiftTypes
+    })
+  }
+
+  getBusinessAccountStarBalance (
+    businessConnectionId
+  ) {
+    return this.callApi('getBusinessAccountStarBalance', {
+      business_connection_id: businessConnectionId
+    })
+  }
+
+  transferBusinessAccountStars (
+    businessConnectionId,
+    starCount
+  ) {
+    return this.callApi('transferBusinessAccountStars', {
+      business_connection_id: businessConnectionId,
+      star_count: starCount
+    })
+  }
+
+  getBusinessAccountGifts (
+    businessConnectionId,
+    extra
+  ) {
+    return this.callApi('getBusinessAccountGifts', {
+      business_connection_id: businessConnectionId,
+      ...extra
+    })
+  }
+
+  convertGiftToStars (
+    businessConnectionId,
+    ownedGiftId
+  ) {
+    return this.callApi('convertGiftToStars', {
+      business_connection_id: businessConnectionId,
+      owned_gift_id: ownedGiftId
+    })
+  }
+
+  upgradeGift (
+    businessConnectionId,
+    ownedGiftId,
+    extra
+  ) {
+    return this.callApi('upgradeGift', {
+      business_connection_id: businessConnectionId,
+      owned_gift_id: ownedGiftId,
+      ...extra
+    })
+  }
+
+  transferGift (
+    businessConnectionId,
+    ownedGiftId,
+    newOwnerChatId,
+    starCount
+  ) {
+    return this.callApi('transferGift', {
+      business_connection_id: businessConnectionId,
+      owned_gift_id: ownedGiftId,
+      new_owner_chat_id: newOwnerChatId,
+      star_count: starCount
+    })
+  }
+
+  postStory (
+    businessConnectionId,
+    content,
+    activePeriod,
+    extra
+  ) {
+    return this.callApi('postStory', {
+      business_connection_id: businessConnectionId,
+      content: content,
+      active_period: activePeriod,
+      ...extra
+    })
+  }
+
+  editStory (
+    businessConnectionId,
+    storyId,
+    content,
+    extra
+  ) {
+    return this.callApi('editStory', {
+      business_connection_id: businessConnectionId,
+      story_id: storyId,
+      content: content,
+      ...extra
+    })
+  }
+
+  deleteStory (businessConnectionId, storyId) {
+    return this.callApi('deleteStory', {
+      business_connection_id: businessConnectionId,
+      story_id: storyId
+    })
+  }
+
+  giftPremiumSubscription (
+    userId,
+    monthCount,
+    starCount,
+    extra
+  ) {
+    return this.callApi('giftPremiumSubscription', {
+      user_id: userId,
+      month_count: monthCount,
+      star_count: starCount,
+      ...extra
+    })
   }
 
   getBusinessConnection (businessConnectionId) {

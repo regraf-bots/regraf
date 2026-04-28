@@ -1,3 +1,6 @@
+const { AcceptedGiftTypes } = require('@grammyjs/types')
+const tt = require('./typings/telegram-types')
+const { InputStoryContent } = require('./typings/telegram-types')
 const UpdateTypes = [
   'callback_query',
   'channel_post',
@@ -1120,6 +1123,15 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.sendGift(giftId, target, extra)
   }
 
+  giftPremiumSubscription (
+    monthCount,
+    starCount,
+    extra
+  ) {
+    this.assert(this.from, 'giftPremiumSubscription')
+    return this.telegram.giftPremiumSubscription(this.from.id, monthCount, starCount, extra)
+  }
+
   verifyUser (customDescription) {
     this.assert(this.from, 'verifyUser')
     return this.telegram.verifyUser(this.from.id, customDescription)
@@ -1138,6 +1150,129 @@ class RegrafContext extends TelegrafContext {
   removeChatVerification () {
     this.assert(this.chat, 'removeChatVerification')
     return this.telegram.removeChatVerification(this.chat.id)
+  }
+
+  readBusinessMessage (messageId) {
+    if (!messageId) {
+      this.assert(this.message, 'readBusinessMessage')
+      messageId = this.message.message_id
+    }
+    this.assert(this.chat, 'readBusinessMessage')
+    this.assert(this.businessConnectionId, 'readBusinessMessage')
+    return this.telegram.readBusinessMessage(this.businessConnectionId, this.chat.id, messageId)
+  }
+
+  deleteBusinessMessages (messageIds) {
+    if (!messageIds || !messageIds.length) {
+      this.assert(this.message, 'deleteBusinessMessages')
+      messageIds = [this.message.message_id]
+    }
+    this.assert(this.businessConnectionId, 'deleteBusinessMessages')
+    return this.telegram.deleteBusinessMessages(this.businessConnectionId, messageIds)
+  }
+
+  setBusinessAccountName (firstName, lastName) {
+    this.assert(this.businessConnectionId, 'setBusinessAccountName')
+    return this.telegram.setBusinessAccountName(this.businessConnectionId, firstName, lastName)
+  }
+
+  setBusinessAccountUsername (username) {
+    this.assert(this.businessConnectionId, 'setBusinessAccountUsername')
+    return this.telegram.setBusinessAccountUsername(this.businessConnectionId, username)
+  }
+
+  setBusinessAccountBio (bio) {
+    this.assert(this.businessConnectionId, 'setBusinessAccountBio')
+    return this.telegram.setBusinessAccountBio(this.businessConnectionId, bio)
+  }
+
+  setBusinessAccountProfilePhoto (
+    photo,
+    isPublic
+  ) {
+    this.assert(this.businessConnectionId, 'setBusinessAccountProfilePhoto')
+    return this.telegram.setBusinessAccountProfilePhoto(this.businessConnectionId, photo, isPublic)
+  }
+
+  removeBusinessAccountProfilePhoto (
+    isPublic
+  ) {
+    this.assert(this.businessConnectionId, 'removeBusinessAccountProfilePhoto')
+    return this.telegram.removeBusinessAccountProfilePhoto(this.businessConnectionId, isPublic)
+  }
+
+  setBusinessAccountGiftSettings (
+    showGiftButton,
+    acceptedGiftTypes
+  ) {
+    this.assert(this.businessConnectionId, 'setBusinessAccountGiftSettings')
+    return this.telegram.setBusinessAccountGiftSettings(this.businessConnectionId, showGiftButton, acceptedGiftTypes)
+  }
+
+  getBusinessAccountStarBalance () {
+    this.assert(this.businessConnectionId, 'getBusinessAccountStarBalance')
+    return this.telegram.getBusinessAccountStarBalance(this.businessConnectionId)
+  }
+
+  transferBusinessAccountStars (
+    starCount
+  ) {
+    this.assert(this.businessConnectionId, 'transferBusinessAccountStars')
+    return this.telegram.transferBusinessAccountStars(this.businessConnectionId, starCount)
+  }
+
+  getBusinessAccountGifts (
+    extra
+  ) {
+    this.assert(this.businessConnectionId, 'getBusinessAccountGifts')
+    return this.telegram.getBusinessAccountGifts(this.businessConnectionId, extra)
+  }
+
+  convertGiftToStars (
+    ownedGiftId
+  ) {
+    this.assert(this.businessConnectionId, 'convertGiftToStars')
+    return this.telegram.convertGiftToStars(this.businessConnectionId, ownedGiftId)
+  }
+
+  upgradeGift (
+    ownedGiftId,
+    extra
+  ) {
+    this.assert(this.businessConnectionId, 'upgradeGift')
+    return this.telegram.upgradeGift(this.businessConnectionId, ownedGiftId, extra)
+  }
+
+  transferGift (
+    ownedGiftId,
+    newOwnerChatId,
+    starCount
+  ) {
+    this.assert(this.businessConnectionId, 'transferGift')
+    return this.telegram.transferGift(this.businessConnectionId, ownedGiftId, newOwnerChatId, starCount)
+  }
+
+  postStory (
+    content,
+    activePeriod,
+    extra
+  ) {
+    this.assert(this.businessConnectionId, 'postStory')
+    return this.telegram.postStory(this.businessConnectionId, content, activePeriod, extra)
+  }
+
+  editStory (
+    storyId,
+    content,
+    extra
+  ) {
+    this.assert(this.businessConnectionId, 'editStory')
+    return this.telegram.editStory(this.businessConnectionId, storyId, content, extra)
+  }
+
+  deleteStory (storyId) {
+    this.assert(this.businessConnectionId, 'deleteStory')
+    return this.telegram.deleteStory(this.businessConnectionId, storyId)
   }
 
   getBusinessConnection () {

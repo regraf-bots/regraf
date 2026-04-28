@@ -4,12 +4,16 @@ import * as tt from './telegram-types.d'
 
 import * as https from 'https'
 import * as http from 'http'
-import { BotDescription, BotName, BotShortDescription } from '@grammyjs/types'
 import {
-  ExtraPaidMedia,
-  ExtraSendChatAction,
-  TargetEntity,
-} from './telegram-types.d'
+  AcceptedGiftTypes,
+  BotDescription,
+  BotName,
+  BotShortDescription,
+  OwnedGifts,
+  StarAmount,
+  Story,
+} from '@grammyjs/types'
+import { InputStoryContent } from './telegram-types.d'
 
 export interface TelegramOptions {
   /**
@@ -1539,8 +1543,23 @@ export declare class Telegram extends ApiClient {
    */
   sendGift(
     giftId: string,
-    target: TargetEntity,
+    target: tt.TargetEntity,
     extra?: tt.ExtraGift
+  ): Promise<boolean>
+
+  /**
+   * Gifts a Telegram Premium subscription to the given user.
+   * @param userId Unique identifier of the target user who will receive a Telegram Premium subscription
+   * @param monthCount Number of months the Telegram Premium subscription will be active for the user; must be one of 3, 6, or 12
+   * @param starCount Number of Telegram Stars to pay for the Telegram Premium subscription; must be 1000 for 3 months, 1500 for 6 months, and 2500 for 12 months
+   * @param extra Extra params
+   * @returns Returns True on success.
+   */
+  giftPremiumSubscription(
+    userId: number,
+    monthCount: number,
+    starCount: number,
+    extra: tt.ExtraGiftPremiumSubscription
   ): Promise<boolean>
 
   /**
@@ -1572,6 +1591,208 @@ export declare class Telegram extends ApiClient {
    * @returns Returns True on success.
    */
   removeChatVerification(chatId: number): Promise<boolean>
+
+  /**
+   * Marks incoming message as read on behalf of a business account. Requires the can_read_messages business bot right.
+   * @param businessConnectionId Unique identifier of the business connection on behalf of which to read the message
+   * @param chatId Unique identifier of the chat in which the message was received. The chat must have been active in the last 24 hours.
+   * @param messageId Unique identifier of the message to mark as read
+   * @returns Returns True on success.
+   */
+  readBusinessMessage(
+    businessConnectionId: string,
+    chatId: number,
+    messageId: number
+  ): Promise<boolean>
+
+  /**
+   * Delete messages on behalf of a business account. Requires the can_delete_sent_messages business bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot right to delete any message.
+   * @param businessConnectionId Unique identifier of the business connection on behalf of which to delete the messages
+   * @param messageIds A list of 1-100 identifiers of messages to delete. All messages must be from the same chat. See deleteMessage for limitations on which messages can be deleted
+   * @returns Returns True on success.
+   */
+  deleteBusinessMessages(
+    businessConnectionId: string,
+    messageIds: number[]
+  ): Promise<boolean>
+
+  /**
+   * Changes the first and last name of a managed business account. Requires the can_change_name business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param firstName The new value of the first name for the business account; 1-64 characters
+   * @param lastName The new value of the last name for the business account; 0-64 characters
+   * @returns Returns True on success.
+   */
+  setBusinessAccountName(
+    businessConnectionId: string,
+    firstName: string,
+    lastName?: string
+  ): Promise<boolean>
+
+  /**
+   * Changes the username of a managed business account. Requires the can_change_username business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param username The new value of the username for the business account; 0-32 characters
+   * @returns Returns True on success.
+   */
+  setBusinessAccountUsername(
+    businessConnectionId: string,
+    username?: string
+  ): Promise<boolean>
+
+  /**
+   * Changes the bio of a managed business account. Requires the can_change_bio business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param bio The new value of the bio for the business account; 0-140 characters
+   * @returns Returns True on success.
+   */
+  setBusinessAccountBio(
+    businessConnectionId: string,
+    bio?: string
+  ): Promise<boolean>
+
+  /**
+   * Changes the profile photo of a managed business account. Requires the can_edit_profile_photo business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param photo The new profile photo to set
+   * @param isPublic Pass True to set the public photo, which will be visible even if the main photo is hidden by the business account's privacy settings. An account can have only one public photo.
+   * @returns Returns True on success.
+   */
+  setBusinessAccountProfilePhoto(
+    businessConnectionId: string,
+    photo: tt.InputProfilePhoto,
+    isPublic?: boolean
+  ): Promise<boolean>
+
+  /**
+   * Removes the current profile photo of a managed business account. Requires the can_edit_profile_photo business bot right
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param isPublic Pass True to remove the public photo, which is visible even if the main photo is hidden by the business account's privacy settings. After the main photo is removed, the previous profile photo (if present) becomes the main photo.
+   * @returns Returns True on success.
+   */
+  removeBusinessAccountProfilePhoto(
+    businessConnectionId: string,
+    isPublic?: boolean
+  ): Promise<boolean>
+
+  /**
+   * Changes the privacy settings pertaining to incoming gifts in a managed business account. Requires the can_change_gift_settings business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param showGiftButton Pass True, if a button for sending a gift to the user or by the business account must always be shown in the input field
+   * @param acceptedGiftTypes Types of gifts accepted by the business account
+   * @returns Returns True on success.
+   */
+  setBusinessAccountGiftSettings(
+    businessConnectionId: string,
+    showGiftButton: boolean,
+    acceptedGiftTypes: AcceptedGiftTypes[]
+  ): Promise<boolean>
+
+  /**
+   * Returns the amount of Telegram Stars owned by a managed business account. Requires the can_view_gifts_and_stars business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @returns Returns {@linkcode StarAmount} on success.
+   */
+  getBusinessAccountStarBalance(
+    businessConnectionId: string
+  ): Promise<StarAmount>
+
+  /**
+   * Transfers Telegram Stars from the business account balance to the bot's balance. Requires the can_transfer_stars business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param starCount Number of Telegram Stars to transfer; 1-10000
+   * @returns Returns True on success.
+   */
+  transferBusinessAccountStars(
+    businessConnectionId: string,
+    starCount: number
+  ): Promise<boolean>
+
+  /**
+   * Returns the gifts received and owned by a managed business account. Requires the can_view_gifts_and_stars business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param extra Extra params
+   * @returns Returns {@linkcode OwnedGifts} on success.
+   */
+  getBusinessAccountGifts(
+    businessConnectionId: string,
+    extra?: tt.ExtraGetBusinessAccountGifts
+  ): Promise<OwnedGifts>
+
+  /**
+   * Converts a given regular gift to Telegram Stars. Requires the can_convert_gifts_to_stars business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param ownedGiftId Unique identifier of the regular gift that should be converted to Telegram Stars
+   * @returns Returns True on success.
+   */
+  convertGiftToStars(
+    businessConnectionId: string,
+    ownedGiftId: string
+  ): Promise<boolean>
+
+  /**
+   * Upgrades a given regular gift to a unique gift. Requires the can_transfer_and_upgrade_gifts business bot right. Additionally requires the can_transfer_stars business bot right if the upgrade is paid.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param ownedGiftId Unique identifier of the regular gift that should be upgraded to a unique one
+   * @param extra Extra params
+   */
+  upgradeGift(
+    businessConnectionId: string,
+    ownedGiftId: string,
+    extra: tt.ExtraUpgradeGift
+  ): Promise<boolean>
+
+  /**
+   * Transfers an owned unique gift to another user. Requires the can_transfer_and_upgrade_gifts business bot right. Requires can_transfer_stars business bot right if the transfer is paid.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param ownedGiftId Unique identifier of the regular gift that should be transferred
+   * @param newOwnerChatId Unique identifier of the chat which will own the gift. The chat must be active in the last 24 hours.
+   * @param starCount The amount of Telegram Stars that will be paid for the transfer from the business account balance. If positive, then the can_transfer_stars business bot right is required.
+   */
+  transferGift(
+    businessConnectionId: string,
+    ownedGiftId: string,
+    newOwnerChatId: string,
+    starCount?: number
+  ): Promise<boolean>
+
+  /**
+   * Posts a story on behalf of a managed business account. Requires the can_manage_stories business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param content Content of the story
+   * @param activePeriod Period after which the story is moved to the archive, in seconds; must be one of `6 * 3600`, `12 * 3600`, `86400`, or `2 * 86400`
+   * @param extra Extra params
+   * @returns Returns {@linkcode Story} on success.
+   */
+  postStory(
+    businessConnectionId: string,
+    content: InputStoryContent,
+    activePeriod: number,
+    extra: tt.ExtraPostStory
+  ): Promise<Story>
+
+  /**
+   * Edits a story previously posted by the bot on behalf of a managed business account. Requires the can_manage_stories business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param storyId Unique identifier of the story to edit
+   * @param content Content of the story
+   * @param extra Extra params
+   * @returns Returns {@linkcode Story} on success.
+   */
+  editStory(
+    businessConnectionId: string,
+    storyId: number,
+    content: InputStoryContent,
+    extra: tt.ExtraEditStory
+  ): Promise<Story>
+
+  /**
+   * Deletes a story previously posted by the bot on behalf of a managed business account. Requires the can_manage_stories business bot right.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param storyId Unique identifier of the story to delete
+   * @returns Returns True on success.
+   */
+  deleteStory(businessConnectionId: string, storyId: number): Promise<boolean>
 
   /**
    * Use this method to get information about the connection of the bot with a business account.

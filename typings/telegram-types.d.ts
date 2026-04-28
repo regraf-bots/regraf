@@ -1,4 +1,5 @@
 import * as TT from '@grammyjs/types'
+import { StoryArea } from '@grammyjs/types'
 
 export * from '@grammyjs/types'
 
@@ -171,6 +172,34 @@ export interface TargetEntity {
    * Required if user_id is not specified. Unique identifier for the chat or username of the channel (in the format @channelusername) that will receive the gift.
    */
   chat_id?: number;
+}
+
+export type InputProfilePhoto = InputProfilePhotoStatic | InputProfilePhotoAnimated
+
+export interface InputProfilePhotoStatic {
+  type: 'static'
+  photo: InputFile
+}
+
+export interface InputProfilePhotoAnimated {
+  type: 'animated'
+  animation: InputFile
+  main_frame_timestamp?: number
+}
+
+export type InputStoryContent = InputStoryContentPhoto | InputStoryContentVideo
+
+export interface InputStoryContentPhoto {
+  type: 'photo'
+  photo: InputFile
+}
+
+export interface InputStoryContentVideo {
+  type: 'video'
+  video: InputFile
+  duration?: number
+  cover_frame_timestamp?: number
+  is_animation?: boolean
 }
 
 export interface InputMediaPhoto extends ExtraCaption, ExtraSpoiler {
@@ -940,6 +969,96 @@ export interface ExtraAnswerCallbackQuery {
    * Telegram apps will support caching starting in version 3.14. Defaults to 0.
    */
   cache_time?: number
+}
+
+export interface ExtraGetBusinessAccountGifts {
+  /**
+   * Pass True to exclude gifts that aren't saved to the account's profile page
+   */
+  exclude_unsaved?: boolean
+
+  /**
+   * Pass True to exclude gifts that are saved to the account's profile page
+   */
+  exclude_saved?: boolean
+
+  /**
+   * Pass True to exclude gifts that can be purchased an unlimited number of times
+   */
+  exclude_unlimited?: boolean
+
+  /**
+   * Pass True to exclude gifts that can be purchased a limited number of times and can be upgraded to unique
+   */
+  exclude_limited_upgradable?: boolean
+
+  /**
+   * Pass True to exclude gifts that can be purchased a limited number of times and can't be upgraded to unique
+   */
+  exclude_limited_non_upgradable?: boolean
+
+  /**
+   * 	Pass True to exclude unique gifts
+   */
+  exclude_unique?: boolean
+
+  /**
+   * Pass True to exclude gifts that were assigned from the TON blockchain and can't be resold or transferred in Telegram
+   */
+  exclude_from_blockchain?: boolean
+
+  /**
+   * Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
+   */
+  sort_by_price?: boolean
+
+  /**
+   * Offset of the first entry to return as received from the previous request; use empty string to get the first chunk of results
+   */
+  offset?: string
+
+  /**
+   * The maximum number of gifts to be returned; 1-100. Defaults to 100
+   */
+  limit?: number
+}
+
+export interface ExtraUpgradeGift {
+  /**
+   * Pass True to keep the original gift text, sender and receiver in the upgraded gift
+   */
+  keep_original_details?: boolean
+
+  /**
+   * The amount of Telegram Stars that will be paid for the upgrade from the business account balance. If `gift.prepaid_upgrade_star_count > 0`, then pass 0, otherwise, the can_transfer_stars business bot right is required and `gift.upgrade_star_count` must be passed.
+   */
+  star_count?: number
+}
+
+export interface ExtraPostStory extends ExtraCaption, ExtraCaptionFormatting, ExtraProtectContent {
+  /**
+   * A list of clickable areas to be shown on the story
+   */
+  areas: StoryArea[]
+
+  /**
+   * Pass True to keep the story accessible after it expires
+   */
+  post_to_chat_page: boolean
+}
+
+export interface ExtraEditStory extends ExtraCaption, ExtraCaptionFormatting {
+  /**
+   * A list of clickable areas to be shown on the story
+   */
+  areas: StoryArea[]
+}
+
+export interface ExtraGiftPremiumSubscription extends ExtraTextFormatting {
+  /**
+   * Text that will be shown along with the service message about the subscription; 0-128 characters
+   */
+  text?: string
 }
 
 export interface ExtraCopyMessage extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraCaptionAboveMedia, ExtraPaidBroadcast, ExtraVideoStartTimestamp {
