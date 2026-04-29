@@ -13,7 +13,7 @@ import {
   StarAmount,
   Story,
 } from '@grammyjs/types'
-import { InputStoryContent } from './telegram-types.d'
+import { ExtraChecklist, InputStoryContent } from './telegram-types.d'
 
 export interface TelegramOptions {
   /**
@@ -501,6 +501,21 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.MessagePoll>
 
   /**
+   * Use this method to send a checklist on behalf of a connected business account.
+   * @param businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
+   * @param chatId Unique identifier for the target chat
+   * @param checklist A object for the checklist to send
+   * @param extra Extra params
+   * @returns On success, the sent Message is returned.
+   */
+  sendChecklist(
+    businessConnectionId: string,
+    chatId: number,
+    checklist: tt.InputChecklist,
+    extra?: tt.ExtraChecklist
+  ): Promise<tt.Message>
+
+  /**
    * Use this method to send a native quiz.
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param question Poll question, 1-255 characters
@@ -839,6 +854,12 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
+   * A method to get the current Telegram Stars balance of the bot. Requires no parameters.
+   * @returns On success, returns a {@linkcode StarAmount} object.
+   */
+  getMyStarBalance(): Promise<StarAmount>
+
+  /**
    * Use this method to edit text and game messages sent by the bot or via the bot (for inline bots).
    * @param chatId Required if inlineMessageId is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param messageId Required if inlineMessageId is not specified. Identifier of the sent message
@@ -939,6 +960,23 @@ export declare class Telegram extends ApiClient {
     inlineMessageId: string | void,
     extra?: tt.ExtraStopLiveLocation
   ): Promise<tt.MessageLocation | boolean>
+
+  /**
+   * Use this method to edit a checklist on behalf of a connected business account.
+   * @param businessConnectionId Unique identifier of the business connection on behalf of which the message will be sent
+   * @param chatId Unique identifier for the target chat
+   * @param messageId Unique identifier for the target message
+   * @param checklist A object for the new checklist
+   * @param extra Extra params
+   * @returns On success, the edited Message is returned.
+   */
+  editMessageChecklist(
+    businessConnectionId: string,
+    chatId: number,
+    messageId: number,
+    checklist: tt.InputChecklist,
+    extra?: tt.ExtraEditChecklist
+  ): Promise<tt.Message>
 
   /**
    * Use this method to delete a message, including service messages, with the following limitations:

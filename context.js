@@ -373,6 +373,10 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.answerPreCheckoutQuery(this.preCheckoutQuery.id, ...args)
   }
 
+  getMyStarBalance () {
+    return this.telegram.getMyStarBalance()
+  }
+
   editMessageText (text, extra) {
     this.assert(this.callbackQuery || this.inlineMessageId, 'editMessageText')
     return this.inlineMessageId
@@ -483,6 +487,16 @@ class RegrafContext extends TelegrafContext {
         undefined,
         markup
       )
+  }
+
+  editMessageChecklist (
+    checklist,
+    extra
+  ) {
+    this.assert(this.message, 'editMessageChecklist')
+    this.assert(this.chat, 'editMessageChecklist')
+    this.assert(this.businessConnectionId, 'editMessageChecklist')
+    return this.telegram.editMessageChecklist(this.businessConnectionId, this.chat.id, this.message.message_id, checklist, extra)
   }
 
   reply (text, args) {
@@ -726,6 +740,18 @@ class RegrafContext extends TelegrafContext {
       extra.reply_to_message_id = this.message.message_thread_id
     }
     return this.telegram.sendPoll(this.chat.id, question, options, extra)
+  }
+
+  replyWithChecklist (
+    checklist,
+    extra
+  ) {
+    this.assert(this.chat, 'replyWithChecklist')
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    this.assert(this.businessConnectionId, 'replyWithChecklist')
+    return this.telegram.sendChecklist(this.businessConnectionId, this.chat.id, checklist, extra)
   }
 
   replyWithQuiz (question, options, extra = {}) {

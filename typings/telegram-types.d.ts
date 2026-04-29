@@ -1061,6 +1061,12 @@ export interface ExtraGiftPremiumSubscription extends ExtraTextFormatting {
   text?: string
 }
 
+export interface ExtraChecklist extends ExtraDisableNotifications, ExtraProtectContent, ExtraEffectId, ExtraReplyMessage, ExtraReplyMarkup {
+}
+
+export interface ExtraEditChecklist extends ExtraReplyMarkup {
+}
+
 export interface ExtraCopyMessage extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraCaptionAboveMedia, ExtraPaidBroadcast, ExtraVideoStartTimestamp {
 }
 

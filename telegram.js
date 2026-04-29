@@ -232,6 +232,18 @@ class Telegram extends ApiClient {
     return this.callApi('sendPoll', { chat_id: chatId, type: 'regular', question, options, ...extra })
   }
 
+  sendChecklist (
+    businessConnectionId,
+    chatId,
+    checklist,
+    extra
+  ) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
+      delete extra.reply_parameters
+    }
+    return this.callApi('sendChecklist', { business_connection_id: businessConnectionId, chat_id: chatId, checklist, ...extra })
+  }
+
   sendQuiz (chatId, question, options, extra) {
     if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
@@ -376,6 +388,10 @@ class Telegram extends ApiClient {
     })
   }
 
+  getMyStarBalance () {
+    return this.callApi('getMyStarBalance', {})
+  }
+
   editMessageText (chatId, messageId, inlineMessageId, text, extra) {
     return this.callApi('editMessageText', {
       text,
@@ -440,6 +456,19 @@ class Telegram extends ApiClient {
       inline_message_id: inlineMessageId,
       reply_markup: markup
     })
+  }
+
+  editMessageChecklist (
+    businessConnectionId,
+    chatId,
+    messageId,
+    checklist,
+    extra
+  ) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
+      delete extra.reply_parameters
+    }
+    return this.callApi('editMessageChecklist', { business_connection_id: businessConnectionId, chat_id: chatId, message_id: messageId, checklist, ...extra })
   }
 
   deleteMessage (chatId, messageId) {

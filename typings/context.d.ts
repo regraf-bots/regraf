@@ -626,6 +626,17 @@ export declare class RegrafContext {
   ): Promise<tt.MessagePoll>
 
   /**
+   * Use this method to send a checklist on behalf of a connected business account.
+   * @param checklist A object for the checklist to send
+   * @param extra Extra params
+   * @returns On success, the sent Message is returned.
+   */
+  replyWithChecklist(
+    checklist: tt.InputChecklist,
+    extra?: tt.ExtraChecklist
+  ): Promise<tt.Message>
+
+  /**
    * Use this method to send a native quiz.
    * @param question Poll question, 1-255 characters
    * @param options List of 2-12 answer options
@@ -787,6 +798,12 @@ export declare class RegrafContext {
   answerPreCheckoutQuery(ok: boolean, errorMessage?: string): Promise<boolean>
 
   /**
+   * A method to get the current Telegram Stars balance of the bot. Requires no parameters.
+   * @returns On success, returns a {@linkcode StarAmount} object.
+   */
+  getMyStarBalance(): Promise<StarAmount>
+
+  /**
    * Use this method to edit text and game messages sent by the bot or via the bot (for inline bots).
    * @returns On success, if edited message is sent by the bot, the edited Message is returned, otherwise True is returned.
    * @param text New text of the message
@@ -849,6 +866,17 @@ export declare class RegrafContext {
   stopMessageLiveLocation(
     extra?: tt.ExtraStopLiveLocation
   ): Promise<tt.MessageLocation | boolean>
+
+  /**
+   * Use this method to edit a checklist on behalf of a connected business account.
+   * @param checklist A object for the new checklist
+   * @param extra Extra params
+   * @returns On success, the edited Message is returned.
+   */
+  editMessageChecklist(
+    checklist: tt.InputChecklist,
+    extra?: tt.ExtraEditChecklist
+  ): Promise<tt.Message>
 
   /**
    * Use this method to ban a user in a group, a supergroup or a channel.
