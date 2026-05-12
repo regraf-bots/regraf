@@ -13,7 +13,7 @@ import {
   StarAmount,
   Story,
 } from '@grammyjs/types'
-import { ExtraChecklist, InputStoryContent } from './telegram-types.d'
+import { ExtraChecklist, ExtraCreateNewStickerSet, InputStoryContent } from './telegram-types.d'
 
 export interface TelegramOptions {
   /**
@@ -1182,43 +1182,43 @@ export declare class Telegram extends ApiClient {
   /**
    * Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times)
    * https://core.telegram.org/bots/api#sending-files
-   * @param ownerId User identifier of sticker file owner
+   * @param userId User identifier of sticker file owner
    * @param sticker A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
    * @param stickerFormat Format of the sticker, must be one of “static”, “animated”, “video”
    * @returns Returns the uploaded File on success
    */
   uploadStickerFile(
-    ownerId: number,
+    userId: number,
     sticker: tt.InputFile,
     stickerFormat: tt.StickerFormat
   ): Promise<tt.File>
 
   /**
    * Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set
-   * @param ownerId User identifier of created sticker set owner
+   * @param userId User identifier of created sticker set owner
    * @param name Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_<bot username>”. <bot_username> is case insensitive. 1-64 characters.
    * @param title Sticker set title, 1-64 characters
    * @param stickers Sticker object array
-   * @param needsRepainting Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
+   * @param extra Extra params
    * @returns True on success.
    */
   createNewStickerSet(
-    ownerId: number,
+    userId: number,
     name: string,
     title: string,
     stickers: tt.InputSticker[],
-    needsRepainting?: boolean
+    extra: tt.ExtraCreateNewStickerSet
   ): Promise<boolean>
 
   /**
    * Use this method to add a new sticker to a set created by the bot
-   * @param ownerId User identifier of sticker set owner
+   * @param userId User identifier of sticker set owner
    * @param name Sticker set name
    * @param sticker Sticker object
    * @returns True on success.
    */
   addStickerToSet(
-    ownerId: number,
+    userId: number,
     name: string,
     sticker: tt.InputSticker
   ): Promise<boolean>

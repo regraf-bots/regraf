@@ -320,7 +320,9 @@ export interface PaidMediaVideo extends ExtraCover, ExtraStartTimestamp {
 
 export type PaidMedia = PaidMediaPhoto | PaidMediaVideo
 
-export type StickerFormat = "regular" | "mask" | "custom_emoji";
+export type StickerFormat = "static" | "animated" | "video";
+
+export type StickerType = "regular" | "mask" | "custom_emoji";
 
 export interface ChatPermissions {
   /** True, if the user is allowed to send text messages, contacts, locations and venues */
@@ -1169,6 +1171,17 @@ interface ExtraChatIviteLink {
    * True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
    */
   creates_join_request?: boolean
+}
+
+export interface ExtraCreateNewStickerSet {
+  /**
+   * Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created.
+   */
+  sticker_type?: StickerType;
+  /**
+   * True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker sets only
+   */
+  needs_repainting?: boolean;
 }
 
 
