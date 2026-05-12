@@ -317,6 +317,10 @@ class RegrafContext extends TelegrafContext {
     return this.update && this.update.purchased_paid_media
   }
 
+  get directMessagesTopic () {
+    return this.message && this.message.direct_messages_topic
+  }
+
   get state () {
     if (!this.contextState) {
       this.contextState = {}
@@ -765,6 +769,18 @@ class RegrafContext extends TelegrafContext {
   stopPoll (...args) {
     this.assert(this.chat, 'stopPoll')
     return this.telegram.stopPoll(this.chat.id, ...args)
+  }
+
+  approveSuggestedPost (sendDate) {
+    this.assert(this.chat, 'approveSuggestedPost')
+    this.assert(this.message, 'approveSuggestedPost')
+    return this.telegram.approveSuggestedPost(this.chat.id, this.message.message_id, sendDate)
+  }
+
+  declineSuggestedPost (comment) {
+    this.assert(this.chat, 'declineSuggestedPost')
+    this.assert(this.message, 'declineSuggestedPost')
+    return this.telegram.declineSuggestedPost(this.chat.id, this.message.message_id, comment)
   }
 
   replyWithChatAction (action) {

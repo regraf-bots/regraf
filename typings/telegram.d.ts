@@ -180,7 +180,7 @@ export declare class Telegram extends ApiClient {
     chatId: number | string,
     fromChatId: number | string,
     messageIds: (string | number)[],
-    extra?: tt.ExtraForwardMessage
+    extra?: tt.ExtraForwardMessages
   ): Promise<tt.MessageId[]>
 
   /**
@@ -542,6 +542,30 @@ export declare class Telegram extends ApiClient {
     messageId: number,
     extra: tt.ExtraStopPoll
   ): Promise<tt.Poll>
+
+  /**
+   * Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can_post_messages' administrator right in the corresponding channel chat.
+   * @param chatId Unique identifier for the target direct messages chat
+   * @param messageId Identifier of a suggested post message to approve
+   * @param sendDate Point in time (Unix timestamp) when the post is expected to be published; omit if the date has already been specified when the suggested post was created. If specified, then the date must be not more than 2678400 seconds (30 days) in the future.
+   */
+  approveSuggestedPost(
+    chatId: number,
+    messageId: number,
+    sendDate?: number
+  ): Promise<boolean>
+
+  /**
+   * Use this method to decline a suggested post in a direct messages chat. The bot must have the 'can_manage_direct_messages' administrator right in the corresponding channel chat.
+   * @param chatId Unique identifier for the target direct messages chat
+   * @param messageId Identifier of a suggested post message to decline
+   * @param comment Comment for the creator of the suggested post; 0-128 characters
+   */
+  declineSuggestedPost(
+    chatId: number,
+    messageId: number,
+    comment?: string
+  ): Promise<boolean>
 
   /**
    * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.)
@@ -1437,7 +1461,7 @@ export declare class Telegram extends ApiClient {
     chatId: number | string,
     fromChatId: number | string,
     messageIds: number[],
-    extra?: tt.ExtraCopyMessage
+    extra?: tt.ExtraCopyMessages
   ): Promise<tt.MessageId[]>
 
   /**

@@ -255,6 +255,14 @@ class Telegram extends ApiClient {
     return this.callApi('stopPoll', { chat_id: chatId, message_id: messageId, ...extra })
   }
 
+  approveSuggestedPost (chatId, messageId, sendDate) {
+    return this.callApi('approveSuggestedPost', { chat_id: chatId, message_id: messageId, send_date: sendDate })
+  }
+
+  declineSuggestedPost (chatId, messageId, comment) {
+    return this.callApi('declineSuggestedPost', { chat_id: chatId, message_id: messageId, comment })
+  }
+
   getChat (chatId) {
     return this.callApi('getChat', { chat_id: chatId })
   }

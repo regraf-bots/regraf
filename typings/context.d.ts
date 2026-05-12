@@ -74,6 +74,7 @@ export declare class RegrafContext {
   senderBusinessBot?: tt.User
   chatBackground?: tt.ChatBackground
   paidMedia?: tt.PaidMedia
+  directMessagesTopic?: tt.DirectMessagesTopic
 
   constructor(
     update: tt.Update,
@@ -658,6 +659,22 @@ export declare class RegrafContext {
   stopPoll(messageId: number, extra: tt.ExtraStopPoll): Promise<tt.Poll>
 
   /**
+   * Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can_post_messages' administrator right in the corresponding channel chat.
+   * @param sendDate Point in time (Unix timestamp) when the post is expected to be published; omit if the date has already been specified when the suggested post was created. If specified, then the date must be not more than 2678400 seconds (30 days) in the future.
+   */
+  approveSuggestedPost(
+    sendDate?: number
+  ): Promise<boolean>
+
+  /**
+   * Use this method to decline a suggested post in a direct messages chat. The bot must have the 'can_manage_direct_messages' administrator right in the corresponding channel chat.
+   * @param comment Comment for the creator of the suggested post; 0-128 characters
+   */
+  declineSuggestedPost(
+    comment?: string
+  ): Promise<boolean>
+
+  /**
    * Use this method to send .webp stickers
    * @param sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .webp file from the Internet, or upload a new one using multipart/form-data
    * @param extra Additional params to send sticker
@@ -742,7 +759,7 @@ export declare class RegrafContext {
   copyMessages(
     chatId: number | string,
     messageIds: number[],
-    extra?: tt.ExtraCopyMessage
+    extra?: tt.ExtraCopyMessages
   ): Promise<tt.MessageId[]>
   // ------------------------------------------------------------------------------------------ //
   // ------------------------------------------------------------------------------------------ //
@@ -991,11 +1008,7 @@ export declare class RegrafContext {
    */
   forwardMessage(
     chatId: number | string,
-    extra?: {
-      disable_notification?: boolean
-      message_thread_id?: number
-      protect_content?: boolean
-    }
+    extra?: tt.ExtraForwardMessage
   ): Promise<tt.Message>
 
   /**
@@ -1009,11 +1022,7 @@ export declare class RegrafContext {
   forwardMessages(
     chatId: number | string,
     messageIds?: (string | number)[],
-    extra?: {
-      disable_notification?: boolean
-      message_thread_id?: number
-      protect_content?: boolean
-    }
+    extra?: tt.ExtraForwardMessages
   ): Promise<tt.MessageId[]>
 
   /**
