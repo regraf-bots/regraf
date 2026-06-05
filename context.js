@@ -1,6 +1,5 @@
-const { AcceptedGiftTypes } = require('@grammyjs/types')
 const tt = require('./typings/telegram-types')
-const { InputStoryContent } = require('./typings/telegram-types')
+const { OwnedGifts } = require('@grammyjs/types')
 const UpdateTypes = [
   'callback_query',
   'channel_post',
@@ -674,6 +673,17 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.sendDice(this.chat.id, extra)
   }
 
+  replyWithMessageDraft (
+    draftId,
+    extra = {}
+  ) {
+    this.assert(this.chat, 'replyWithMessageDraft')
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendMessageDraft(this.chat.id, draftId, extra)
+  }
+
   replyWithDocument (document, extra = {}) {
     this.assert(this.chat, 'replyWithDocument')
     if (this.message?.message_thread_id) {
@@ -1270,6 +1280,20 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.getBusinessAccountGifts(this.businessConnectionId, extra)
   }
 
+  getUserGifts (
+    extra
+  ) {
+    this.assert(this.from, 'getUserGifts')
+    return this.telegram.getUserGifts(this.from.id, extra)
+  }
+
+  getChatGifts (
+    extra
+  ) {
+    this.assert(this.chat, 'getChatGifts')
+    return this.telegram.getChatGifts(this.chat.id, extra)
+  }
+
   convertGiftToStars (
     ownedGiftId
   ) {
@@ -1301,6 +1325,16 @@ class RegrafContext extends TelegrafContext {
   ) {
     this.assert(this.businessConnectionId, 'postStory')
     return this.telegram.postStory(this.businessConnectionId, content, activePeriod, extra)
+  }
+
+  repostStory (
+    fromChatId,
+    fromStoryId,
+    activePeriod,
+    extra
+  ) {
+    this.assert(this.businessConnectionId, 'repostStory')
+    return this.telegram.repostStory(this.businessConnectionId, fromChatId, fromStoryId, activePeriod, extra)
   }
 
   editStory (

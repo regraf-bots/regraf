@@ -1,8 +1,7 @@
 const replicators = require('./core/replicators')
 const ApiClient = require('./core/network/client')
-const { InputProfilePhoto, InputStoryContent } = require('./typings/telegram-types')
-const { AcceptedGiftTypes } = require('@grammyjs/types')
 const tt = require('./typings/telegram-types')
+const { OwnedGifts } = require('@grammyjs/types')
 
 class Telegram extends ApiClient {
   getMe () {
@@ -153,6 +152,14 @@ class Telegram extends ApiClient {
       delete extra.reply_parameters
     }
     return this.callApi('sendDice', { chat_id: chatId, ...extra })
+  }
+
+  sendMessageDraft (
+    chatId,
+    draftId,
+    extra
+  ) {
+    return this.callApi('sendMessageDraft', { chat_id: chatId, draft_id: draftId, ...extra })
   }
 
   sendDocument (chatId, document, extra) {
@@ -927,6 +934,26 @@ class Telegram extends ApiClient {
     })
   }
 
+  getUserGifts (
+    userId,
+    extra
+  ) {
+    return this.callApi('getUserGifts', {
+      user_id: userId,
+      ...extra
+    })
+  }
+
+  getChatGifts (
+    chatId,
+    extra
+  ) {
+    return this.callApi('getChatGifts', {
+      chat_id: chatId,
+      ...extra
+    })
+  }
+
   convertGiftToStars (
     businessConnectionId,
     ownedGiftId
@@ -972,6 +999,22 @@ class Telegram extends ApiClient {
     return this.callApi('postStory', {
       business_connection_id: businessConnectionId,
       content: content,
+      active_period: activePeriod,
+      ...extra
+    })
+  }
+
+  repostStory (
+    businessConnectionId,
+    fromChatId,
+    fromStoryId,
+    activePeriod,
+    extra
+  ) {
+    return this.callApi('repostStory', {
+      business_connection_id: businessConnectionId,
+      from_chat_id: fromChatId,
+      from_story_id: fromStoryId,
       active_period: activePeriod,
       ...extra
     })

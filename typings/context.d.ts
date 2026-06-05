@@ -105,7 +105,7 @@ export declare class RegrafContext {
     name: string,
     title: string,
     stickers: tt.InputSticker[],
-    extra?: tt.ExtraCreateNewStickerSet,
+    extra?: tt.ExtraCreateNewStickerSet
   ): Promise<boolean>
 
   /**
@@ -662,17 +662,13 @@ export declare class RegrafContext {
    * Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can_post_messages' administrator right in the corresponding channel chat.
    * @param sendDate Point in time (Unix timestamp) when the post is expected to be published; omit if the date has already been specified when the suggested post was created. If specified, then the date must be not more than 2678400 seconds (30 days) in the future.
    */
-  approveSuggestedPost(
-    sendDate?: number
-  ): Promise<boolean>
+  approveSuggestedPost(sendDate?: number): Promise<boolean>
 
   /**
    * Use this method to decline a suggested post in a direct messages chat. The bot must have the 'can_manage_direct_messages' administrator right in the corresponding channel chat.
    * @param comment Comment for the creator of the suggested post; 0-128 characters
    */
-  declineSuggestedPost(
-    comment?: string
-  ): Promise<boolean>
+  declineSuggestedPost(comment?: string): Promise<boolean>
 
   /**
    * Use this method to send .webp stickers
@@ -732,11 +728,21 @@ export declare class RegrafContext {
 
   /**
    * Use this method to send a dice, which will have a random value from 1 to 6. On success, the sent Message is returned. (Yes, we're aware of the “proper” singular of die. But it's awkward, and we decided to help it change. One dice at a time!)
-   * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param extra Additional params to send dice
    * @returns a Message on success
    */
   replyWithDice(extra?: tt.ExtraDice): Promise<tt.MessageDice>
+
+  /**
+   * Use this method to stream a partial message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you must call sendMessage with the complete message to persist it in the user's chat.
+   * @param draftId Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated.
+   * @param extra Additional params to send message draft
+   * @returns true on success
+   */
+  replyWithMessageDraft(
+    draftId: number,
+    extra?: tt.ExtraMessageDraft
+  ): Promise<boolean>
 
   /**
    * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message.
@@ -1372,6 +1378,20 @@ export declare class RegrafContext {
   ): Promise<OwnedGifts>
 
   /**
+   * Returns the gifts owned and hosted by a user.
+   * @param extra Extra params
+   * @returns Returns {@linkcode OwnedGifts} on success.
+   */
+  getUserGifts(extra?: tt.ExtraGetUserGifts): Promise<OwnedGifts>
+
+  /**
+   * Returns the gifts owned by a chat.
+   * @param extra Extra params
+   * @returns Returns {@linkcode OwnedGifts} on success.
+   */
+  getChatGifts(extra?: tt.ExtraGetChatGifts): Promise<OwnedGifts>
+
+  /**
    * Converts a given regular gift to Telegram Stars. Requires the can_convert_gifts_to_stars business bot right.
    * @param ownedGiftId Unique identifier of the regular gift that should be converted to Telegram Stars
    * @returns Returns True on success.
@@ -1408,6 +1428,21 @@ export declare class RegrafContext {
     content: InputStoryContent,
     activePeriod: number,
     extra: tt.ExtraPostStory
+  ): Promise<Story>
+
+  /**
+   * Reposts a story on behalf of a business account from another business account. Both business accounts must be managed by the same bot, and the story on the source account must have been posted (or reposted) by the bot. Requires the can_manage_stories business bot right for both business accounts.
+   * @param fromChatId Unique identifier of the chat which posted the story that should be reposted
+   * @param fromStoryId Unique identifier of the story that should be reposted
+   * @param activePeriod Period after which the story is moved to the archive, in seconds; must be one of `6 * 3600`, `12 * 3600`, `86400`, or `2 * 86400`
+   * @param extra Extra params
+   * @returns Returns {@linkcode Story} on success.
+   */
+  repostStory(
+    fromChatId: number,
+    fromStoryId: number,
+    activePeriod: number,
+    extra?: tt.ExtraRepostStory
   ): Promise<Story>
 
   /**

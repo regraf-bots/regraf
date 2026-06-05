@@ -53,12 +53,13 @@ function includesMedia (payload) {
     (key) => {
       const value = payload[key]
       if (Array.isArray(value)) {
-        return value.some(({ media }) => media && typeof media === 'object' && (media.source || media.url))
+        return value.some(({ media, sticker }) => ((media && typeof media === 'object' && (media.source || media.url))) || (sticker && typeof sticker === 'object' && (sticker.source || sticker.url)))
       }
       return (typeof value === 'object') && (
         value.source ||
         value.url ||
-        (typeof value.media === 'object' && (value.media.source || value.media.url))
+        (typeof value.media === 'object' && (value.media.source || value.media.url)) ||
+        (typeof value.sticker === 'object' && (value.sticker.source || value.sticker.url))
       )
     }
   )
@@ -123,28 +124,37 @@ function attachFormValue (form, id, value, agent) {
   if (Array.isArray(value)) {
     return Promise.all(
       value.map((item) => {
-        if (typeof item.media !== 'object') {
+        if (typeof item.media !== 'object' && typeof item.sticker !== 'object') {
           return Promise.resolve(item)
         }
         const attachmentId = crypto.randomBytes(16).toString('hex')
-        return attachFormMedia(form, item.media, attachmentId, agent)
-          .then(() => ({ ...item, media: `attach://${attachmentId}` }))
+        return item.media ? (attachFormMedia(form, item.media, attachmentId, agent)
+          .then(() => ({ ...item, media: `attach://${attachmentId}` })))
+          : (attachFormMedia(form, item.sticker, attachmentId, agent)
+            .then(() => ({ ...item, sticker: `attach://${attachmentId}` })))
       })
     ).then((items) => form.addPart({
       headers: { 'content-disposition': `form-data; name="${id}"` },
       body: JSON.stringify(items)
     }))
   }
-  if (typeof value.media !== 'undefined' && typeof value.type !== 'undefined') {
+  if (typeof value.media !== 'undefined' && typeof value.type !== 'undefined' || typeof value.sticker !== 'undefined') {
     const attachmentId = crypto.randomBytes(16).toString('hex')
-    return attachFormMedia(form, value.media, attachmentId, agent)
+    return value.media ? (attachFormMedia(form, value.media, attachmentId, agent)
       .then(() => form.addPart({
         headers: { 'content-disposition': `form-data; name="${id}"` },
         body: JSON.stringify({
           ...value,
           media: `attach://${attachmentId}`
         })
-      }))
+      }))) : (attachFormMedia(form, value.sticker, attachmentId, agent)
+      .then(() => form.addPart({
+        headers: { 'content-disposition': `form-data; name="${id}"` },
+        body: JSON.stringify({
+          ...value,
+          sticker: `attach://${attachmentId}`
+        })
+      })))
   }
   return attachFormMedia(form, value, id, agent)
 }

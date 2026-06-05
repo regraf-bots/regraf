@@ -13,7 +13,12 @@ import {
   StarAmount,
   Story,
 } from '@grammyjs/types'
-import { ExtraChecklist, ExtraCreateNewStickerSet, InputStoryContent } from './telegram-types.d'
+import {
+  ExtraChecklist,
+  ExtraCreateNewStickerSet,
+  ExtraMessageDraft,
+  InputStoryContent,
+} from './telegram-types.d'
 
 export interface TelegramOptions {
   /**
@@ -344,6 +349,19 @@ export declare class Telegram extends ApiClient {
     chatId: number | string,
     extra?: tt.ExtraDice
   ): Promise<tt.MessageDice>
+
+  /**
+   * Use this method to stream a partial message to a user while the message is being generated. Note that the streamed draft is ephemeral and acts as a temporary 30-second preview - once the output is finalized, you must call sendMessage with the complete message to persist it in the user's chat.
+   * @param chatId Unique identifier for the target private chat
+   * @param draftId Unique identifier of the message draft; must be non-zero. Changes of drafts with the same identifier are animated.
+   * @param extra Additional params to send message draft
+   * @returns true on success
+   */
+  sendMessageDraft(
+    chatId: number | string,
+    draftId: number,
+    extra?: tt.ExtraMessageDraft
+  ): Promise<boolean>
 
   /**
    * Use this method to send general files. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
@@ -1782,6 +1800,28 @@ export declare class Telegram extends ApiClient {
   ): Promise<OwnedGifts>
 
   /**
+   * Returns the gifts owned and hosted by a user.
+   * @param userId Unique identifier of the user
+   * @param extra Extra params
+   * @returns Returns {@linkcode OwnedGifts} on success.
+   */
+  getUserGifts(
+    userId: number,
+    extra?: tt.ExtraGetUserGifts
+  ): Promise<OwnedGifts>
+
+  /**
+   * Returns the gifts owned by a chat.
+   * @param chatId Unique identifier for the target chat or username of the target channel in the format @username
+   * @param extra Extra params
+   * @returns Returns {@linkcode OwnedGifts} on success.
+   */
+  getChatGifts(
+    chatId: number | string,
+    extra?: tt.ExtraGetChatGifts
+  ): Promise<OwnedGifts>
+
+  /**
    * Converts a given regular gift to Telegram Stars. Requires the can_convert_gifts_to_stars business bot right.
    * @param businessConnectionId Unique identifier of the business connection
    * @param ownedGiftId Unique identifier of the regular gift that should be converted to Telegram Stars
@@ -1831,6 +1871,23 @@ export declare class Telegram extends ApiClient {
     content: InputStoryContent,
     activePeriod: number,
     extra: tt.ExtraPostStory
+  ): Promise<Story>
+
+  /**
+   * Reposts a story on behalf of a business account from another business account. Both business accounts must be managed by the same bot, and the story on the source account must have been posted (or reposted) by the bot. Requires the can_manage_stories business bot right for both business accounts.
+   * @param businessConnectionId Unique identifier of the business connection
+   * @param fromChatId Unique identifier of the chat which posted the story that should be reposted
+   * @param fromStoryId Unique identifier of the story that should be reposted
+   * @param activePeriod Period after which the story is moved to the archive, in seconds; must be one of `6 * 3600`, `12 * 3600`, `86400`, or `2 * 86400`
+   * @param extra Extra params
+   * @returns Returns {@linkcode Story} on success.
+   */
+  repostStory(
+    businessConnectionId: string,
+    fromChatId: number,
+    fromStoryId: number,
+    activePeriod: number,
+    extra?: tt.ExtraRepostStory
   ): Promise<Story>
 
   /**

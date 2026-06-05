@@ -924,6 +924,13 @@ export interface ExtraDice extends ExtraDisableNotifications, ExtraReplyMessage,
   emoji?: string
 }
 
+export interface ExtraMessageDraft extends ExtraMessageThread, ExtraFormatting {
+  /**
+   * Text of the message to be sent, 0-4096 characters after entities parsing. Pass an empty text to show a “Thinking…” placeholder.
+   */
+  text?: string;
+}
+
 export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
   /** True, if the poll needs to be anonymous, defaults to True */
   is_anonymous?: boolean
@@ -998,42 +1005,56 @@ export interface ExtraAnswerCallbackQuery {
   cache_time?: number
 }
 
-export interface ExtraGetBusinessAccountGifts {
-  /**
-   * Pass True to exclude gifts that aren't saved to the account's profile page
-   */
-  exclude_unsaved?: boolean
-
-  /**
-   * Pass True to exclude gifts that are saved to the account's profile page
-   */
-  exclude_saved?: boolean
-
+export interface ExtraGiftFilterExcludeUnlimited {
   /**
    * Pass True to exclude gifts that can be purchased an unlimited number of times
    */
   exclude_unlimited?: boolean
+}
 
+export interface ExtraGiftFilterExcludeLimitedUpgradable {
   /**
    * Pass True to exclude gifts that can be purchased a limited number of times and can be upgraded to unique
    */
   exclude_limited_upgradable?: boolean
+}
 
+export interface ExtraGiftFilterExcludeLimitedNonUpgradable {
   /**
    * Pass True to exclude gifts that can be purchased a limited number of times and can't be upgraded to unique
    */
   exclude_limited_non_upgradable?: boolean
+}
 
-  /**
-   * 	Pass True to exclude unique gifts
-   */
-  exclude_unique?: boolean
-
+export interface ExtraGiftFilterExcludeFromBlockchain {
   /**
    * Pass True to exclude gifts that were assigned from the TON blockchain and can't be resold or transferred in Telegram
    */
   exclude_from_blockchain?: boolean
+}
 
+export interface ExtraGiftFilterExcludeUnique {
+  /**
+   * 	Pass True to exclude unique gifts
+   */
+  exclude_unique?: boolean
+}
+
+export interface ExtraGiftFilterExcludeUnsaved {
+  /**
+   * Pass True to exclude gifts that aren't saved to the account's profile page
+   */
+  exclude_unsaved?: boolean
+}
+
+export interface ExtraGiftFilterExcludeSaved {
+  /**
+   * Pass True to exclude gifts that are saved to the account's profile page
+   */
+  exclude_saved?: boolean
+}
+
+export interface ExtraGiftOffsetting {
   /**
    * Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
    */
@@ -1050,6 +1071,15 @@ export interface ExtraGetBusinessAccountGifts {
   limit?: number
 }
 
+export interface ExtraGetBusinessAccountGifts extends ExtraGiftFilterExcludeUnlimited, ExtraGiftFilterExcludeLimitedUpgradable, ExtraGiftFilterExcludeLimitedNonUpgradable, ExtraGiftFilterExcludeFromBlockchain, ExtraGiftFilterExcludeUnique, ExtraGiftOffsetting, ExtraGiftFilterExcludeUnsaved, ExtraGiftFilterExcludeSaved {
+}
+
+export interface ExtraGetUserGifts extends ExtraGiftFilterExcludeUnlimited, ExtraGiftFilterExcludeLimitedUpgradable, ExtraGiftFilterExcludeLimitedNonUpgradable, ExtraGiftFilterExcludeFromBlockchain, ExtraGiftFilterExcludeUnique, ExtraGiftOffsetting {
+}
+
+export interface ExtraGetChatGifts extends ExtraGiftFilterExcludeUnsaved, ExtraGiftFilterExcludeSaved, ExtraGiftFilterExcludeUnlimited, ExtraGiftFilterExcludeLimitedUpgradable, ExtraGiftFilterExcludeLimitedNonUpgradable, ExtraGiftFilterExcludeFromBlockchain, ExtraGiftFilterExcludeUnique, ExtraGiftOffsetting {
+}
+
 export interface ExtraUpgradeGift {
   /**
    * Pass True to keep the original gift text, sender and receiver in the upgraded gift
@@ -1062,16 +1092,21 @@ export interface ExtraUpgradeGift {
   star_count?: number
 }
 
-export interface ExtraPostStory extends ExtraCaption, ExtraCaptionFormatting, ExtraProtectContent {
-  /**
-   * A list of clickable areas to be shown on the story
-   */
-  areas: StoryArea[]
-
+export interface ExtraPostToChatPage {
   /**
    * Pass True to keep the story accessible after it expires
    */
   post_to_chat_page: boolean
+}
+
+export interface ExtraPostStory extends ExtraCaption, ExtraCaptionFormatting, ExtraProtectContent, ExtraPostToChatPage {
+  /**
+   * A list of clickable areas to be shown on the story
+   */
+  areas: StoryArea[]
+}
+
+export interface ExtraRepostStory extends ExtraPostToChatPage, ExtraProtectContent {
 }
 
 export interface ExtraEditStory extends ExtraCaption, ExtraCaptionFormatting {
