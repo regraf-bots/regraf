@@ -1122,6 +1122,19 @@ export declare class RegrafContext {
   getMyShortDescription(languageCode?: string): Promise<BotShortDescription>
 
   /**
+   * Changes the profile photo of the bot.
+   * @param photo The new profile photo to set
+   * @returns Returns True on success.
+   */
+  setMyProfilePhoto(photo: tt.InputFile): Promise<boolean>
+
+  /**
+   * Removes the profile photo of the bot. Requires no parameters.
+   * @returns Returns True on success.
+   */
+  removeMyProfilePhoto(): Promise<boolean>
+
+  /**
    * Use this method to change the list of the bot's commands.
    * @param commands A list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified.
    * @param extra Extra parameters for setMyCommands

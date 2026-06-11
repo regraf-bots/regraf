@@ -1,7 +1,5 @@
 const replicators = require('./core/replicators')
 const ApiClient = require('./core/network/client')
-const tt = require('./typings/telegram-types')
-const { OwnedGifts } = require('@grammyjs/types')
 
 class Telegram extends ApiClient {
   getMe () {
@@ -666,6 +664,14 @@ class Telegram extends ApiClient {
 
   getMyShortDescription (languageCode) {
     return this.callApi('getMyCommands', { language_code: languageCode })
+  }
+
+  setMyProfilePhoto (photo) {
+    return this.callApi('setMyProfilePhoto', { photo })
+  }
+
+  removeMyProfilePhoto () {
+    return this.callApi('removeMyProfilePhoto', {})
   }
 
   setMyCommands (commands, extra) {

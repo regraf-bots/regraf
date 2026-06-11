@@ -1,5 +1,3 @@
-const tt = require('./typings/telegram-types')
-const { OwnedGifts } = require('@grammyjs/types')
 const UpdateTypes = [
   'callback_query',
   'channel_post',
@@ -1006,6 +1004,14 @@ class RegrafContext extends TelegrafContext {
 
   getMyShortDescription (...args) {
     return this.telegram.getMyShortDescription(...args)
+  }
+
+  setMyProfilePhoto (photo) {
+    return this.telegram.setMyProfilePhoto(photo)
+  }
+
+  removeMyProfilePhoto () {
+    return this.telegram.removeMyProfilePhoto()
   }
 
   setMyCommands (...args) {
