@@ -948,6 +948,16 @@ export declare class RegrafContext {
   ): Promise<boolean>
 
   /**
+   * Use this method to set a tag for a regular member in a group or a supergroup. The bot must be an administrator in the chat for this to work and must have the can_manage_tags administrator right.
+   * @param userId Unique identifier of the target user
+   * @param tag New tag for the member; 0-16 characters, emoji are not allowed
+   */
+  setChatMemberTag(
+    userId: number,
+    tag: string
+  ): Promise<boolean>
+
+  /**
    * Use this method to ban a channel chat in a supergroup or a channel
    * @param senderChatId Unique identifier of the target sender chat
    * @returns True on success

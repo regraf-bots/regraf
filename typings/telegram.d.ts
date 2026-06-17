@@ -716,6 +716,18 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
+   * Use this method to set a tag for a regular member in a group or a supergroup. The bot must be an administrator in the chat for this to work and must have the can_manage_tags administrator right.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup in the format @username
+   * @param userId Unique identifier of the target user
+   * @param tag New tag for the member; 0-16 characters, emoji are not allowed
+   */
+  setChatMemberTag(
+    chatId: string | number,
+    userId: number,
+    tag: string
+  ): Promise<boolean>
+
+  /**
    * Use this method to ban a channel chat in a supergroup or a channel. Until the chat is unbanned (@function unbanChatSenderChat), the owner of the banned chat won't be able to send messages on behalf of any of their channels. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights
    * @param chatId Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
    * @param senderChatId Unique identifier of the target sender chat

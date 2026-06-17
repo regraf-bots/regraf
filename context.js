@@ -551,6 +551,11 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.setChatAdministratorCustomTitle(this.chat.id, ...args)
   }
 
+  setChatMemberTag (...args) {
+    this.assert(this.chat, 'setChatMemberTag')
+    return this.telegram.setChatMemberTag(this.chat.id, ...args)
+  }
+
   banChatSenderChat (...args) {
     this.assert(this.chat, 'banChatSenderChat')
     return this.telegram.banChatSenderChat(this.chat.id, ...args)
