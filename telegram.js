@@ -1051,6 +1051,13 @@ class Telegram extends ApiClient {
     })
   }
 
+  savePreparedKeyboardButton (userId, button) {
+    return this.callApi('savePreparedKeyboardButton', {
+      user_id: userId,
+      button: button
+    })
+  }
+
   giftPremiumSubscription (
     userId,
     monthCount,
@@ -1068,6 +1075,18 @@ class Telegram extends ApiClient {
   getBusinessConnection (businessConnectionId) {
     return this.callApi('getBusinessConnection', {
       business_connection_id: businessConnectionId
+    })
+  }
+
+  getManagedBotToken (userId) {
+    return this.callApi('getManagedBotToken', {
+      user_id: userId
+    })
+  }
+
+  replaceManagedBotToken (userId) {
+    return this.callApi('replaceManagedBotToken', {
+      user_id: userId
     })
   }
 

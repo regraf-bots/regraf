@@ -1939,6 +1939,17 @@ export declare class Telegram extends ApiClient {
   deleteStory(businessConnectionId: string, storyId: number): Promise<boolean>
 
   /**
+   * Stores a keyboard button that can be used by a user within a Mini App.
+   * @param userId Unique identifier of the target user that can use the button
+   * @param button The button to be saved
+   * @returns Returns a PreparedKeyboardButton object.
+   */
+  savePreparedKeyboardButton(
+    userId: number,
+    button: tt.KeyboardButton
+  ): Promise<tt.PreparedKeyboardButton>
+
+  /**
    * Use this method to get information about the connection of the bot with a business account.
    * @param businessConnectionId Unique identifier of the business connection
    * @returns Returns a BusinessConnection object on success.
@@ -1946,6 +1957,20 @@ export declare class Telegram extends ApiClient {
   getBusinessConnection(
     businessConnectionId: string
   ): Promise<tt.BusinessConnection>
+
+  /**
+   * Use this method to get the token of a managed bot.
+   * @param userId User identifier of the managed bot whose token will be returned
+   * @returns Returns the token as String on success.
+   */
+  getManagedBotToken(userId: number): Promise<string>
+
+  /**
+   * Use this method to revoke the current token of a managed bot and generate a new one.
+   * @param userId User identifier of the managed bot whose token will be replaced
+   * @returns Returns the token as String on success.
+   */
+  replaceManagedBotToken(userId: number): Promise<string>
 
   /**
    * @param extra.offset Number of transactions to skip in the response

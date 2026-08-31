@@ -47,7 +47,8 @@ export type UpdateType =
   'business_message' |
   'edited_business_message' |
   'deleted_business_messages' |
-  'purchased_paid_media'
+  'purchased_paid_media' |
+  'managed_bot'
 
 export type MessageSubTypes =
   'voice' |
@@ -98,7 +99,8 @@ export type MessageSubTypes =
   'giveaway_completed' |
   'story' |
   'boost_added' |
-  'refunded_payment'
+  'refunded_payment' |
+  'managed_bot_created'
 
 export type InputMediaTypes =
   'photo'
@@ -583,6 +585,11 @@ export interface ReplyParameters {
    * Identifier of the specific checklist task to be replied to
    */
   checklist_task_id?: number
+
+  /**
+   * Persistent identifier of the specific poll option to be replied to
+   */
+  poll_option_id?: string
 }
 
 export interface ExtraReplyMessage {
@@ -955,11 +962,32 @@ export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage,
 
   /** List of special entities that appear in the poll question. It can be specified instead of question_parse_mode */
   question_entities?: TT.MessageEntity[]
+
+  /** True, if the poll allows to change chosen answer options, defaults to False for quizzes and to True for regular polls */
+  allows_revoting?: boolean
+
+  /** True, if the poll options must be shown in random order */
+  shuffle_options?: boolean
+
+  /** True, if answer options can be added to the poll after creation; not supported for anonymous polls and quizzes */
+  allow_adding_options?: boolean
+
+  /** True, if poll results must be shown only after the poll closes */
+  hide_results_until_closes?: boolean
+
+  /** Description of the poll to be sent, 0-1024 characters after entities parsing */
+  description?: string
+
+  /** Mode for parsing entities in the poll description. See formatting options for more details. */
+  description_parse_mode?: ParseMode
+
+  /** List of special entities that appear in the poll description, which can be specified instead of description_parse_mode */
+  description_entities?: TT.MessageEntity[]
 }
 
 export interface ExtraQuiz extends ExtraPoll {
-  /** 0-based identifier of the correct answer option, required for polls in quiz mode */
-  correct_option_id: number
+  /** List of monotonically increasing 0-based identifiers of the correct answer options, required for polls in quiz mode */
+  correct_option_ids: number[]
 
   /** Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing */
   explanation?: string

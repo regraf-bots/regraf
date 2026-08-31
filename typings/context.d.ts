@@ -75,6 +75,9 @@ export declare class RegrafContext {
   chatBackground?: tt.ChatBackground
   paidMedia?: tt.PaidMedia
   directMessagesTopic?: tt.DirectMessagesTopic
+  managedBotCreated?: tt.ManagedBotCreated
+  pollOptionAdded?: tt.PollOptionAdded
+  pollOptionDeleted?: tt.PollOptionDeleted
 
   constructor(
     update: tt.Update,
@@ -952,10 +955,7 @@ export declare class RegrafContext {
    * @param userId Unique identifier of the target user
    * @param tag New tag for the member; 0-16 characters, emoji are not allowed
    */
-  setChatMemberTag(
-    userId: number,
-    tag: string
-  ): Promise<boolean>
+  setChatMemberTag(userId: number, tag: string): Promise<boolean>
 
   /**
    * Use this method to ban a channel chat in a supergroup or a channel
@@ -1489,10 +1489,35 @@ export declare class RegrafContext {
   deleteStory(storyId: number): Promise<boolean>
 
   /**
+   * Stores a keyboard button that can be used by a user within a Mini App.
+   * @param button The button to be saved
+   * @param userId Unique identifier of the target user that can use the button
+   * @returns Returns a PreparedKeyboardButton object.
+   */
+  savePreparedKeyboardButton(
+    button: tt.KeyboardButton,
+    userId?: number
+  ): Promise<tt.PreparedKeyboardButton>
+
+  /**
    * Use this method to get information about the connection of the bot with a business account.
    * @returns Returns a BusinessConnection object on success.
    */
   getBusinessConnection(): Promise<tt.BusinessConnection>
+
+  /**
+   * Use this method to get the token of a managed bot.
+   * @param userId User identifier of the managed bot whose token will be returned
+   * @returns Returns the token as String on success.
+   */
+  getManagedBotToken(userId?: number): Promise<string>
+
+  /**
+   * Use this method to revoke the current token of a managed bot and generate a new one.
+   * @param userId User identifier of the managed bot whose token will be replaced
+   * @returns Returns the token as String on success.
+   */
+  replaceManagedBotToken(userId?: number): Promise<string>
 
   /**
    * @param extra.offset Number of transactions to skip in the response

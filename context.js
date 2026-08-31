@@ -19,7 +19,8 @@ const UpdateTypes = [
   'business_message',
   'edited_business_message',
   'deleted_business_messages',
-  'purchased_paid_media'
+  'purchased_paid_media',
+  'managed_bot'
 ]
 
 const MessageSubTypes = [
@@ -72,7 +73,10 @@ const MessageSubTypes = [
   'giveaway_completed',
   'story',
   'boost_added',
-  'refunded_payment'
+  'refunded_payment',
+  'managed_bot_created',
+  'poll_option_added',
+  'poll_option_deleted'
 ]
 
 const MessageSubTypesMapping = {
@@ -316,6 +320,18 @@ class RegrafContext extends TelegrafContext {
 
   get directMessagesTopic () {
     return this.message && this.message.direct_messages_topic
+  }
+
+  get managedBotCreated () {
+    return this.message && this.message.managed_bot_created
+  }
+
+  get pollOptionAdded () {
+    return this.message && this.message.poll_option_added
+  }
+
+  get pollOptionDeleted () {
+    return this.message && this.message.poll_option_deleted
   }
 
   get state () {
@@ -1362,9 +1378,27 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.deleteStory(this.businessConnectionId, storyId)
   }
 
+  savePreparedKeyboardButton (button, userId) {
+    const id = this.from?.id ?? userId
+    this.assert(id, 'savePreparedKeyboardButton')
+    return this.telegram.savePreparedKeyboardButton(id, button)
+  }
+
   getBusinessConnection () {
     this.assert(this.businessConnectionId, 'getBusinessConnection')
     return this.telegram.getBusinessConnection(this.businessConnectionId)
+  }
+
+  getManagedBotToken (userId) {
+    const id = this.from?.id ?? userId
+    this.assert(id, 'getManagedBotToken')
+    return this.telegram.getManagedBotToken(id)
+  }
+
+  replaceManagedBotToken (userId) {
+    const id = this.from?.id ?? userId
+    this.assert(id, 'replaceManagedBotToken')
+    return this.telegram.replaceManagedBotToken(id)
   }
 
   getStarTransactions (extra) {
