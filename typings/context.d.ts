@@ -33,6 +33,7 @@ export declare class RegrafContext {
   me?: string
   telegram: Telegram
   message?: tt.Message
+  guestMessage?: tt.Message
   editedMessage?: tt.Message
   deletedMessages?: tt.BusinessMessagesDeleted
   inlineQuery?: tt.InlineQuery
@@ -55,6 +56,7 @@ export declare class RegrafContext {
   usersShared?: tt.UsersShared
   chatShared?: tt.ChatShared
   story?: tt.Story
+  livePhoto?: tt.LivePhoto
   chatMember?: tt.ChatMemberUpdated
   myChatMember?: tt.ChatMemberUpdated
   messageReaction?: tt.MessageReactionUpdated
@@ -78,6 +80,9 @@ export declare class RegrafContext {
   managedBotCreated?: tt.ManagedBotCreated
   pollOptionAdded?: tt.PollOptionAdded
   pollOptionDeleted?: tt.PollOptionDeleted
+  guestBotCallerUser?: tt.User
+  guestBotCallerChat?: tt.Chat
+  guestQueryId?: string
 
   constructor(
     update: tt.Update,
@@ -220,9 +225,10 @@ export declare class RegrafContext {
 
   /**
    * Use this method to get a list of administrators in a chat.
+   * @param returnBots Pass True to additionally receive all bots that are administrators of the chat
    * @returns On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
    */
-  getChatAdministrators(): Promise<Array<tt.ChatMember>>
+  getChatAdministrators(returnBots?: boolean): Promise<Array<tt.ChatMember>>
 
   /**
    * Use this method to get information about a member of a chat.
@@ -230,6 +236,16 @@ export declare class RegrafContext {
    * @returns a ChatMember object on success
    */
   getChatMember(userId: number): Promise<tt.ChatMember>
+
+  /**
+   * Returns the last messages from the personal chat of a given user.
+   * @param limit Maximum number of messages to return; 1-20
+   * @param userId Unique identifier for the target user
+   */
+  getUserPersonalChatMessages(
+    limit: number,
+    userId?: number
+  ): Promise<tt.Message[]>
 
   /**
    * @deprecated in favor of `getChatMemberCount`
@@ -606,6 +622,19 @@ export declare class RegrafContext {
   ): Promise<tt.MessagePhoto>
 
   /**
+   * Use this method to send live photos.
+   * @param livePhoto Live photo video to send
+   * @param photo Static photo to send
+   * @param extra Additional parameters to send the live photo
+   * @returns The sent Message on success.
+   */
+  replyWithLivePhoto(
+    livePhoto: tt.InputFile,
+    photo: tt.InputFile,
+    extra?: tt.ExtraLivePhoto
+  ): Promise<tt.Message>
+
+  /**
    * Use this method to send a group of photos or videos as an album
    * @param media A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
    * @param extra Additional params to send media group
@@ -791,6 +820,15 @@ export declare class RegrafContext {
     showAlert?: boolean,
     extra?: object
   ): Promise<boolean>
+
+  /**
+   * Use this method to reply to a received guest message.
+   * @param result The message to be sent
+   * @returns Returns a SentGuestMessage object on success.
+   */
+  answerGuestQuery(
+    result: tt.InlineQueryResult
+  ): Promise<tt.SentGuestMessage>
 
   /**
    * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat.
@@ -1015,6 +1053,26 @@ export declare class RegrafContext {
    * @returns Returns True on success.
    */
   deleteMessages(messageIds?: number[]): Promise<boolean>
+
+  /**
+   * Removes a reaction from a message in a group or a supergroup chat.
+   * @param messageId Identifier of the target message
+   * @param extra Optional user or actor chat whose reaction will be removed
+   * @returns Returns True on success.
+   */
+  deleteMessageReaction(
+    messageId: number,
+    extra?: tt.ExtraDeleteMessageReaction
+  ): Promise<boolean>
+
+  /**
+   * Removes up to 10000 recent reactions in a group or a supergroup chat added by a given user or chat.
+   * @param extra Optional user or actor chat whose reactions will be removed
+   * @returns Returns True on success.
+   */
+  deleteAllMessageReactions(
+    extra?: tt.ExtraDeleteAllMessageReactions
+  ): Promise<boolean>
 
   /**
    * Use this method to forward exists message.
@@ -1518,6 +1576,24 @@ export declare class RegrafContext {
    * @returns Returns the token as String on success.
    */
   replaceManagedBotToken(userId?: number): Promise<string>
+
+  /**
+   * Returns the access settings of a managed bot.
+   * @param userId User identifier of the managed bot
+   */
+  getManagedBotAccessSettings(userId?: number): Promise<tt.BotAccessSettings>
+
+  /**
+   * Changes the access settings of a managed bot.
+   * @param isAccessRestricted Pass True if only selected users can access the bot
+   * @param addedUserIds Up to 10 identifiers of users who will have access in addition to the owner
+   * @param userId User identifier of the managed bot
+   */
+  setManagedBotAccessSettings(
+    isAccessRestricted: boolean,
+    addedUserIds?: number[],
+    userId?: number
+  ): Promise<boolean>
 
   /**
    * @param extra.offset Number of transactions to skip in the response

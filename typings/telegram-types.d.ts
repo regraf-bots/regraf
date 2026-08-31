@@ -48,7 +48,8 @@ export type UpdateType =
   'edited_business_message' |
   'deleted_business_messages' |
   'purchased_paid_media' |
-  'managed_bot'
+  'managed_bot' |
+  'guest_message'
 
 export type MessageSubTypes =
   'voice' |
@@ -62,6 +63,7 @@ export type MessageSubTypes =
   'sticker' |
   'pinned_message' |
   'photo' |
+  'live_photo' |
   'new_chat_title' |
   'new_chat_photo' |
   'new_chat_members' |
@@ -300,6 +302,20 @@ export type InputFile =
   InputFileByBuffer |
   InputFileByURL
 
+export interface InputPollOption {
+  /** Option text, 1-100 characters */
+  text: string
+
+  /** Mode for parsing entities in the option text */
+  text_parse_mode?: ParseMode
+
+  /** List of special entities that appear in the poll option text */
+  text_entities?: TT.MessageEntity[]
+
+  /** Media added to the poll option */
+  media?: InputFile
+}
+
 /**
  * Sending video notes by a URL is currently unsupported
  */
@@ -351,6 +367,9 @@ export interface ChatPermissions {
   /** True, if the user is allowed to send polls, implies can_send_messages */
   can_send_polls?: boolean
 
+  /** True, if the user is allowed to add reactions to messages */
+  can_react_to_messages?: boolean
+
   /** True, if the user is allowed to send animations, games, stickers and use inline bots, implies can_send_media_messages */
   can_send_other_messages?: boolean
 
@@ -393,6 +412,22 @@ export interface ExtraSetWebhook {
 export interface ExtraDeleteWebhook {
   /** Pass True to drop all pending updates */
   drop_pending_updates?: boolean
+}
+
+export interface ExtraDeleteMessageReaction {
+  /** Identifier of the user whose reaction will be removed, if the reaction was added by a user */
+  user_id?: number
+
+  /** Identifier of the chat whose reaction will be removed, if the reaction was added by a chat */
+  actor_chat_id?: number
+}
+
+export interface ExtraDeleteAllMessageReactions {
+  /** Identifier of the user whose reactions will be removed, if the reactions were added by a user */
+  user_id?: number
+
+  /** Identifier of the chat whose reactions will be removed, if the reactions were added by a chat */
+  actor_chat_id?: number
 }
 
 export interface ExtraRestrictChatMember {
@@ -634,6 +669,11 @@ export interface ExtraCaptionAboveMedia {
   show_caption_above_media?: boolean
 }
 
+export interface ExtraEphemeralMessageParameters {
+  /** Parameters of the ephemeral message to send */
+  ephemeral_message_parameters?: TT.EphemeralMessageParameters
+}
+
 export interface ExtraPaidBroadcast {
   /**
    * Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
@@ -851,6 +891,9 @@ export interface ExtraVideoStartTimestamp {
 export interface ExtraPhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia, ExtraPaidBroadcast, ExtraDirectMessagesTopicId, ExtraSuggestedPostParameters {
 }
 
+export interface ExtraLivePhoto extends ExtraCaption, ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraSpoiler, ExtraBusinessConnectionId, ExtraEffectId, ExtraCaptionAboveMedia, ExtraPaidBroadcast, ExtraDirectMessagesTopicId, ExtraSuggestedPostParameters, ExtraEphemeralMessageParameters {
+}
+
 export interface ExtraMediaGroup extends ExtraDisableNotifications, ExtraReplyMessage, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast, ExtraDirectMessagesTopicId {
 }
 
@@ -942,8 +985,17 @@ export interface ExtraMessageDraft extends ExtraMessageThread, ExtraFormatting {
 }
 
 export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage, ExtraReplyMarkup, ExtraProtectContent, ExtraMessageThread, ExtraBusinessConnectionId, ExtraEffectId, ExtraPaidBroadcast {
+  /** Media to be displayed above the poll question */
+  media?: InputFile
+
   /** True, if the poll needs to be anonymous, defaults to True */
   is_anonymous?: boolean
+
+  /** True, if only chat members are allowed to vote in the poll */
+  members_only?: boolean
+
+  /** List of 0-12 two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which users can vote; for channel chats only */
+  country_codes?: string[]
 
   /** True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False */
   allows_multiple_answers?: boolean
@@ -983,6 +1035,9 @@ export interface ExtraPoll extends ExtraDisableNotifications, ExtraReplyMessage,
 
   /** List of special entities that appear in the poll description, which can be specified instead of description_parse_mode */
   description_entities?: TT.MessageEntity[]
+
+  /** Media to be displayed above the poll explanation */
+  explanation_media?: InputFile
 }
 
 export interface ExtraQuiz extends ExtraPoll {

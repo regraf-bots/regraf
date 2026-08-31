@@ -340,6 +340,21 @@ export declare class Telegram extends ApiClient {
   ): Promise<tt.MessagePhoto>
 
   /**
+   * Use this method to send live photos.
+   * @param chatId Unique identifier for the target chat or username of the target channel
+   * @param livePhoto Live photo video to send
+   * @param photo Static photo to send
+   * @param extra Additional parameters to send the live photo
+   * @returns The sent Message on success.
+   */
+  sendLivePhoto(
+    chatId: number | string,
+    livePhoto: tt.InputFile,
+    photo: tt.InputFile,
+    extra?: tt.ExtraLivePhoto
+  ): Promise<tt.Message>
+
+  /**
    * Use this method to send a dice, which will have a random value from 1 to 6. On success, the sent Message is returned. (Yes, we're aware of the “proper” singular of die. But it's awkward, and we decided to help it change. One dice at a time!)
    * @param chatId Unique identifier for the target chat or username of the target channel (in the format @channelusername)
    * @param extra Additional params to send dice
@@ -595,9 +610,13 @@ export declare class Telegram extends ApiClient {
   /**
    * Use this method to get a list of administrators in a chat.
    * @param chatId Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+   * @param returnBots Pass True to additionally receive all bots that are administrators of the chat
    * @returns On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
    */
-  getChatAdministrators(chatId: number | string): Promise<Array<tt.ChatMember>>
+  getChatAdministrators(
+    chatId: number | string,
+    returnBots?: boolean
+  ): Promise<Array<tt.ChatMember>>
 
   /**
    * Use this method to get information about a member of a chat.
@@ -606,6 +625,16 @@ export declare class Telegram extends ApiClient {
    * @returns a ChatMember object on success
    */
   getChatMember(chatId: string | number, userId: number): Promise<tt.ChatMember>
+
+  /**
+   * Returns the last messages from the personal chat of a given user.
+   * @param userId Unique identifier for the target user
+   * @param limit Maximum number of messages to return; 1-20
+   */
+  getUserPersonalChatMessages(
+    userId: number,
+    limit: number
+  ): Promise<tt.Message[]>
 
   /**
    * @deprecated in favor of `getChatMemberCount`
@@ -857,6 +886,17 @@ export declare class Telegram extends ApiClient {
   ): Promise<boolean>
 
   /**
+   * Use this method to reply to a received guest message.
+   * @param guestQueryId Unique identifier for the query to be answered
+   * @param result The message to be sent
+   * @returns Returns a SentGuestMessage object on success.
+   */
+  answerGuestQuery(
+    guestQueryId: string,
+    result: tt.InlineQueryResult
+  ): Promise<tt.SentGuestMessage>
+
+  /**
    * Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat.
    * @param chatId Unique identifier for the chat or username of the channel (in the format @channelusername)
    * @param userId Unique identifier of the target user
@@ -1054,6 +1094,30 @@ export declare class Telegram extends ApiClient {
   deleteMessages(
     chatId: number | string,
     messageIds: number[]
+  ): Promise<boolean>
+
+  /**
+   * Removes a reaction from a message in a group or a supergroup chat.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup
+   * @param messageId Identifier of the target message
+   * @param extra Optional user or actor chat whose reaction will be removed
+   * @returns Returns True on success.
+   */
+  deleteMessageReaction(
+    chatId: number | string,
+    messageId: number,
+    extra?: tt.ExtraDeleteMessageReaction
+  ): Promise<boolean>
+
+  /**
+   * Removes up to 10000 recent reactions in a group or a supergroup chat added by a given user or chat.
+   * @param chatId Unique identifier for the target chat or username of the target supergroup
+   * @param extra Optional user or actor chat whose reactions will be removed
+   * @returns Returns True on success.
+   */
+  deleteAllMessageReactions(
+    chatId: number | string,
+    extra?: tt.ExtraDeleteAllMessageReactions
   ): Promise<boolean>
 
   /**
@@ -1971,6 +2035,24 @@ export declare class Telegram extends ApiClient {
    * @returns Returns the token as String on success.
    */
   replaceManagedBotToken(userId: number): Promise<string>
+
+  /**
+   * Returns the access settings of a managed bot.
+   * @param userId User identifier of the managed bot
+   */
+  getManagedBotAccessSettings(userId: number): Promise<tt.BotAccessSettings>
+
+  /**
+   * Changes the access settings of a managed bot.
+   * @param userId User identifier of the managed bot
+   * @param isAccessRestricted Pass True if only selected users can access the bot
+   * @param addedUserIds Up to 10 identifiers of users who will have access in addition to the owner
+   */
+  setManagedBotAccessSettings(
+    userId: number,
+    isAccessRestricted: boolean,
+    addedUserIds?: number[]
+  ): Promise<boolean>
 
   /**
    * @param extra.offset Number of transactions to skip in the response

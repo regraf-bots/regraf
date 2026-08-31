@@ -20,7 +20,8 @@ const UpdateTypes = [
   'edited_business_message',
   'deleted_business_messages',
   'purchased_paid_media',
-  'managed_bot'
+  'managed_bot',
+  'guest_message'
 ]
 
 const MessageSubTypes = [
@@ -35,6 +36,7 @@ const MessageSubTypes = [
   'sticker',
   'pinned_message',
   'photo',
+  'live_photo',
   'new_chat_title',
   'new_chat_photo',
   'new_chat_members',
@@ -106,7 +108,7 @@ class RegrafContext extends TelegrafContext {
     this.update = update
     this.options = options
     this.updateType = UpdateTypes.find((key) => key in this.update)
-    if (this.updateType === 'message' || (this.options.channelMode && this.updateType === 'channel_post')) {
+    if (this.updateType === 'message' || this.updateType === 'guest_message' || (this.options.channelMode && this.updateType === 'channel_post')) {
       this.updateSubTypes = MessageSubTypes
         .filter((key) => key in this.update[this.updateType])
         .map((type) => MessageSubTypesMapping[type] || type)
@@ -127,7 +129,11 @@ class RegrafContext extends TelegrafContext {
   }
 
   get message () {
-    return this.update.message || this.update.business_message
+    return this.update.message || this.update.business_message || this.update.guest_message
+  }
+
+  get guestMessage () {
+    return this.update.guest_message
   }
 
   get editedMessage () {
@@ -254,6 +260,10 @@ class RegrafContext extends TelegrafContext {
     return this.message && this.message.story
   }
 
+  get livePhoto () {
+    return this.message && this.message.live_photo
+  }
+
   get chatBoost () {
     return this.update.chat_boost
   }
@@ -334,6 +344,18 @@ class RegrafContext extends TelegrafContext {
     return this.message && this.message.poll_option_deleted
   }
 
+  get guestBotCallerUser () {
+    return this.message && this.message.guest_bot_caller_user
+  }
+
+  get guestBotCallerChat () {
+    return this.message && this.message.guest_bot_caller_chat
+  }
+
+  get guestQueryId () {
+    return this.message && this.message.guest_query_id
+  }
+
   get state () {
     if (!this.contextState) {
       this.contextState = {}
@@ -367,6 +389,11 @@ class RegrafContext extends TelegrafContext {
   answerCbQuery (...args) {
     this.assert(this.callbackQuery, 'answerCbQuery')
     return this.telegram.answerCbQuery(this.callbackQuery.id, ...args)
+  }
+
+  answerGuestQuery (result) {
+    this.assert(this.guestQueryId, 'answerGuestQuery')
+    return this.telegram.answerGuestQuery(this.guestQueryId, result)
   }
 
   getUserChatBoosts () {
@@ -637,6 +664,12 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.getChatMember(this.chat.id, ...args)
   }
 
+  getUserPersonalChatMessages (limit, userId) {
+    const id = this.from?.id ?? userId
+    this.assert(id, 'getUserPersonalChatMessages')
+    return this.telegram.getUserPersonalChatMessages(id, limit)
+  }
+
   getChatMembersCount (...args) {
     this.assert(this.chat, 'getChatMembersCount')
     return this.telegram.getChatMemberCount(this.chat.id, ...args)
@@ -658,6 +691,14 @@ class RegrafContext extends TelegrafContext {
       extra.reply_to_message_id = this.message.message_thread_id
     }
     return this.telegram.sendPhoto(this.chat.id, photo, extra)
+  }
+
+  replyWithLivePhoto (livePhoto, photo, extra = {}) {
+    this.assert(this.chat, 'replyWithLivePhoto')
+    if (this.message?.message_thread_id) {
+      extra.reply_to_message_id = this.message.message_thread_id
+    }
+    return this.telegram.sendLivePhoto(this.chat.id, livePhoto, photo, extra)
   }
 
   replyWithMediaGroup (media, extra = {}) {
@@ -1083,6 +1124,16 @@ class RegrafContext extends TelegrafContext {
     return this.telegram.deleteMessages(this.chat.id, [message.message_id])
   }
 
+  deleteMessageReaction (messageId, extra) {
+    this.assert(this.chat, 'deleteMessageReaction')
+    return this.telegram.deleteMessageReaction(this.chat.id, messageId, extra)
+  }
+
+  deleteAllMessageReactions (extra) {
+    this.assert(this.chat, 'deleteAllMessageReactions')
+    return this.telegram.deleteAllMessageReactions(this.chat.id, extra)
+  }
+
   forwardMessage (chatId, extra) {
     this.assert(this.chat, 'forwardMessage')
     const message = this.message ||
@@ -1399,6 +1450,18 @@ class RegrafContext extends TelegrafContext {
     const id = this.from?.id ?? userId
     this.assert(id, 'replaceManagedBotToken')
     return this.telegram.replaceManagedBotToken(id)
+  }
+
+  getManagedBotAccessSettings (userId) {
+    const id = this.from?.id ?? userId
+    this.assert(id, 'getManagedBotAccessSettings')
+    return this.telegram.getManagedBotAccessSettings(id)
+  }
+
+  setManagedBotAccessSettings (isAccessRestricted, addedUserIds, userId) {
+    const id = this.from?.id ?? userId
+    this.assert(id, 'setManagedBotAccessSettings')
+    return this.telegram.setManagedBotAccessSettings(id, isAccessRestricted, addedUserIds)
   }
 
   getStarTransactions (extra) {

@@ -145,6 +145,18 @@ class Telegram extends ApiClient {
     return this.callApi('sendPhoto', { chat_id: chatId, photo, ...extra })
   }
 
+  sendLivePhoto (chatId, livePhoto, photo, extra) {
+    if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
+      delete extra.reply_parameters
+    }
+    return this.callApi('sendLivePhoto', {
+      chat_id: chatId,
+      live_photo: livePhoto,
+      photo,
+      ...extra
+    })
+  }
+
   sendDice (chatId, extra) {
     if (extra?.reply_parameters && extra?.reply_parameters?.message_id == null) {
       delete extra.reply_parameters
@@ -272,12 +284,22 @@ class Telegram extends ApiClient {
     return this.callApi('getChat', { chat_id: chatId })
   }
 
-  getChatAdministrators (chatId) {
-    return this.callApi('getChatAdministrators', { chat_id: chatId })
+  getChatAdministrators (chatId, returnBots) {
+    return this.callApi('getChatAdministrators', {
+      chat_id: chatId,
+      return_bots: returnBots
+    })
   }
 
   getChatMember (chatId, userId) {
     return this.callApi('getChatMember', { chat_id: chatId, user_id: userId })
+  }
+
+  getUserPersonalChatMessages (userId, limit) {
+    return this.callApi('getUserPersonalChatMessages', {
+      user_id: userId,
+      limit: limit
+    })
   }
 
   getChatMembersCount (chatId) {
@@ -374,6 +396,13 @@ class Telegram extends ApiClient {
       show_alert: showAlert,
       callback_query_id: callbackQueryId,
       ...extra
+    })
+  }
+
+  answerGuestQuery (guestQueryId, result) {
+    return this.callApi('answerGuestQuery', {
+      guest_query_id: guestQueryId,
+      result: result
     })
   }
 
@@ -499,6 +528,21 @@ class Telegram extends ApiClient {
     return this.callApi('deleteMessages', {
       chat_id: chatId,
       message_ids: messageIds
+    })
+  }
+
+  deleteMessageReaction (chatId, messageId, extra) {
+    return this.callApi('deleteMessageReaction', {
+      chat_id: chatId,
+      message_id: messageId,
+      ...extra
+    })
+  }
+
+  deleteAllMessageReactions (chatId, extra) {
+    return this.callApi('deleteAllMessageReactions', {
+      chat_id: chatId,
+      ...extra
     })
   }
 
@@ -1087,6 +1131,20 @@ class Telegram extends ApiClient {
   replaceManagedBotToken (userId) {
     return this.callApi('replaceManagedBotToken', {
       user_id: userId
+    })
+  }
+
+  getManagedBotAccessSettings (userId) {
+    return this.callApi('getManagedBotAccessSettings', {
+      user_id: userId
+    })
+  }
+
+  setManagedBotAccessSettings (userId, isAccessRestricted, addedUserIds) {
+    return this.callApi('setManagedBotAccessSettings', {
+      user_id: userId,
+      is_access_restricted: isAccessRestricted,
+      added_user_ids: addedUserIds
     })
   }
 
